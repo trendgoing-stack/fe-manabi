@@ -1,5 +1,5 @@
 {
-  "dataVersion": "2026.10.01-1",
+  "dataVersion": "2026.10.01-2",
   "schemaVersion": 1,
   "syllabusVersion": "Ver.9.2",
   "syllabus": {
@@ -13,23 +13,40 @@
     "A": {
       "count": 60,
       "minutes": 90,
-      "ratio": { "technology": 41, "management": 7, "strategy": 12 },
+      "ratio": {
+        "technology": 41,
+        "management": 7,
+        "strategy": 12
+      },
       "ratioNote": "分野別の出題数は試験要綱に記載がないため、IPA公開問題の構成に基づく目安"
     },
     "B": {
       "count": 20,
       "minutes": 100,
-      "ratio": { "algorithm": 16, "security": 4 },
+      "ratio": {
+        "algorithm": 16,
+        "security": 4
+      },
       "ratioNote": "試験要綱 Ver.5.6 の記載による"
     }
   },
-  "counts": { "A": 100, "B": 0, "glossary": 0 },
+  "counts": {
+    "A": 200,
+    "B": 0,
+    "glossary": 0
+  },
   "files": [
     "questions/a/tech-kiso-01.json",
     "questions/a/tech-system-01.json",
     "questions/a/tech-yoso-01.json",
     "questions/a/tech-dev-01.json",
     "questions/a/mgmt-01.json",
-    "questions/a/strat-01.json"
+    "questions/a/strat-01.json",
+    "questions/a/tech-kiso-02.json",
+    "questions/a/tech-system-02.json",
+    "questions/a/tech-yoso-02.json",
+    "questions/a/tech-dev-02.json",
+    "questions/a/mgmt-02.json",
+    "questions/a/strat-02.json"
   ]
 }

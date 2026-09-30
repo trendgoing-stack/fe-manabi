@@ -517,12 +517,12 @@
         "status": "ai-verified",
         "methods": [
           "independent-solve",
-          "quality-review"
+          "quality-review",
+          "web-source"
         ],
         "verifiedAt": "2026-10-01",
-        "note": "システム監査基準（経済産業省、令和5年4月26日）基準4。確定版PDFは取得できず、e-Govパブリックコメント掲載の「システム監査基準（案）」で確認（2026-10-01）。"
+        "note": "システム監査基準（経済産業省、令和5年4月26日）基準4。確定版PDFで確認（2026-10-01）。"
       },
-      "needsUserCheck": true,
       "source": "original"
     },
     {
@@ -566,12 +566,12 @@
         "status": "ai-verified",
         "methods": [
           "independent-solve",
-          "quality-review"
+          "quality-review",
+          "web-source"
         ],
         "verifiedAt": "2026-10-01",
-        "note": "システム監査基準（経済産業省、令和5年4月26日）基準9。確定版PDFは取得できず、e-Govパブリックコメント掲載の「システム監査基準（案）」で確認（2026-10-01）。"
+        "note": "システム監査基準（経済産業省、令和5年4月26日）基準9、基準12 解釈指針1。確定版PDFで確認（2026-10-01）。確定版の定義は「監査証跡」の語を用いるが、解釈指針が監査証拠を記載事項に挙げており実質的な差はない。"
       },
-      "needsUserCheck": true,
       "source": "original"
     },
     {
@@ -614,12 +614,12 @@
         "status": "ai-verified",
         "methods": [
           "independent-solve",
-          "quality-review"
+          "quality-review",
+          "web-source"
         ],
         "verifiedAt": "2026-10-01",
-        "note": "システム監査基準（経済産業省、令和5年4月26日）基準8、基準12 解釈指針2。確定版PDFは取得できず、e-Govパブリックコメント掲載の「システム監査基準（案）」で確認（2026-10-01）。"
+        "note": "システム監査基準（経済産業省、令和5年4月26日）基準8、基準12 解釈指針2。確定版PDFで確認（2026-10-01）。"
       },
-      "needsUserCheck": true,
       "source": "original"
     }
   ]
