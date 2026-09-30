@@ -41,6 +41,35 @@ export function homeView(root) {
     );
   }
 
+  // 最終エクスポート（未実施なら利用開始）から14日を超えたらバックアップを勧める。閉じたら7日間は出さない
+  const m = storage.getMeta();
+  const DAY = 86400000;
+  const hasRecords = Object.keys(storage.getStats()).length > 0;
+  const overdue = Date.now() - (m.lastExportAt ?? m.firstAt ?? Date.now()) > 14 * DAY;
+  const snoozed = m.backupDismissedAt && Date.now() - m.backupDismissedAt < 7 * DAY;
+  if (hasRecords && overdue && !snoozed) {
+    root.append(
+      h(
+        'div',
+        { class: 'notice backup-notice' },
+        h('span', null, m.lastExportAt ? '最後のバックアップから14日以上たっています。' : 'まだバックアップを取っていません。', h('a', { href: '#/settings' }, '設定でエクスポート')),
+        h(
+          'button',
+          {
+            type: 'button',
+            class: 'btn small',
+            'aria-label': 'バックアップの案内を閉じる',
+            onClick: () => {
+              storage.saveMeta({ backupDismissedAt: Date.now() });
+              render();
+            },
+          },
+          '閉じる',
+        ),
+      ),
+    );
+  }
+
   if (isActive(session)) {
     const s = summary(session);
     root.append(

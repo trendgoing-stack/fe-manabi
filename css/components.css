@@ -70,6 +70,7 @@ body.is-busy .tabbar { display: none; }
   background: var(--surface-2);
   font-size: 0.9rem;
 }
+.backup-notice { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
 .notice.warn { background: var(--warn-soft); color: var(--warn); }
 .badge {
   display: inline-block;

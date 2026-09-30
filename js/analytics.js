@@ -1,7 +1,7 @@
 // 学習記録の集計。履歴（直近3000件）と、畳み込み済みの日別集計の両方を使う。
 import * as storage from './storage.js';
 import { CATEGORIES } from './categories.js';
-import { localDate, addDays } from './date.js';
+import { localDate, addDays, parseDate, diffDays } from './date.js';
 
 const fieldOfCategory = new Map(CATEGORIES.map((c) => [c.name, c.field]));
 
@@ -73,6 +73,30 @@ export function byField(days, since = null) {
     if (!f) continue;
     f.n += v.n;
     f.ok += v.ok;
+  }
+  return out;
+}
+
+/** その日を含む週の月曜日 */
+export function weekStart(ymd) {
+  const dow = (parseDate(ymd).getDay() + 6) % 7; // 月=0 … 日=6
+  return addDays(ymd, -dow);
+}
+
+/**
+ * 週別の回答数と正解数（古い順）。今週を含む直近 n 週。
+ * @returns {{start:string, n:number, ok:number}[]}
+ */
+export function weekly(days, today, n = 12) {
+  const first = addDays(weekStart(today), -7 * (n - 1));
+  const out = Array.from({ length: n }, (_, i) => ({ start: addDays(first, 7 * i), n: 0, ok: 0 }));
+  for (const [date, cats] of days) {
+    if (date < first || date > today) continue;
+    const w = out[Math.floor(diffDays(first, date) / 7)];
+    for (const v of cats.values()) {
+      w.n += v.n;
+      w.ok += v.ok;
+    }
   }
   return out;
 }

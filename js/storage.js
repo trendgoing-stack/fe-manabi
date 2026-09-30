@@ -64,6 +64,7 @@ export function init() {
   const v = read('schema', null);
   if (v == null) write('schema', STORAGE_SCHEMA);
   // v < STORAGE_SCHEMA のときはここで順に変換する（現在は v1 のみ）
+  if (!getMeta().firstAt) saveMeta({ firstAt: Date.now() });
   if (navigator.storage?.persist) navigator.storage.persist().catch(() => {});
 }
 
@@ -114,13 +115,17 @@ export function recordAnswer(q, ok, mode) {
 /** 上限を超えた古い履歴を日別集計へ畳み込み、履歴から削除する */
 function foldHistory(history) {
   const daily = getDaily();
+  let until = getMeta().foldedUntil ?? 0;
   for (const e of history.splice(0, history.length - HISTORY_MAX)) {
     const day = (daily[localDate(e.ts)] ??= {});
     const c = (day[e.category] ??= { n: 0, ok: 0 });
     c.n++;
     if (e.ok) c.ok++;
+    until = Math.max(until, e.ts);
   }
   write('daily', daily);
+  // この時刻までの履歴は daily に入っている（インポート時の二重計上を防ぐ目印）
+  saveMeta({ foldedUntil: until });
 }
 
 // ---- 誤りフラグ ----
@@ -151,6 +156,37 @@ export const clearSession = () => remove('session');
 
 export const getMeta = () => read('meta', {});
 export const saveMeta = (patch) => write('meta', { ...getMeta(), ...patch });
+
+// ---- バックアップ（エクスポート／インポート） ----
+
+/** バックアップに含めるデータ。中断中のセッションは端末固有なので含めない */
+export function exportRaw() {
+  return {
+    settings: getSettings(),
+    stats: getStats(),
+    history: getHistory(),
+    daily: getDaily(),
+    flags: getFlags(),
+    foldedUntil: getMeta().foldedUntil ?? 0,
+  };
+}
+
+/**
+ * 検証済みのデータをまとめて書き込む。settings が無ければ現在の設定を保つ。
+ * @returns {boolean} すべて書き込めたか
+ */
+export function importRaw({ settings, stats, history, daily, flags, foldedUntil }) {
+  history = history.slice().sort((a, b) => a.ts - b.ts);
+  let ok = true;
+  if (settings) ok = write('settings', { ...DEFAULT_SETTINGS, ...settings }) && ok;
+  ok = write('stats', stats) && ok;
+  ok = write('daily', daily) && ok;
+  ok = write('flags', flags) && ok;
+  ok = saveMeta({ foldedUntil }) && ok;
+  if (history.length > HISTORY_MAX) foldHistory(history);
+  ok = write('history', history) && ok;
+  return ok;
+}
 
 /** このアプリのキーをすべて削除する */
 export function clearAll() {
