@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex">
+  <title>データ検証 — 基本情報まなび帳（開発用）</title>
+  <link rel="stylesheet" href="../css/base.css">
+  <link rel="stylesheet" href="../css/components.css">
+  <link rel="stylesheet" href="../css/views.css">
+  <style>
+    .view { max-width: 960px; padding-bottom: 48px; }
+    table.v { border-collapse: collapse; width: 100%; font-size: 0.9rem; margin-bottom: 12px; }
+    table.v th, table.v td { border: 1px solid var(--line); padding: 4px 8px; text-align: left; }
+    table.v th { background: var(--surface-2); }
+    table.v td.num { text-align: right; font-variant-numeric: tabular-nums; }
+    .ok { color: var(--ok); font-weight: 700; }
+    .ng { color: var(--ng); font-weight: 700; }
+    .sample { border-top: 1px solid var(--line); padding: 12px 0; }
+    .err-list li { padding: 2px 0; font-size: 0.9rem; }
+  </style>
+</head>
+<body>
+  <main id="view" class="view"><p>検証中…</p></main>
+  <script type="module" src="validate.js"></script>
+</body>
+</html>
