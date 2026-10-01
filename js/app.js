@@ -11,11 +11,14 @@ import { resultView } from './views/result.js';
 import { questionView } from './views/question.js';
 import { reviewView } from './views/review.js';
 import { settingsView } from './views/settings.js';
+import { mockView, mockResultView } from './views/mock.js';
+import { glossaryView, termView } from './views/glossary.js';
+import { cardsView } from './views/cards.js';
 
 // ルート名 → 下部タブ
-const TAB_OF = { home: 'home', drill: 'drill', run: 'drill', result: 'drill', review: 'review', settings: 'settings' };
-// 出題中はタブバーを隠し、Service Worker の更新もかけない
-const BUSY_ROUTES = new Set(['run']);
+const TAB_OF = { home: 'home', drill: 'drill', run: 'drill', result: 'drill', mock: 'drill', 'mock-result': 'drill', review: 'review', terms: 'terms', term: 'terms', cards: 'terms', settings: 'settings' };
+// 出題中・模擬試験中はタブバーを隠し、Service Worker の更新もかけない
+const BUSY_ROUTES = new Set(['run', 'mock']);
 
 let waitingWorker = null;
 
@@ -122,6 +125,11 @@ async function main() {
   route('q', questionView);
   route('review', reviewView);
   route('settings', settingsView);
+  route('mock', mockView);
+  route('mock-result', mockResultView);
+  route('terms', glossaryView);
+  route('term', termView);
+  route('cards', cardsView);
   start(onRouteChange);
 
   registerServiceWorker();

@@ -12,7 +12,7 @@
 |---|---|---|
 | 1 | 演習（一問一答）、誤りフラグ、回答記録、中断復帰、今日の復習、最小Service Worker、科目A 100問 | 完了 |
 | 2 | 苦手分析、学習記録、設定、エクスポート／インポート、バックアップ推奨バナー、科目A 累計200問 | 完了 |
-| 3 | 模擬試験、用語集・暗記カード、図表、科目A 累計360問 | 未着手 |
+| 3 | 模擬試験、用語集（約300語）・暗記カード、図表、科目A 累計360問 | 完了 |
 | 4 | 科目B（擬似言語、トレース表、模擬試験）、科目B 120問 | 未着手 |
 | 5 | ヘルプ、ドキュメント仕上げ、全問の最終検証 | 未着手 |
 
@@ -34,7 +34,7 @@ Safari のタブで開いた場合とホーム画面から起動した場合で�
 
 ## 更新の手順
 
-1. 問題を追加・修正する（`data/questions/**`。ファイルを足したら `data/meta.json` の `files[]` にも足す）
+1. 問題を追加・修正する（`data/questions/**`。ファイルを足したら `data/meta.json` の `files[]` にも足す）。用語集を変えたら `node tools/link-terms.mjs` で `terms[]` を付け直す
 2. 検証する
 
    ```bash
@@ -55,7 +55,7 @@ Safari のタブで開いた場合とホーム画面から起動した場合で�
 ## 開発
 
 ```bash
-python -m http.server 8765
+python tools/serve.py
 ```
 
 `http://localhost:8765/` で開きます。localhost では Service Worker を登録しません（キャッシュが開発の邪魔になるため）。Service Worker を試すときは `http://localhost:8765/?sw=1` で開きます。
@@ -67,6 +67,9 @@ python -m http.server 8765
 | `sw.js`、`manifest.json`、`icons/` | PWA |
 | `tools/validate.html`、`tools/validate.mjs` | データ検証（開発用。アプリからはリンクせず、キャッシュもしない） |
 | `tools/verify/` | 実行検証スクリプト、独立解答の照合 |
+| `tools/link-terms.mjs` | 問題の解説に出てくる用語を用語集と結び付ける（`terms[]` を自動で付ける） |
+| `tools/figures.html` | すべての図の表示確認（開発用） |
+| `tools/serve.py` | キャッシュを無効にした開発用サーバ |
 | `tools/make-icons.mjs` | 仮アイコンの生成 |
 
 関連文書：[CONTENT.md](CONTENT.md)（問題の書き方）、[VERIFICATION.md](VERIFICATION.md)（検証ログ）、[TESTING.md](TESTING.md)（実機確認チェックリスト）

@@ -1,6 +1,8 @@
 // 問題本文・選択肢・解説の描画
 import { h } from '../dom.js';
 import { richText } from './text.js';
+import { renderFigure } from './figure.js';
+import { linkedText } from '../ui/term.js';
 
 export const LABELS = ['ア', 'イ', 'ウ', 'エ'];
 
@@ -25,6 +27,7 @@ export function renderStem(q) {
     { class: 'q-stem' },
     q.stem.map((p) => h('p', null, richText(p))),
     q.table ? renderTable(q.table) : null,
+    q.figure ? renderFigure(q.figure) : null,
   );
 }
 
@@ -53,7 +56,7 @@ export function renderChoices(q, { order, selected, revealed, onSelect }) {
         { class: 'choice-body' },
         h('span', { class: 'choice-text' }, richText(c.text)),
         revealed
-          ? h('span', { class: 'choice-why' }, h('b', null, isAnswer ? '正解：' : '誤り：'), richText(c.why))
+          ? h('span', { class: 'choice-why' }, h('b', null, isAnswer ? '正解：' : '誤り：'), linkedText(c.why, q.terms))
           : null,
       );
       const label = h('span', { class: 'choice-label', 'aria-hidden': 'true' }, LABELS[pos]);
@@ -80,7 +83,8 @@ export function renderExplanation(q) {
     'section',
     { class: 'explain' },
     h('h3', null, '解説'),
-    h('p', null, richText(q.explanation)),
+    h('p', null, linkedText(q.explanation, q.terms)),
+    q.terms?.length ? h('p', { class: 'muted small' }, '下線の用語をタップすると定義を表示します。') : null,
     q.asOf ? h('p', { class: 'muted small' }, `法令・制度・規格の基準時点：${q.asOf}`) : null,
   );
 }

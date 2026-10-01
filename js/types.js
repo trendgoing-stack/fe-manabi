@@ -159,4 +159,31 @@
  * @property {boolean} finished
  */
 
+/**
+ * 用語集の1語
+ * @typedef {Object} GlossaryTerm
+ * @property {string} id         g-0001
+ * @property {string} term
+ * @property {string} reading    ひらがな
+ * @property {string} category
+ * @property {string} definition
+ * @property {string[]} aliases
+ * @property {string[]} related
+ */
+
+/**
+ * 模擬試験（実施中・記録とも同じ形）
+ * @typedef {Object} MockExam
+ * @property {string} id                 開始時刻を元にした id
+ * @property {'A'|'B'} subject
+ * @property {number} limitMs            制限時間
+ * @property {number} startedAt
+ * @property {number} elapsedMs          直近の再開までに経過した時間
+ * @property {number|null} runningSince  計時中ならその開始時刻、中断中なら null
+ * @property {number} pos
+ * @property {{id:string, order:number[], selected:number|null, flagged:boolean}[]} items
+ * @property {number|null} finishedAt
+ * @property {{ok:number, total:number, byField:Object<string,{n:number, ok:number}>}|null} result
+ */
+
 export {};

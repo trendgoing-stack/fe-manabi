@@ -5,6 +5,7 @@ import { availableQuestions, startSession } from '../state.js';
 import { filterQuestions, shuffled, DEFAULT_CRITERIA } from '../selector.js';
 import { FIELDS, CATEGORIES } from '../categories.js';
 import { today } from '../date.js';
+import { mockSection } from './mock.js';
 
 const STATES = [
   { id: 'all', label: 'すべて' },
@@ -39,6 +40,8 @@ export function drillView(root) {
     fill(
       root,
       h('h1', null, '演習'),
+      mockSection(),
+      h('h2', { class: 'section-title' }, '一問一答'),
       group('分野', FIELDS.map((f) => chip(f.short, c.fields.includes(f.id), () => update(() => (c.fields = toggle(c.fields, f.id)))))),
       group(
         'カテゴリ（複数選択可）',

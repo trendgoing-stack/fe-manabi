@@ -17,21 +17,28 @@ const APP_SHELL = [
   'js/dom.js',
   'js/io.js',
   'js/loader.js',
+  'js/mock.js',
   'js/router.js',
   'js/selector.js',
   'js/session.js',
   'js/srs.js',
   'js/state.js',
   'js/storage.js',
+  'js/terms.js',
   'js/types.js',
   'js/render/chart.js',
+  'js/render/figure.js',
   'js/render/question.js',
   'js/render/text.js',
   'js/ui/dialog.js',
   'js/ui/flag.js',
+  'js/ui/term.js',
   'js/ui/toast.js',
+  'js/views/cards.js',
   'js/views/drill.js',
+  'js/views/glossary.js',
   'js/views/home.js',
+  'js/views/mock.js',
   'js/views/question.js',
   'js/views/result.js',
   'js/views/review.js',
@@ -53,7 +60,7 @@ self.addEventListener('install', (event) => {
       const metaRes = await fetch(fresh('data/meta.json'));
       const meta = await metaRes.clone().json();
       await cache.put('data/meta.json', metaRes);
-      await cache.addAll([...APP_SHELL, ...meta.files.map((f) => `data/${f}`)].map(fresh));
+      await cache.addAll([...APP_SHELL, 'data/glossary.json', ...meta.files.map((f) => `data/${f}`)].map(fresh));
       // skipWaiting はしない。画面のバナーをタップしたときだけ切り替える
     })(),
   );

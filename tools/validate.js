@@ -105,6 +105,8 @@ async function main() {
       table(['カテゴリ', '件数'], CATEGORIES.map((c) => [c.name, get0(r.byCategory, c.name)])),
       table(['シラバス中分類', '件数'], CATEGORIES.flatMap((c) => c.syllabusRefs).map((s) => [s, get0(r.bySyllabusRef, s)])),
       table(['難易度', '件数'], [1, 2, 3].map((d) => ['★'.repeat(d), get0(r.byDifficulty, d)])),
+      table(['図', '件数'], [...r.byFigure].map(([k, v]) => [k, v])),
+      h('p', null, `用語集 ${r.glossaryCount}語。用語リンクのある問題 ${r.linked}問。`),
     ),
     h(
       'section',

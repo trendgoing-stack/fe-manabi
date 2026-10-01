@@ -19,6 +19,8 @@ show('カテゴリ', r.byCategory);
 show('中分類', r.bySyllabusRef);
 show('難易度', r.byDifficulty);
 show('正解位置', r.byAnswer);
+show('図', r.byFigure);
+console.log(`用語集 ${r.glossaryCount}語／用語リンクのある問題 ${r.linked}問`);
 console.log(`文章選択肢 ${r.bias.n}問：正解が最長 ${r.bias.longest}、最短 ${r.bias.shortest}、長さ比 ${r.bias.ratio.toFixed(2)}、外れ値 ${r.bias.outliers.join(' ') || 'なし'}`);
 console.log(`needsUserCheck: ${r.needsUserCheck.join(' ') || 'なし'}／disputed: ${r.disputed.join(' ') || 'なし'}`);
 if (r.errors.length) {

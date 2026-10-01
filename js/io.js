@@ -83,7 +83,15 @@ export function parseImport(text) {
     if (!isObj(f) || typeof f.kind !== 'string') throw new Error('誤りフラグが不正です');
   }
   if (d.settings != null && !isObj(d.settings)) throw new Error('設定が不正です');
-  return { settings: d.settings ?? null, stats: d.stats, history: d.history, daily: d.daily, flags: d.flags, foldedUntil: Number(d.foldedUntil) || 0 };
+  const cards = d.cards ?? {};
+  if (!isObj(cards) || !Object.values(cards).every((c) => isObj(c) && [1, 2, 3, 4, 5].includes(c.box) && DATE_RE.test(c.due) && typeof c.lastAt === 'number')) {
+    throw new Error('暗記カードの記録が不正です');
+  }
+  const mocks = d.mocks ?? [];
+  if (!Array.isArray(mocks) || !mocks.every((m) => isObj(m) && typeof m.id === 'string' && typeof m.startedAt === 'number' && Array.isArray(m.items))) {
+    throw new Error('模擬試験の記録が不正です');
+  }
+  return { settings: d.settings ?? null, stats: d.stats, history: d.history, daily: d.daily, flags: d.flags, foldedUntil: Number(d.foldedUntil) || 0, cards, mocks };
 }
 
 /**
@@ -122,7 +130,13 @@ export function mergeData(local, incoming) {
     if (!flags[id] || (f.at ?? 0) > (flags[id].at ?? 0)) flags[id] = f;
   }
 
-  return { settings: null, stats, history, daily, flags, foldedUntil: Math.max(local.foldedUntil, incoming.foldedUntil) };
+  const cards = { ...local.cards };
+  for (const [id, c] of Object.entries(incoming.cards)) {
+    if (!cards[id] || c.lastAt > cards[id].lastAt) cards[id] = c;
+  }
+  const mocks = [...new Map([...incoming.mocks, ...local.mocks].map((m) => [m.id, m])).values()];
+
+  return { settings: null, stats, history, daily, flags, foldedUntil: Math.max(local.foldedUntil, incoming.foldedUntil), cards, mocks };
 }
 
 /**
@@ -133,7 +147,10 @@ export function mergeData(local, incoming) {
 export function importData(text, mode) {
   const incoming = parseImport(text); // 不正ならここで例外。以降で初めて書き込む
   const next = mode === 'merge' ? mergeData(storage.exportRaw(), incoming) : incoming;
-  if (mode === 'replace') storage.clearSession();
+  if (mode === 'replace') {
+    storage.clearSession();
+    storage.clearActiveMock();
+  }
   if (!storage.importRaw(next)) throw new Error('保存できませんでした（容量不足の可能性があります）');
   return { questions: Object.keys(next.stats).length, history: next.history.length };
 }

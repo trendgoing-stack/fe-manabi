@@ -152,6 +152,47 @@ export const getSession = () => read('session', null);
 export const saveSession = (s) => write('session', s);
 export const clearSession = () => remove('session');
 
+// ---- 暗記カード（問題と同じ間隔反復ルールで別管理） ----
+
+/** @returns {Object<string, {attempts:number, correct:number, lastAt:number, box:number, due:string}>} */
+export const getCards = () => read('cards', {});
+
+/** カードの「覚えた／まだ」を記録する */
+export function recordCard(termId, ok) {
+  const now = Date.now();
+  const cards = getCards();
+  const prev = cards[termId];
+  cards[termId] = {
+    attempts: (prev?.attempts ?? 0) + 1,
+    correct: (prev?.correct ?? 0) + (ok ? 1 : 0),
+    lastAt: now,
+    ...schedule(prev, ok, localDate(now)),
+  };
+  return write('cards', cards);
+}
+
+// ---- 模擬試験 ----
+
+export const MOCK_KEEP = 50;
+
+/** 実施中の模擬試験 @returns {import('./types.js').MockExam|null} */
+export const getActiveMock = () => read('mockActive', null);
+export const saveActiveMock = (m) => write('mockActive', m);
+export const clearActiveMock = () => remove('mockActive');
+
+/** 終了した模擬試験の記録（新しい順） @returns {import('./types.js').MockExam[]} */
+export function listMocks() {
+  const ids = read('mockIndex', []);
+  return ids.map((id) => read(`mock:${id}`, null)).filter(Boolean);
+}
+
+/** 模擬試験の記録を保存する。古いものから削除して MOCK_KEEP 件までにする */
+export function saveMock(m) {
+  const ids = [m.id, ...read('mockIndex', []).filter((x) => x !== m.id)];
+  for (const old of ids.splice(MOCK_KEEP)) remove(`mock:${old}`);
+  return write(`mock:${m.id}`, m) && write('mockIndex', ids);
+}
+
 // ---- その他 ----
 
 export const getMeta = () => read('meta', {});
@@ -168,6 +209,8 @@ export function exportRaw() {
     daily: getDaily(),
     flags: getFlags(),
     foldedUntil: getMeta().foldedUntil ?? 0,
+    cards: getCards(),
+    mocks: listMocks(),
   };
 }
 
@@ -175,9 +218,13 @@ export function exportRaw() {
  * 検証済みのデータをまとめて書き込む。settings が無ければ現在の設定を保つ。
  * @returns {boolean} すべて書き込めたか
  */
-export function importRaw({ settings, stats, history, daily, flags, foldedUntil }) {
+export function importRaw({ settings, stats, history, daily, flags, foldedUntil, cards = {}, mocks = [] }) {
   history = history.slice().sort((a, b) => a.ts - b.ts);
   let ok = true;
+  ok = write('cards', cards) && ok;
+  for (const id of read('mockIndex', [])) remove(`mock:${id}`);
+  write('mockIndex', []);
+  for (const m of mocks.slice().sort((a, b) => a.startedAt - b.startedAt)) ok = saveMock(m) && ok;
   if (settings) ok = write('settings', { ...DEFAULT_SETTINGS, ...settings }) && ok;
   ok = write('stats', stats) && ok;
   ok = write('daily', daily) && ok;

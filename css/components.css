@@ -193,3 +193,18 @@ body.is-busy .toast-host { bottom: calc(var(--safe-b) + 84px); }
   font-weight: 700;
   cursor: pointer;
 }
+
+/* ---- 用語リンク ---- */
+.term-link {
+  display: inline;
+  padding: 0;
+  margin: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  text-decoration: underline dotted var(--accent);
+  text-decoration-thickness: 2px;
+  text-underline-offset: 3px;
+  cursor: pointer;
+}

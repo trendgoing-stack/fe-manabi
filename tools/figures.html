@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex">
+  <title>図の確認 — 基本情報まなび帳（開発用）</title>
+  <link rel="stylesheet" href="../css/base.css">
+  <link rel="stylesheet" href="../css/components.css">
+  <link rel="stylesheet" href="../css/views.css">
+  <style>.view { padding-bottom: 48px; } section { border-top: 1px solid var(--line); padding-top: 12px; }</style>
+</head>
+<body>
+  <main id="view" class="view"><h1>図の確認（開発用）</h1><p class="muted small">CONTENT.md の記述例と、問題データ中のすべての図を表示します。</p></main>
+  <script type="module">
+    import { h } from '../js/dom.js';
+    import { renderFigure } from '../js/render/figure.js';
+    const root = document.getElementById('view');
+    const md = await (await fetch('../CONTENT.md', { cache: 'no-store' })).text();
+    const examples = [...md.matchAll(/```json\n(\{ "type": "(?:tree|state|arrow|gantt|network|er|logic)"[\s\S]*?)\n```/g)].map((m) => JSON.parse(m[1]));
+    for (const fig of examples) root.append(h('section', null, h('h2', null, `記述例：${fig.type}`), renderFigure(fig)));
+    const meta = await (await fetch('../data/meta.json', { cache: 'no-store' })).json();
+    for (const f of meta.files) {
+      const { items } = await (await fetch('../data/' + f, { cache: 'no-store' })).json();
+      for (const q of items.flatMap((it) => it.questions ?? [it])) {
+        if (q.figure) root.append(h('section', null, h('h2', null, `${q.id}（${q.figure.type}）`), h('p', { class: 'small' }, q.stem.join(' ')), renderFigure(q.figure)));
+      }
+    }
+  </script>
+</body>
+</html>

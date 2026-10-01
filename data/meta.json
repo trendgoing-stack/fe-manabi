@@ -33,7 +33,7 @@
   "counts": {
     "A": 200,
     "B": 0,
-    "glossary": 0
+    "glossary": 304
   },
   "files": [
     "questions/a/tech-kiso-01.json",
@@ -47,6 +47,11 @@
     "questions/a/tech-yoso-02.json",
     "questions/a/tech-dev-02.json",
     "questions/a/mgmt-02.json",
-    "questions/a/strat-02.json"
+    "questions/a/strat-02.json",
+    "questions/a/tech-dev-03.json",
+    "questions/a/mgmt-03.json",
+    "questions/a/tech-system-03.json",
+    "questions/a/tech-yoso-03.json",
+    "questions/a/tech-kiso-03.json"
   ]
 }

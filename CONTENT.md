@@ -128,9 +128,142 @@
 
 擬似言語コードは `code: { "lines": ["○整数型: total(整数型の配列: data)", "  整数型: i, s ← 0", "…"] }` のように行の配列で持ち、解説からは「行3」の形で参照する。
 
-## 図データ（フェーズ3で実装）
+## 図データ
 
-SVGを手描きせず、`figure: { "type": "tree" | "state" | "er" | "network" | "logic" | "gantt" | "arrow", … }` のデータからレンダラーが生成する。型ごとの記述例はフェーズ3で追記する。
+SVGを手描きせず、問題の `figure` に書いたデータから `js/render/figure.js` がSVGを生成する。色はCSS変数で指定されるため、ライト／ダークの切り替えに自動で追従する。横に長い図は図だけが横スクロールする。
+
+共通：
+
+- `figure.type` は `tree`／`state`／`arrow`／`gantt`／`network`／`er`／`logic` のいずれか
+- `figure.caption`（任意）：図の下に出す短い説明（例：「図　受注処理の状態遷移」）
+- `tree` と `gantt` 以外は、要素の位置を**グリッド座標** `x`, `y`（右が x の正、下が y の正。小数可）で指定する。1単位はおよそ60px。中心どうしの間隔は横2以上、縦1.5以上を目安にする
+- 表は図ではなく `table` を使う。1問に `table` と `figure` を両方付けてよい
+- ラベルは短く（全角8文字程度まで）。記号（A、B、①…）を使い、説明は問題文に書く
+
+### tree（木構造）
+
+位置は自動で決まる。`children` に `null` を入れると、その位置を空けたまま描く（2分木の左右を表す）。
+
+```json
+{ "type": "tree", "root": { "label": "50", "children": [
+  { "label": "30", "children": [ { "label": "20" }, null ] },
+  { "label": "70", "children": [ { "label": "60" }, { "label": "80" } ] }
+] } }
+```
+
+### state（状態遷移図）
+
+```json
+{ "type": "state",
+  "states": [
+    { "id": "s0", "label": "待機", "x": 0, "y": 0, "initial": true },
+    { "id": "s1", "label": "処理中", "x": 3, "y": 0 },
+    { "id": "s2", "label": "完了", "x": 6, "y": 0, "final": true }
+  ],
+  "transitions": [
+    { "from": "s0", "to": "s1", "label": "受付" },
+    { "from": "s1", "to": "s1", "label": "再試行" },
+    { "from": "s1", "to": "s2", "label": "終了" },
+    { "from": "s2", "to": "s0", "label": "リセット" }
+  ] }
+```
+
+`from` と `to` が同じなら自己遷移のループを描く。同じ2状態間の往復は、2本の矢印を少しずらして描く。オートマトンの状態遷移図にも使う（`label` に入力記号を書く）。
+
+### arrow（アローダイアグラム）
+
+結合点を丸、作業を矢印で描く。`dummy: true` はダミー作業（破線）。`label` は「A 3」のように作業名と日数を書く。
+
+```json
+{ "type": "arrow",
+  "nodes": [ { "id": "1", "x": 0, "y": 1 }, { "id": "2", "x": 2.5, "y": 0 }, { "id": "3", "x": 2.5, "y": 2 }, { "id": "4", "x": 5, "y": 1 } ],
+  "activities": [
+    { "from": "1", "to": "2", "label": "A 3" }, { "from": "1", "to": "3", "label": "B 5" },
+    { "from": "2", "to": "3", "dummy": true },
+    { "from": "2", "to": "4", "label": "C 4" }, { "from": "3", "to": "4", "label": "D 2" }
+  ] }
+```
+
+結合点の `label` を省略すると `id` を表示する。
+
+### gantt（ガントチャート）
+
+```json
+{ "type": "gantt", "unit": "日", "span": 12,
+  "tasks": [
+    { "label": "設計", "start": 0, "length": 4 },
+    { "label": "製造", "start": 4, "length": 5 },
+    { "label": "試験", "start": 7, "length": 5, "kind": "actual" }
+  ],
+  "marker": 8 }
+```
+
+`start` は0始まり。`kind` は `plan`（既定）／`actual`（実績。濃い色で描く）。`marker` は現在日の縦線（任意）。
+
+### network（ネットワーク構成図）
+
+`kind` は `internet`／`router`／`switch`／`fw`（ファイアウォール）／`server`／`pc`／`ap`（無線アクセスポイント）／`cloud`。`zones` は破線の枠（DMZ、社内LAN など）で、`x`, `y` は左上、`w`, `h` は幅と高さ。
+
+```json
+{ "type": "network",
+  "nodes": [
+    { "id": "net", "label": "インターネット", "kind": "internet", "x": 0, "y": 1 },
+    { "id": "fw", "label": "FW", "kind": "fw", "x": 2.5, "y": 1 },
+    { "id": "web", "label": "Webサーバ", "kind": "server", "x": 5, "y": 0 },
+    { "id": "pc", "label": "PC", "kind": "pc", "x": 5, "y": 2 }
+  ],
+  "links": [ { "from": "net", "to": "fw" }, { "from": "fw", "to": "web" }, { "from": "fw", "to": "pc", "label": "LAN" } ],
+  "zones": [ { "label": "DMZ", "x": 4, "y": -0.6, "w": 2, "h": 1.2 } ] }
+```
+
+### er（E-R図）
+
+エンティティを箱（名前と属性）で、リレーションシップを線と多重度（`1` または `*`）で描く。属性の主キーは `"_社員番号_"` のように前後に `_` を付けると下線で描く。外部キーは `"{部門番号}"` のように波括弧で囲むと点線の下線で描く。
+
+```json
+{ "type": "er",
+  "entities": [
+    { "id": "dept", "name": "部門", "attrs": ["_部門番号_", "部門名"], "x": 0, "y": 0 },
+    { "id": "emp", "name": "社員", "attrs": ["_社員番号_", "氏名", "{部門番号}"], "x": 4, "y": 0 }
+  ],
+  "relations": [ { "from": "dept", "to": "emp", "fromMul": "1", "toMul": "*" } ] }
+```
+
+### logic（論理回路）
+
+`op` は `AND`／`OR`／`NOT`／`NAND`／`NOR`／`XOR`。`in` は入力の id（入力端子または他のゲート）を上から順に並べる。`outputs[].from` は出力に接続するゲートの id。左から右へ信号が流れるように、入力→ゲート→出力の順に `x` を大きくする。
+
+```json
+{ "type": "logic",
+  "inputs": [ { "id": "A", "label": "A", "x": 0, "y": 0 }, { "id": "B", "label": "B", "x": 0, "y": 2 } ],
+  "gates": [
+    { "id": "g1", "op": "NAND", "x": 2.5, "y": 1, "in": ["A", "B"] },
+    { "id": "g2", "op": "NOT", "x": 4.5, "y": 1, "in": ["g1"] }
+  ],
+  "outputs": [ { "id": "X", "label": "X", "x": 6.5, "y": 1, "from": "g2" } ] }
+```
+
+## 用語集
+
+`data/glossary.json`：
+
+```json
+{ "schemaVersion": 1, "terms": [
+  { "id": "g-0001", "term": "稼働率", "reading": "かどうりつ", "category": "システム構成要素",
+    "definition": "システムが正常に動作している時間の割合。MTBF÷(MTBF＋MTTR) で求める。",
+    "aliases": [], "related": ["g-0002"] }
+] }
+```
+
+- `id`：`g-` ＋4桁。一意・不変
+- `reading`：ひらがな（五十音順の並べ替えと索引に使う）。英字略語は読み方をひらがなで（例：「エムティービーエフ」→「えむてぃーびーえふ」）
+- `category`：問題と同じカテゴリ名
+- `definition`：オリジナルの定義文。1〜3文、120字程度まで。辞書や教科書の文を写さない
+- `aliases`：表記ゆれ・別名（解説中の用語を見つけるときにも使う）
+- `related`：関連する用語の id
+- `linkScope`（任意）：`"category"` なら同じカテゴリの問題だけ、`"field"` なら同じ分野の問題だけで解説にリンクする。「ロック」「ビュー」のように一般語としても使う用語に付ける
+- 別名には、上位概念・下位概念・対比される用語・法律名を入れない（タップしたときに別の意味の定義が出てしまうため）
+- 問題の `terms[]` は、解説にその用語（または別名）が出てくる用語集の id。`node tools/link-terms.mjs` で自動的に付ける。解説の中の該当語はタップで定義を表示できる
 
 ## 検証ルール
 

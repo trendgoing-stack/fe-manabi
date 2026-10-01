@@ -8,6 +8,7 @@ import { FIELDS } from '../categories.js';
 import { today, diffDays } from '../date.js';
 import { navigate, render } from '../router.js';
 import { confirmDialog } from '../ui/dialog.js';
+import { remainingMs } from '../mock.js';
 
 /** 正答率の横棒 */
 export function accuracyBar(label, { n, ok }) {
@@ -66,6 +67,20 @@ export function homeView(root) {
           },
           '閉じる',
         ),
+      ),
+    );
+  }
+
+  const mock = storage.getActiveMock();
+  if (mock) {
+    const left = Math.ceil(remainingMs(mock) / 60000);
+    root.append(
+      h(
+        'section',
+        { class: 'card accent' },
+        h('h2', null, '実施中の模擬試験'),
+        h('p', null, `回答済み ${mock.items.filter((x) => x.selected != null).length} / ${mock.items.length} 問・残り約${left}分${mock.runningSince == null ? '（中断中）' : ''}`),
+        h('div', { class: 'btn-row' }, h('button', { type: 'button', class: 'btn primary', onClick: () => navigate('mock') }, '模擬試験に戻る')),
       ),
     );
   }

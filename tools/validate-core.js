@@ -8,6 +8,71 @@ const ID_FIELD = { tech: 'technology', mgmt: 'management', strat: 'strategy' };
 const catByName = new Map(CATEGORIES.map((c) => [c.name, c]));
 const isStr = (v) => typeof v === 'string' && v.trim() !== '';
 
+const FIG_TYPES = ['tree', 'state', 'arrow', 'gantt', 'network', 'er', 'logic'];
+const NET_KINDS = ['internet', 'router', 'switch', 'fw', 'server', 'pc', 'ap', 'cloud'];
+const GATES = ['AND', 'OR', 'NOT', 'NAND', 'NOR', 'XOR'];
+const isNum = (v) => typeof v === 'number' && Number.isFinite(v);
+
+/** 図データの形と参照の整合性 */
+export function checkFigure(f) {
+  const e = [];
+  if (!f || !FIG_TYPES.includes(f.type)) return [`figure.type「${f?.type}」は未対応`];
+  const ids = (arr) => new Set((arr ?? []).map((x) => x.id));
+  const posOk = (arr) => (arr ?? []).every((x) => isNum(x.x) && isNum(x.y));
+  if (f.type === 'tree') {
+    const walk = (n) => n === null || (isStr(String(n?.label ?? '')) && (n.children ?? []).every(walk));
+    if (!f.root || !walk(f.root)) e.push('figure(tree): root の形が不正');
+  } else if (f.type === 'state') {
+    const s = ids(f.states);
+    if (!posOk(f.states)) e.push('figure(state): 座標がない状態がある');
+    for (const t of f.transitions ?? []) if (!s.has(t.from) || !s.has(t.to)) e.push(`figure(state): 遷移 ${t.from}→${t.to} の参照先がない`);
+  } else if (f.type === 'arrow') {
+    const s = ids(f.nodes);
+    if (!posOk(f.nodes)) e.push('figure(arrow): 座標がない結合点がある');
+    for (const a of f.activities ?? []) if (!s.has(a.from) || !s.has(a.to)) e.push(`figure(arrow): 作業 ${a.from}→${a.to} の参照先がない`);
+  } else if (f.type === 'gantt') {
+    if (!isNum(f.span) || !(f.tasks ?? []).every((t) => isStr(t.label) && isNum(t.start) && isNum(t.length) && t.start + t.length <= f.span)) e.push('figure(gantt): span と tasks の形が不正');
+  } else if (f.type === 'network') {
+    const s = ids(f.nodes);
+    if (!posOk(f.nodes) || !(f.nodes ?? []).every((n) => NET_KINDS.includes(n.kind))) e.push('figure(network): nodes の座標か kind が不正');
+    for (const l of f.links ?? []) if (!s.has(l.from) || !s.has(l.to)) e.push(`figure(network): 接続 ${l.from}-${l.to} の参照先がない`);
+  } else if (f.type === 'er') {
+    const s = ids(f.entities);
+    if (!posOk(f.entities)) e.push('figure(er): 座標がないエンティティがある');
+    for (const r of f.relations ?? []) if (!s.has(r.from) || !s.has(r.to)) e.push(`figure(er): リレーションシップ ${r.from}-${r.to} の参照先がない`);
+  } else if (f.type === 'logic') {
+    const s = new Set([...ids(f.inputs), ...ids(f.gates)]);
+    if (!posOk(f.inputs) || !posOk(f.gates) || !posOk(f.outputs)) e.push('figure(logic): 座標がない要素がある');
+    for (const g of f.gates ?? []) {
+      if (!GATES.includes(g.op)) e.push(`figure(logic): ゲート ${g.id} の op が不正`);
+      for (const i of g.in ?? []) if (!s.has(i)) e.push(`figure(logic): ゲート ${g.id} の入力 ${i} がない`);
+    }
+    for (const o of f.outputs ?? []) if (!s.has(o.from)) e.push(`figure(logic): 出力 ${o.id} の接続元 ${o.from} がない`);
+  }
+  return e;
+}
+
+/** 用語集の検査 */
+export function checkGlossary(glossary) {
+  const e = [];
+  if (!glossary) return e;
+  const seen = new Set();
+  const ids = new Set(glossary.terms.map((t) => t.id));
+  for (const t of glossary.terms) {
+    const where = t.id ?? '(id なし)';
+    if (!/^g-\d{4}$/.test(t.id ?? '')) e.push({ where, msg: '用語の id の形式が不正' });
+    if (seen.has(t.id)) e.push({ where, msg: '用語の id が重複' });
+    seen.add(t.id);
+    if (!isStr(t.term)) e.push({ where, msg: 'term が空' });
+    if (!/^[ぁ-ゖー]+$/.test(t.reading ?? '')) e.push({ where, msg: 'reading はひらがなのみ' });
+    if (!catByName.has(t.category)) e.push({ where, msg: `category「${t.category}」は固定リストにない` });
+    if (!isStr(t.definition)) e.push({ where, msg: 'definition が空' });
+    if (/<\/?[a-z][^>]*>/i.test(t.definition ?? '')) e.push({ where, msg: 'definition にHTMLタグ' });
+    for (const r of t.related ?? []) if (!ids.has(r) || r === t.id) e.push({ where, msg: `related「${r}」が不正` });
+  }
+  return e;
+}
+
 /** 1問のスキーマ違反を文字列の配列で返す */
 export function checkQuestion(q, glossaryIds) {
   const e = [];
@@ -27,6 +92,7 @@ export function checkQuestion(q, glossaryIds) {
   if (q.table && !(Array.isArray(q.table.header) && Array.isArray(q.table.rows) && q.table.rows.every((r) => Array.isArray(r) && r.length === q.table.header.length))) {
     e.push('table の形が不正（各行の列数は header と同じ）');
   }
+  if (q.figure) e.push(...checkFigure(q.figure));
   if (!Array.isArray(q.choices) || q.choices.length !== 4) e.push('choices は長さ4');
   else {
     q.choices.forEach((c, i) => {
@@ -69,6 +135,8 @@ export function validateAll(meta, files, swText, glossary) {
   const questions = [];
   const seen = new Map();
   const glossaryIds = new Set((glossary?.terms ?? []).map((t) => t.id));
+  errors.push(...checkGlossary(glossary));
+  if ((meta.counts?.glossary ?? 0) !== (glossary?.terms?.length ?? 0)) errors.push({ where: 'meta.json', msg: `counts.glossary は ${meta.counts?.glossary} だが実際は ${glossary?.terms?.length ?? 0}` });
 
   for (const { file, json } of files) {
     if (!json || !Array.isArray(json.items)) {
@@ -119,6 +187,9 @@ export function validateAll(meta, files, swText, glossary) {
     bySyllabusRef: count((q) => q.syllabusRef, live),
     byDifficulty: count((q) => q.difficulty, live),
     byAnswer: count((q) => q.answer, live),
+    byFigure: count((q) => q.figure?.type ?? '(なし)', live),
+    glossaryCount: glossary?.terms?.length ?? 0,
+    linked: live.filter((q) => q.terms?.length).length,
     retired: questions.length - live.length,
     needsUserCheck: live.filter((q) => q.needsUserCheck).map((q) => q.id),
     disputed: questions.filter((q) => q.verification?.status === 'disputed').map((q) => q.id),
