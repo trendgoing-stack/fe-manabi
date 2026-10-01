@@ -113,9 +113,13 @@
         "ダミー作業"
       ],
       "verification": {
-        "status": "unverified",
-        "methods": [],
-        "verifiedAt": null,
+        "status": "ai-verified",
+        "methods": [
+          "independent-solve",
+          "script",
+          "quality-review"
+        ],
+        "verifiedAt": "2026-10-01",
         "script": "tools/verify/checks/mgmt-03.mjs"
       },
       "source": "original"
@@ -239,9 +243,13 @@
         "期間短縮"
       ],
       "verification": {
-        "status": "unverified",
-        "methods": [],
-        "verifiedAt": null,
+        "status": "ai-verified",
+        "methods": [
+          "independent-solve",
+          "script",
+          "quality-review"
+        ],
+        "verifiedAt": "2026-10-01",
         "script": "tools/verify/checks/mgmt-03.mjs"
       },
       "source": "original"
@@ -335,9 +343,13 @@
         "進捗管理"
       ],
       "verification": {
-        "status": "unverified",
-        "methods": [],
-        "verifiedAt": null,
+        "status": "ai-verified",
+        "methods": [
+          "independent-solve",
+          "script",
+          "quality-review"
+        ],
+        "verifiedAt": "2026-10-01",
         "script": "tools/verify/checks/mgmt-03.mjs"
       },
       "source": "original"
@@ -433,9 +445,13 @@
         "資源計画"
       ],
       "verification": {
-        "status": "unverified",
-        "methods": [],
-        "verifiedAt": null,
+        "status": "ai-verified",
+        "methods": [
+          "independent-solve",
+          "script",
+          "quality-review"
+        ],
+        "verifiedAt": "2026-10-01",
         "script": "tools/verify/checks/mgmt-03.mjs"
       },
       "source": "original"
@@ -515,9 +531,13 @@
         "見積り"
       ],
       "verification": {
-        "status": "unverified",
-        "methods": [],
-        "verifiedAt": null,
+        "status": "ai-verified",
+        "methods": [
+          "independent-solve",
+          "script",
+          "quality-review"
+        ],
+        "verifiedAt": "2026-10-01",
         "script": "tools/verify/checks/mgmt-03.mjs"
       },
       "source": "original"
@@ -566,9 +586,13 @@
         "EVM"
       ],
       "verification": {
-        "status": "unverified",
-        "methods": [],
-        "verifiedAt": null,
+        "status": "ai-verified",
+        "methods": [
+          "independent-solve",
+          "script",
+          "quality-review"
+        ],
+        "verifiedAt": "2026-10-01",
         "script": "tools/verify/checks/mgmt-03.mjs"
       },
       "source": "original"
@@ -611,9 +635,12 @@
         "プロジェクト憲章"
       ],
       "verification": {
-        "status": "unverified",
-        "methods": [],
-        "verifiedAt": null
+        "status": "ai-verified",
+        "methods": [
+          "independent-solve",
+          "quality-review"
+        ],
+        "verifiedAt": "2026-10-01"
       },
       "source": "original"
     },
@@ -655,9 +682,12 @@
         "RACI"
       ],
       "verification": {
-        "status": "unverified",
-        "methods": [],
-        "verifiedAt": null
+        "status": "ai-verified",
+        "methods": [
+          "independent-solve",
+          "quality-review"
+        ],
+        "verifiedAt": "2026-10-01"
       },
       "source": "original"
     },
@@ -697,9 +727,12 @@
         "契約形態"
       ],
       "verification": {
-        "status": "unverified",
-        "methods": [],
-        "verifiedAt": null
+        "status": "ai-verified",
+        "methods": [
+          "independent-solve",
+          "quality-review"
+        ],
+        "verifiedAt": "2026-10-01"
       },
       "source": "original"
     },
@@ -769,9 +802,12 @@
         "優先度"
       ],
       "verification": {
-        "status": "unverified",
-        "methods": [],
-        "verifiedAt": null
+        "status": "ai-verified",
+        "methods": [
+          "independent-solve",
+          "quality-review"
+        ],
+        "verifiedAt": "2026-10-01"
       },
       "source": "original"
     },
@@ -814,9 +850,12 @@
         "エスカレーション"
       ],
       "verification": {
-        "status": "unverified",
-        "methods": [],
-        "verifiedAt": null
+        "status": "ai-verified",
+        "methods": [
+          "independent-solve",
+          "quality-review"
+        ],
+        "verifiedAt": "2026-10-01"
       },
       "source": "original"
     },
@@ -863,9 +902,13 @@
         "可用性管理"
       ],
       "verification": {
-        "status": "unverified",
-        "methods": [],
-        "verifiedAt": null,
+        "status": "ai-verified",
+        "methods": [
+          "independent-solve",
+          "script",
+          "quality-review"
+        ],
+        "verifiedAt": "2026-10-01",
         "script": "tools/verify/checks/mgmt-03.mjs"
       },
       "source": "original"
@@ -908,9 +951,12 @@
         "サービスデスク"
       ],
       "verification": {
-        "status": "unverified",
-        "methods": [],
-        "verifiedAt": null
+        "status": "ai-verified",
+        "methods": [
+          "independent-solve",
+          "quality-review"
+        ],
+        "verifiedAt": "2026-10-01"
       },
       "source": "original"
     },
@@ -953,9 +999,12 @@
         "SLI"
       ],
       "verification": {
-        "status": "unverified",
-        "methods": [],
-        "verifiedAt": null
+        "status": "ai-verified",
+        "methods": [
+          "independent-solve",
+          "quality-review"
+        ],
+        "verifiedAt": "2026-10-01"
       },
       "source": "original"
     },
@@ -998,9 +1047,12 @@
         "財務管理"
       ],
       "verification": {
-        "status": "unverified",
-        "methods": [],
-        "verifiedAt": null
+        "status": "ai-verified",
+        "methods": [
+          "independent-solve",
+          "quality-review"
+        ],
+        "verifiedAt": "2026-10-01"
       },
       "source": "original"
     },
@@ -1043,9 +1095,12 @@
         "空調"
       ],
       "verification": {
-        "status": "unverified",
-        "methods": [],
-        "verifiedAt": null
+        "status": "ai-verified",
+        "methods": [
+          "independent-solve",
+          "quality-review"
+        ],
+        "verifiedAt": "2026-10-01"
       },
       "source": "original"
     },
@@ -1088,9 +1143,13 @@
       ],
       "asOf": "2026-10",
       "verification": {
-        "status": "unverified",
-        "methods": [],
-        "verifiedAt": null,
+        "status": "ai-verified",
+        "methods": [
+          "independent-solve",
+          "quality-review",
+          "web-source"
+        ],
+        "verifiedAt": "2026-10-01",
         "note": "システム監査基準（経済産業省、令和5年4月26日）【基準8】監査証拠の入手と評価 解釈指針2(3)(4)。"
       },
       "source": "original"
@@ -1134,9 +1193,12 @@
         "CAAT"
       ],
       "verification": {
-        "status": "unverified",
-        "methods": [],
-        "verifiedAt": null
+        "status": "ai-verified",
+        "methods": [
+          "independent-solve",
+          "quality-review"
+        ],
+        "verifiedAt": "2026-10-01"
       },
       "source": "original"
     },
@@ -1179,9 +1241,13 @@
       ],
       "asOf": "2026-10",
       "verification": {
-        "status": "unverified",
-        "methods": [],
-        "verifiedAt": null,
+        "status": "ai-verified",
+        "methods": [
+          "independent-solve",
+          "quality-review",
+          "web-source"
+        ],
+        "verifiedAt": "2026-10-01",
         "note": "システム監査基準（経済産業省、令和5年4月26日）前文「監査人と取締役会等、経営者との関係」（保証を目的としたシステム監査と助言を目的としたシステム監査）。"
       },
       "source": "original"
@@ -1224,9 +1290,12 @@
         "運用状況"
       ],
       "verification": {
-        "status": "unverified",
-        "methods": [],
-        "verifiedAt": null
+        "status": "ai-verified",
+        "methods": [
+          "independent-solve",
+          "quality-review"
+        ],
+        "verifiedAt": "2026-10-01"
       },
       "source": "original"
     }

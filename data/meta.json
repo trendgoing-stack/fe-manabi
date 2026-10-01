@@ -1,5 +1,5 @@
 {
-  "dataVersion": "2026.10.01-2",
+  "dataVersion": "2026.10.01-3",
   "schemaVersion": 1,
   "syllabusVersion": "Ver.9.2",
   "syllabus": {
@@ -31,7 +31,7 @@
     }
   },
   "counts": {
-    "A": 200,
+    "A": 360,
     "B": 0,
     "glossary": 304
   },
@@ -52,6 +52,7 @@
     "questions/a/mgmt-03.json",
     "questions/a/tech-system-03.json",
     "questions/a/tech-yoso-03.json",
-    "questions/a/tech-kiso-03.json"
+    "questions/a/tech-kiso-03.json",
+    "questions/a/strat-03.json"
   ]
 }

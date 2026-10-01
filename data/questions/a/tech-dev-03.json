@@ -42,9 +42,12 @@
         "要件定義"
       ],
       "verification": {
-        "status": "unverified",
-        "methods": [],
-        "verifiedAt": null
+        "status": "ai-verified",
+        "methods": [
+          "independent-solve",
+          "quality-review"
+        ],
+        "verifiedAt": "2026-10-01"
       },
       "source": "original"
     },
@@ -86,9 +89,12 @@
         "モジュール設計"
       ],
       "verification": {
-        "status": "unverified",
-        "methods": [],
-        "verifiedAt": null
+        "status": "ai-verified",
+        "methods": [
+          "independent-solve",
+          "quality-review"
+        ],
+        "verifiedAt": "2026-10-01"
       },
       "source": "original"
     },
@@ -207,9 +213,13 @@
         "図"
       ],
       "verification": {
-        "status": "unverified",
-        "methods": [],
-        "verifiedAt": null,
+        "status": "ai-verified",
+        "methods": [
+          "independent-solve",
+          "script",
+          "quality-review"
+        ],
+        "verifiedAt": "2026-10-01",
         "script": "tools/verify/checks/tech-dev-03.mjs"
       },
       "source": "original"
@@ -330,9 +340,13 @@
         "図"
       ],
       "verification": {
-        "status": "unverified",
-        "methods": [],
-        "verifiedAt": null,
+        "status": "ai-verified",
+        "methods": [
+          "independent-solve",
+          "script",
+          "quality-review"
+        ],
+        "verifiedAt": "2026-10-01",
         "script": "tools/verify/checks/tech-dev-03.mjs"
       },
       "source": "original"
@@ -421,9 +435,13 @@
         "図"
       ],
       "verification": {
-        "status": "unverified",
-        "methods": [],
-        "verifiedAt": null,
+        "status": "ai-verified",
+        "methods": [
+          "independent-solve",
+          "script",
+          "quality-review"
+        ],
+        "verifiedAt": "2026-10-01",
         "script": "tools/verify/checks/tech-dev-03.mjs"
       },
       "source": "original"
@@ -466,9 +484,12 @@
         "モジュール設計"
       ],
       "verification": {
-        "status": "unverified",
-        "methods": [],
-        "verifiedAt": null
+        "status": "ai-verified",
+        "methods": [
+          "independent-solve",
+          "quality-review"
+        ],
+        "verifiedAt": "2026-10-01"
       },
       "source": "original"
     },
@@ -531,9 +552,13 @@
         "カバレージ"
       ],
       "verification": {
-        "status": "unverified",
-        "methods": [],
-        "verifiedAt": null,
+        "status": "ai-verified",
+        "methods": [
+          "independent-solve",
+          "script",
+          "quality-review"
+        ],
+        "verifiedAt": "2026-10-01",
         "script": "tools/verify/checks/tech-dev-03.mjs"
       },
       "source": "original"
@@ -579,9 +604,13 @@
         "限界値分析"
       ],
       "verification": {
-        "status": "unverified",
-        "methods": [],
-        "verifiedAt": null,
+        "status": "ai-verified",
+        "methods": [
+          "independent-solve",
+          "script",
+          "quality-review"
+        ],
+        "verifiedAt": "2026-10-01",
         "script": "tools/verify/checks/tech-dev-03.mjs"
       },
       "source": "original"
@@ -626,9 +655,13 @@
         "品質"
       ],
       "verification": {
-        "status": "unverified",
-        "methods": [],
-        "verifiedAt": null,
+        "status": "ai-verified",
+        "methods": [
+          "independent-solve",
+          "script",
+          "quality-review"
+        ],
+        "verifiedAt": "2026-10-01",
         "script": "tools/verify/checks/tech-dev-03.mjs"
       },
       "source": "original"
@@ -669,9 +702,12 @@
         "ソフトウェア設計"
       ],
       "verification": {
-        "status": "unverified",
-        "methods": [],
-        "verifiedAt": null
+        "status": "ai-verified",
+        "methods": [
+          "independent-solve",
+          "quality-review"
+        ],
+        "verifiedAt": "2026-10-01"
       },
       "source": "original"
     },
@@ -712,9 +748,12 @@
         "システム移行"
       ],
       "verification": {
-        "status": "unverified",
-        "methods": [],
-        "verifiedAt": null
+        "status": "ai-verified",
+        "methods": [
+          "independent-solve",
+          "quality-review"
+        ],
+        "verifiedAt": "2026-10-01"
       },
       "source": "original"
     },
@@ -756,9 +795,12 @@
         "テスト"
       ],
       "verification": {
-        "status": "unverified",
-        "methods": [],
-        "verifiedAt": null
+        "status": "ai-verified",
+        "methods": [
+          "independent-solve",
+          "quality-review"
+        ],
+        "verifiedAt": "2026-10-01"
       },
       "source": "original"
     },
@@ -801,9 +843,13 @@
         "スクラム"
       ],
       "verification": {
-        "status": "unverified",
-        "methods": [],
-        "verifiedAt": null,
+        "status": "ai-verified",
+        "methods": [
+          "independent-solve",
+          "script",
+          "quality-review"
+        ],
+        "verifiedAt": "2026-10-01",
         "script": "tools/verify/checks/tech-dev-03.mjs"
       },
       "source": "original"
@@ -848,9 +894,12 @@
       ],
       "asOf": "2020-11",
       "verification": {
-        "status": "unverified",
-        "methods": [],
-        "verifiedAt": null
+        "status": "ai-verified",
+        "methods": [
+          "independent-solve",
+          "quality-review"
+        ],
+        "verifiedAt": "2026-10-01"
       },
       "source": "original"
     },
@@ -892,9 +941,12 @@
         "構成管理"
       ],
       "verification": {
-        "status": "unverified",
-        "methods": [],
-        "verifiedAt": null
+        "status": "ai-verified",
+        "methods": [
+          "independent-solve",
+          "quality-review"
+        ],
+        "verifiedAt": "2026-10-01"
       },
       "source": "original"
     },
@@ -935,9 +987,12 @@
       ],
       "asOf": "2026-10",
       "verification": {
-        "status": "unverified",
-        "methods": [],
-        "verifiedAt": null
+        "status": "ai-verified",
+        "methods": [
+          "independent-solve",
+          "quality-review"
+        ],
+        "verifiedAt": "2026-10-01"
       },
       "source": "original"
     },
@@ -980,9 +1035,12 @@
         "アジャイル"
       ],
       "verification": {
-        "status": "unverified",
-        "methods": [],
-        "verifiedAt": null
+        "status": "ai-verified",
+        "methods": [
+          "independent-solve",
+          "quality-review"
+        ],
+        "verifiedAt": "2026-10-01"
       },
       "source": "original"
     },
@@ -1071,9 +1129,13 @@
         "バージョン管理"
       ],
       "verification": {
-        "status": "unverified",
-        "methods": [],
-        "verifiedAt": null,
+        "status": "ai-verified",
+        "methods": [
+          "independent-solve",
+          "script",
+          "quality-review"
+        ],
+        "verifiedAt": "2026-10-01",
         "script": "tools/verify/checks/tech-dev-03.mjs"
       },
       "source": "original"

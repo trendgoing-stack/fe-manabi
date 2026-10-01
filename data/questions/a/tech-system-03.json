@@ -42,9 +42,12 @@
         "DMA"
       ],
       "verification": {
-        "status": "unverified",
-        "methods": [],
-        "verifiedAt": null
+        "status": "ai-verified",
+        "methods": [
+          "independent-solve",
+          "quality-review"
+        ],
+        "verifiedAt": "2026-10-01"
       },
       "source": "original"
     },
@@ -88,9 +91,12 @@
         "メモリインタリーブ"
       ],
       "verification": {
-        "status": "unverified",
-        "methods": [],
-        "verifiedAt": null
+        "status": "ai-verified",
+        "methods": [
+          "independent-solve",
+          "quality-review"
+        ],
+        "verifiedAt": "2026-10-01"
       },
       "source": "original"
     },
@@ -188,9 +194,13 @@
         "ライトバック"
       ],
       "verification": {
-        "status": "unverified",
-        "methods": [],
-        "verifiedAt": null,
+        "status": "ai-verified",
+        "methods": [
+          "independent-solve",
+          "script",
+          "quality-review"
+        ],
+        "verifiedAt": "2026-10-01",
         "script": "tools/verify/checks/tech-system-03.mjs"
       },
       "source": "original"
@@ -235,9 +245,12 @@
         "割込み"
       ],
       "verification": {
-        "status": "unverified",
-        "methods": [],
-        "verifiedAt": null
+        "status": "ai-verified",
+        "methods": [
+          "independent-solve",
+          "quality-review"
+        ],
+        "verifiedAt": "2026-10-01"
       },
       "source": "original"
     },
@@ -280,9 +293,13 @@
         "転送速度"
       ],
       "verification": {
-        "status": "unverified",
-        "methods": [],
-        "verifiedAt": null,
+        "status": "ai-verified",
+        "methods": [
+          "independent-solve",
+          "script",
+          "quality-review"
+        ],
+        "verifiedAt": "2026-10-01",
         "script": "tools/verify/checks/tech-system-03.mjs"
       },
       "source": "original"
@@ -326,9 +343,13 @@
         "アムダールの法則"
       ],
       "verification": {
-        "status": "unverified",
-        "methods": [],
-        "verifiedAt": null,
+        "status": "ai-verified",
+        "methods": [
+          "independent-solve",
+          "script",
+          "quality-review"
+        ],
+        "verifiedAt": "2026-10-01",
         "script": "tools/verify/checks/tech-system-03.mjs"
       },
       "source": "original"
@@ -478,9 +499,13 @@
         "図"
       ],
       "verification": {
-        "status": "unverified",
-        "methods": [],
-        "verifiedAt": null,
+        "status": "ai-verified",
+        "methods": [
+          "independent-solve",
+          "script",
+          "quality-review"
+        ],
+        "verifiedAt": "2026-10-01",
         "script": "tools/verify/checks/tech-system-03.mjs"
       },
       "source": "original"
@@ -623,9 +648,13 @@
         "図"
       ],
       "verification": {
-        "status": "unverified",
-        "methods": [],
-        "verifiedAt": null,
+        "status": "ai-verified",
+        "methods": [
+          "independent-solve",
+          "script",
+          "quality-review"
+        ],
+        "verifiedAt": "2026-10-01",
         "script": "tools/verify/checks/tech-system-03.mjs"
       },
       "source": "original"
@@ -742,9 +771,13 @@
         "図"
       ],
       "verification": {
-        "status": "unverified",
-        "methods": [],
-        "verifiedAt": null,
+        "status": "ai-verified",
+        "methods": [
+          "independent-solve",
+          "script",
+          "quality-review"
+        ],
+        "verifiedAt": "2026-10-01",
         "script": "tools/verify/checks/tech-system-03.mjs"
       },
       "source": "original"
@@ -786,9 +819,12 @@
         "仮想化"
       ],
       "verification": {
-        "status": "unverified",
-        "methods": [],
-        "verifiedAt": null
+        "status": "ai-verified",
+        "methods": [
+          "independent-solve",
+          "quality-review"
+        ],
+        "verifiedAt": "2026-10-01"
       },
       "source": "original"
     },
@@ -832,9 +868,13 @@
         "RAID"
       ],
       "verification": {
-        "status": "unverified",
-        "methods": [],
-        "verifiedAt": null,
+        "status": "ai-verified",
+        "methods": [
+          "independent-solve",
+          "script",
+          "quality-review"
+        ],
+        "verifiedAt": "2026-10-01",
         "script": "tools/verify/checks/tech-system-03.mjs"
       },
       "source": "original"
@@ -883,9 +923,13 @@
         "MTTR"
       ],
       "verification": {
-        "status": "unverified",
-        "methods": [],
-        "verifiedAt": null,
+        "status": "ai-verified",
+        "methods": [
+          "independent-solve",
+          "script",
+          "quality-review"
+        ],
+        "verifiedAt": "2026-10-01",
         "script": "tools/verify/checks/tech-system-03.mjs"
       },
       "source": "original"
@@ -930,9 +974,12 @@
         "冗長化"
       ],
       "verification": {
-        "status": "unverified",
-        "methods": [],
-        "verifiedAt": null
+        "status": "ai-verified",
+        "methods": [
+          "independent-solve",
+          "quality-review"
+        ],
+        "verifiedAt": "2026-10-01"
       },
       "source": "original"
     },
@@ -977,9 +1024,13 @@
         "システムの経済性"
       ],
       "verification": {
-        "status": "unverified",
-        "methods": [],
-        "verifiedAt": null,
+        "status": "ai-verified",
+        "methods": [
+          "independent-solve",
+          "script",
+          "quality-review"
+        ],
+        "verifiedAt": "2026-10-01",
         "script": "tools/verify/checks/tech-system-03.mjs"
       },
       "source": "original"
@@ -1025,9 +1076,13 @@
         "故障率"
       ],
       "verification": {
-        "status": "unverified",
-        "methods": [],
-        "verifiedAt": null,
+        "status": "ai-verified",
+        "methods": [
+          "independent-solve",
+          "script",
+          "quality-review"
+        ],
+        "verifiedAt": "2026-10-01",
         "script": "tools/verify/checks/tech-system-03.mjs"
       },
       "source": "original"
@@ -1131,9 +1186,13 @@
         "図"
       ],
       "verification": {
-        "status": "unverified",
-        "methods": [],
-        "verifiedAt": null,
+        "status": "ai-verified",
+        "methods": [
+          "independent-solve",
+          "script",
+          "quality-review"
+        ],
+        "verifiedAt": "2026-10-01",
         "script": "tools/verify/checks/tech-system-03.mjs"
       },
       "source": "original"
@@ -1216,9 +1275,13 @@
         "図"
       ],
       "verification": {
-        "status": "unverified",
-        "methods": [],
-        "verifiedAt": null,
+        "status": "ai-verified",
+        "methods": [
+          "independent-solve",
+          "script",
+          "quality-review"
+        ],
+        "verifiedAt": "2026-10-01",
         "script": "tools/verify/checks/tech-system-03.mjs"
       },
       "source": "original"
@@ -1266,9 +1329,13 @@
         "ページ置換え"
       ],
       "verification": {
-        "status": "unverified",
-        "methods": [],
-        "verifiedAt": null,
+        "status": "ai-verified",
+        "methods": [
+          "independent-solve",
+          "script",
+          "quality-review"
+        ],
+        "verifiedAt": "2026-10-01",
         "script": "tools/verify/checks/tech-system-03.mjs"
       },
       "source": "original"
@@ -1312,9 +1379,12 @@
         "プログラムの性質"
       ],
       "verification": {
-        "status": "unverified",
-        "methods": [],
-        "verifiedAt": null
+        "status": "ai-verified",
+        "methods": [
+          "independent-solve",
+          "quality-review"
+        ],
+        "verifiedAt": "2026-10-01"
       },
       "source": "original"
     },
@@ -1354,9 +1424,12 @@
         "OS"
       ],
       "verification": {
-        "status": "unverified",
-        "methods": [],
-        "verifiedAt": null
+        "status": "ai-verified",
+        "methods": [
+          "independent-solve",
+          "quality-review"
+        ],
+        "verifiedAt": "2026-10-01"
       },
       "source": "original"
     },
@@ -1399,9 +1472,12 @@
         "ファイル編成"
       ],
       "verification": {
-        "status": "unverified",
-        "methods": [],
-        "verifiedAt": null
+        "status": "ai-verified",
+        "methods": [
+          "independent-solve",
+          "quality-review"
+        ],
+        "verifiedAt": "2026-10-01"
       },
       "source": "original"
     },
@@ -1444,9 +1520,12 @@
         "ユーザーインタフェース"
       ],
       "verification": {
-        "status": "unverified",
-        "methods": [],
-        "verifiedAt": null
+        "status": "ai-verified",
+        "methods": [
+          "independent-solve",
+          "quality-review"
+        ],
+        "verifiedAt": "2026-10-01"
       },
       "source": "original"
     },
@@ -1488,9 +1567,12 @@
         "ユーザビリティ"
       ],
       "verification": {
-        "status": "unverified",
-        "methods": [],
-        "verifiedAt": null
+        "status": "ai-verified",
+        "methods": [
+          "independent-solve",
+          "quality-review"
+        ],
+        "verifiedAt": "2026-10-01"
       },
       "source": "original"
     },
@@ -1533,9 +1615,13 @@
         "解像度"
       ],
       "verification": {
-        "status": "unverified",
-        "methods": [],
-        "verifiedAt": null,
+        "status": "ai-verified",
+        "methods": [
+          "independent-solve",
+          "script",
+          "quality-review"
+        ],
+        "verifiedAt": "2026-10-01",
         "script": "tools/verify/checks/tech-system-03.mjs"
       },
       "source": "original"
@@ -1579,9 +1665,12 @@
         "画像形式"
       ],
       "verification": {
-        "status": "unverified",
-        "methods": [],
-        "verifiedAt": null
+        "status": "ai-verified",
+        "methods": [
+          "independent-solve",
+          "quality-review"
+        ],
+        "verifiedAt": "2026-10-01"
       },
       "source": "original"
     },
@@ -1622,9 +1711,12 @@
         "AR"
       ],
       "verification": {
-        "status": "unverified",
-        "methods": [],
-        "verifiedAt": null
+        "status": "ai-verified",
+        "methods": [
+          "independent-solve",
+          "quality-review"
+        ],
+        "verifiedAt": "2026-10-01"
       },
       "source": "original"
     }

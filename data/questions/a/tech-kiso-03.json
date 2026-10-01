@@ -42,9 +42,13 @@
         "丸め誤差"
       ],
       "verification": {
-        "status": "unverified",
-        "methods": [],
-        "verifiedAt": null,
+        "status": "ai-verified",
+        "methods": [
+          "independent-solve",
+          "script",
+          "quality-review"
+        ],
+        "verifiedAt": "2026-10-01",
         "script": "tools/verify/checks/tech-kiso-03.mjs"
       },
       "source": "original"
@@ -86,9 +90,13 @@
         "集合"
       ],
       "verification": {
-        "status": "unverified",
-        "methods": [],
-        "verifiedAt": null,
+        "status": "ai-verified",
+        "methods": [
+          "independent-solve",
+          "script",
+          "quality-review"
+        ],
+        "verifiedAt": "2026-10-01",
         "script": "tools/verify/checks/tech-kiso-03.mjs"
       },
       "source": "original"
@@ -132,9 +140,13 @@
         "条件付き確率"
       ],
       "verification": {
-        "status": "unverified",
-        "methods": [],
-        "verifiedAt": null,
+        "status": "ai-verified",
+        "methods": [
+          "independent-solve",
+          "script",
+          "quality-review"
+        ],
+        "verifiedAt": "2026-10-01",
         "script": "tools/verify/checks/tech-kiso-03.mjs"
       },
       "source": "original"
@@ -176,9 +188,12 @@
         "相関"
       ],
       "verification": {
-        "status": "unverified",
-        "methods": [],
-        "verifiedAt": null
+        "status": "ai-verified",
+        "methods": [
+          "independent-solve",
+          "quality-review"
+        ],
+        "verifiedAt": "2026-10-01"
       },
       "source": "original"
     },
@@ -221,9 +236,13 @@
         "数値の表現"
       ],
       "verification": {
-        "status": "unverified",
-        "methods": [],
-        "verifiedAt": null,
+        "status": "ai-verified",
+        "methods": [
+          "independent-solve",
+          "script",
+          "quality-review"
+        ],
+        "verifiedAt": "2026-10-01",
         "script": "tools/verify/checks/tech-kiso-03.mjs"
       },
       "source": "original"
@@ -268,9 +287,13 @@
         "ハミング符号"
       ],
       "verification": {
-        "status": "unverified",
-        "methods": [],
-        "verifiedAt": null,
+        "status": "ai-verified",
+        "methods": [
+          "independent-solve",
+          "script",
+          "quality-review"
+        ],
+        "verifiedAt": "2026-10-01",
         "script": "tools/verify/checks/tech-kiso-03.mjs"
       },
       "source": "original"
@@ -312,9 +335,13 @@
         "形式言語"
       ],
       "verification": {
-        "status": "unverified",
-        "methods": [],
-        "verifiedAt": null,
+        "status": "ai-verified",
+        "methods": [
+          "independent-solve",
+          "script",
+          "quality-review"
+        ],
+        "verifiedAt": "2026-10-01",
         "script": "tools/verify/checks/tech-kiso-03.mjs"
       },
       "source": "original"
@@ -356,9 +383,12 @@
         "機械学習"
       ],
       "verification": {
-        "status": "unverified",
-        "methods": [],
-        "verifiedAt": null
+        "status": "ai-verified",
+        "methods": [
+          "independent-solve",
+          "quality-review"
+        ],
+        "verifiedAt": "2026-10-01"
       },
       "source": "original"
     },
@@ -403,9 +433,13 @@
         "量子化"
       ],
       "verification": {
-        "status": "unverified",
-        "methods": [],
-        "verifiedAt": null,
+        "status": "ai-verified",
+        "methods": [
+          "independent-solve",
+          "script",
+          "quality-review"
+        ],
+        "verifiedAt": "2026-10-01",
         "script": "tools/verify/checks/tech-kiso-03.mjs"
       },
       "source": "original"
@@ -448,9 +482,13 @@
         "ビット操作"
       ],
       "verification": {
-        "status": "unverified",
-        "methods": [],
-        "verifiedAt": null,
+        "status": "ai-verified",
+        "methods": [
+          "independent-solve",
+          "script",
+          "quality-review"
+        ],
+        "verifiedAt": "2026-10-01",
         "script": "tools/verify/checks/tech-kiso-03.mjs"
       },
       "source": "original"
@@ -552,9 +590,13 @@
         "状態遷移図"
       ],
       "verification": {
-        "status": "unverified",
-        "methods": [],
-        "verifiedAt": null,
+        "status": "ai-verified",
+        "methods": [
+          "independent-solve",
+          "script",
+          "quality-review"
+        ],
+        "verifiedAt": "2026-10-01",
         "script": "tools/verify/checks/tech-kiso-03.mjs"
       },
       "source": "original"
@@ -655,9 +697,13 @@
         "状態遷移図"
       ],
       "verification": {
-        "status": "unverified",
-        "methods": [],
-        "verifiedAt": null,
+        "status": "ai-verified",
+        "methods": [
+          "independent-solve",
+          "script",
+          "quality-review"
+        ],
+        "verifiedAt": "2026-10-01",
         "script": "tools/verify/checks/tech-kiso-03.mjs"
       },
       "source": "original"
@@ -763,9 +809,13 @@
         "論理回路"
       ],
       "verification": {
-        "status": "unverified",
-        "methods": [],
-        "verifiedAt": null,
+        "status": "ai-verified",
+        "methods": [
+          "independent-solve",
+          "script",
+          "quality-review"
+        ],
+        "verifiedAt": "2026-10-01",
         "script": "tools/verify/checks/tech-kiso-03.mjs"
       },
       "source": "original"
@@ -866,9 +916,13 @@
         "真理値表"
       ],
       "verification": {
-        "status": "unverified",
-        "methods": [],
-        "verifiedAt": null,
+        "status": "ai-verified",
+        "methods": [
+          "independent-solve",
+          "script",
+          "quality-review"
+        ],
+        "verifiedAt": "2026-10-01",
         "script": "tools/verify/checks/tech-kiso-03.mjs"
       },
       "source": "original"
@@ -951,9 +1005,13 @@
         "木構造"
       ],
       "verification": {
-        "status": "unverified",
-        "methods": [],
-        "verifiedAt": null,
+        "status": "ai-verified",
+        "methods": [
+          "independent-solve",
+          "script",
+          "quality-review"
+        ],
+        "verifiedAt": "2026-10-01",
         "script": "tools/verify/checks/tech-kiso-03.mjs"
       },
       "source": "original"
@@ -1037,9 +1095,13 @@
         "木構造"
       ],
       "verification": {
-        "status": "unverified",
-        "methods": [],
-        "verifiedAt": null,
+        "status": "ai-verified",
+        "methods": [
+          "independent-solve",
+          "script",
+          "quality-review"
+        ],
+        "verifiedAt": "2026-10-01",
         "script": "tools/verify/checks/tech-kiso-03.mjs"
       },
       "source": "original"
@@ -1122,9 +1184,13 @@
         "構文木"
       ],
       "verification": {
-        "status": "unverified",
-        "methods": [],
-        "verifiedAt": null,
+        "status": "ai-verified",
+        "methods": [
+          "independent-solve",
+          "script",
+          "quality-review"
+        ],
+        "verifiedAt": "2026-10-01",
         "script": "tools/verify/checks/tech-kiso-03.mjs"
       },
       "source": "original"
@@ -1167,9 +1233,13 @@
         "スタック"
       ],
       "verification": {
-        "status": "unverified",
-        "methods": [],
-        "verifiedAt": null,
+        "status": "ai-verified",
+        "methods": [
+          "independent-solve",
+          "script",
+          "quality-review"
+        ],
+        "verifiedAt": "2026-10-01",
         "script": "tools/verify/checks/tech-kiso-03.mjs"
       },
       "source": "original"
@@ -1213,9 +1283,13 @@
         "循環バッファ"
       ],
       "verification": {
-        "status": "unverified",
-        "methods": [],
-        "verifiedAt": null,
+        "status": "ai-verified",
+        "methods": [
+          "independent-solve",
+          "script",
+          "quality-review"
+        ],
+        "verifiedAt": "2026-10-01",
         "script": "tools/verify/checks/tech-kiso-03.mjs"
       },
       "source": "original"
@@ -1291,9 +1365,13 @@
         "ポインタ"
       ],
       "verification": {
-        "status": "unverified",
-        "methods": [],
-        "verifiedAt": null,
+        "status": "ai-verified",
+        "methods": [
+          "independent-solve",
+          "script",
+          "quality-review"
+        ],
+        "verifiedAt": "2026-10-01",
         "script": "tools/verify/checks/tech-kiso-03.mjs"
       },
       "source": "original"
@@ -1337,9 +1415,13 @@
         "2分探索"
       ],
       "verification": {
-        "status": "unverified",
-        "methods": [],
-        "verifiedAt": null,
+        "status": "ai-verified",
+        "methods": [
+          "independent-solve",
+          "script",
+          "quality-review"
+        ],
+        "verifiedAt": "2026-10-01",
         "script": "tools/verify/checks/tech-kiso-03.mjs"
       },
       "source": "original"
@@ -1382,9 +1464,13 @@
         "ハッシュ"
       ],
       "verification": {
-        "status": "unverified",
-        "methods": [],
-        "verifiedAt": null,
+        "status": "ai-verified",
+        "methods": [
+          "independent-solve",
+          "script",
+          "quality-review"
+        ],
+        "verifiedAt": "2026-10-01",
         "script": "tools/verify/checks/tech-kiso-03.mjs"
       },
       "source": "original"
@@ -1430,9 +1516,13 @@
         "選択ソート"
       ],
       "verification": {
-        "status": "unverified",
-        "methods": [],
-        "verifiedAt": null,
+        "status": "ai-verified",
+        "methods": [
+          "independent-solve",
+          "script",
+          "quality-review"
+        ],
+        "verifiedAt": "2026-10-01",
         "script": "tools/verify/checks/tech-kiso-03.mjs"
       },
       "source": "original"
@@ -1476,9 +1566,13 @@
         "マージ"
       ],
       "verification": {
-        "status": "unverified",
-        "methods": [],
-        "verifiedAt": null,
+        "status": "ai-verified",
+        "methods": [
+          "independent-solve",
+          "script",
+          "quality-review"
+        ],
+        "verifiedAt": "2026-10-01",
         "script": "tools/verify/checks/tech-kiso-03.mjs"
       },
       "source": "original"
@@ -1523,9 +1617,13 @@
         "互除法"
       ],
       "verification": {
-        "status": "unverified",
-        "methods": [],
-        "verifiedAt": null,
+        "status": "ai-verified",
+        "methods": [
+          "independent-solve",
+          "script",
+          "quality-review"
+        ],
+        "verifiedAt": "2026-10-01",
         "script": "tools/verify/checks/tech-kiso-03.mjs"
       },
       "source": "original"
@@ -1623,9 +1721,13 @@
         "最短経路"
       ],
       "verification": {
-        "status": "unverified",
-        "methods": [],
-        "verifiedAt": null,
+        "status": "ai-verified",
+        "methods": [
+          "independent-solve",
+          "script",
+          "quality-review"
+        ],
+        "verifiedAt": "2026-10-01",
         "script": "tools/verify/checks/tech-kiso-03.mjs"
       },
       "source": "original"
@@ -1668,9 +1770,12 @@
         "オブジェクト指向"
       ],
       "verification": {
-        "status": "unverified",
-        "methods": [],
-        "verifiedAt": null
+        "status": "ai-verified",
+        "methods": [
+          "independent-solve",
+          "quality-review"
+        ],
+        "verifiedAt": "2026-10-01"
       },
       "source": "original"
     },
@@ -1711,9 +1816,12 @@
         "有効範囲"
       ],
       "verification": {
-        "status": "unverified",
-        "methods": [],
-        "verifiedAt": null
+        "status": "ai-verified",
+        "methods": [
+          "independent-solve",
+          "quality-review"
+        ],
+        "verifiedAt": "2026-10-01"
       },
       "source": "original"
     }
