@@ -29,12 +29,12 @@
  */
 
 /**
- * @typedef {Object} CodeData  擬似言語（フェーズ4）
+ * @typedef {Object} CodeData  擬似言語のコード（1要素が1行）
  * @property {string[]} lines
  */
 
 /**
- * @typedef {Object} FigureData  図データ（フェーズ3）
+ * @typedef {Object} FigureData  図データ（CONTENT.md「図データ」）
  * @property {'tree'|'state'|'er'|'network'|'logic'|'gantt'|'arrow'} type
  */
 
@@ -65,7 +65,7 @@
  */
 
 /**
- * 科目B用：共通の題材＋複数の設問（フェーズ4で実装）
+ * 科目B用：共通の題材＋複数の設問
  * @typedef {Object} QuestionSet
  * @property {string} setId
  * @property {Subject} subject

@@ -45,7 +45,7 @@
           "independent-solve",
           "quality-review"
         ],
-        "verifiedAt": "2026-10-01"
+        "verifiedAt": "2026-10-02"
       },
       "source": "original"
     },
@@ -94,7 +94,7 @@
           "independent-solve",
           "quality-review"
         ],
-        "verifiedAt": "2026-10-01"
+        "verifiedAt": "2026-10-02"
       },
       "source": "original"
     },
@@ -142,7 +142,7 @@
           "independent-solve",
           "quality-review"
         ],
-        "verifiedAt": "2026-10-01"
+        "verifiedAt": "2026-10-02"
       },
       "source": "original"
     },
@@ -193,7 +193,7 @@
           "script",
           "quality-review"
         ],
-        "verifiedAt": "2026-10-01",
+        "verifiedAt": "2026-10-02",
         "script": "tools/verify/checks/strat-02.mjs"
       },
       "source": "original"
@@ -244,7 +244,7 @@
           "independent-solve",
           "quality-review"
         ],
-        "verifiedAt": "2026-10-01"
+        "verifiedAt": "2026-10-02"
       },
       "source": "original"
     },
@@ -292,7 +292,7 @@
           "independent-solve",
           "quality-review"
         ],
-        "verifiedAt": "2026-10-01"
+        "verifiedAt": "2026-10-02"
       },
       "source": "original"
     },
@@ -340,7 +340,7 @@
           "independent-solve",
           "quality-review"
         ],
-        "verifiedAt": "2026-10-01"
+        "verifiedAt": "2026-10-02"
       },
       "source": "original"
     },
@@ -395,7 +395,7 @@
           "independent-solve",
           "quality-review"
         ],
-        "verifiedAt": "2026-10-01"
+        "verifiedAt": "2026-10-02"
       },
       "source": "original"
     },
@@ -445,7 +445,7 @@
           "independent-solve",
           "quality-review"
         ],
-        "verifiedAt": "2026-10-01"
+        "verifiedAt": "2026-10-02"
       },
       "source": "original"
     },
@@ -493,7 +493,7 @@
           "independent-solve",
           "quality-review"
         ],
-        "verifiedAt": "2026-10-01"
+        "verifiedAt": "2026-10-02"
       },
       "source": "original"
     },
@@ -541,7 +541,7 @@
           "independent-solve",
           "quality-review"
         ],
-        "verifiedAt": "2026-10-01"
+        "verifiedAt": "2026-10-02"
       },
       "source": "original"
     },
@@ -592,7 +592,7 @@
           "independent-solve",
           "quality-review"
         ],
-        "verifiedAt": "2026-10-01"
+        "verifiedAt": "2026-10-02"
       },
       "source": "original"
     },
@@ -641,7 +641,7 @@
           "script",
           "quality-review"
         ],
-        "verifiedAt": "2026-10-01",
+        "verifiedAt": "2026-10-02",
         "script": "tools/verify/checks/strat-02.mjs"
       },
       "source": "original"
@@ -693,7 +693,7 @@
           "script",
           "quality-review"
         ],
-        "verifiedAt": "2026-10-01",
+        "verifiedAt": "2026-10-02",
         "script": "tools/verify/checks/strat-02.mjs"
       },
       "source": "original"
@@ -774,7 +774,7 @@
           "script",
           "quality-review"
         ],
-        "verifiedAt": "2026-10-01",
+        "verifiedAt": "2026-10-02",
         "script": "tools/verify/checks/strat-02.mjs"
       },
       "source": "original"
@@ -855,7 +855,7 @@
           "script",
           "quality-review"
         ],
-        "verifiedAt": "2026-10-01",
+        "verifiedAt": "2026-10-02",
         "script": "tools/verify/checks/strat-02.mjs"
       },
       "source": "original"
@@ -904,7 +904,7 @@
           "independent-solve",
           "quality-review"
         ],
-        "verifiedAt": "2026-10-01"
+        "verifiedAt": "2026-10-02"
       },
       "source": "original"
     },
@@ -955,7 +955,7 @@
           "quality-review",
           "web-source"
         ],
-        "verifiedAt": "2026-10-01",
+        "verifiedAt": "2026-10-02",
         "note": "不正競争防止法 第2条第6項（営業秘密の定義：秘密として管理されている／事業活動に有用な技術上又は営業上の情報／公然と知られていないもの）。e-Gov法令検索（法令API、法令ID 405AC0000000047）で現行条文を確認。確認日 2026-10-01。"
       },
       "source": "original"
@@ -1007,7 +1007,7 @@
           "quality-review",
           "web-source"
         ],
-        "verifiedAt": "2026-10-01",
+        "verifiedAt": "2026-10-02",
         "note": "意匠法 第2条第1項（意匠の定義）、特許法 第2条第1項（発明の定義）、実用新案法 第1条・第2条第1項（物品の形状、構造又は組合せに係る考案）、商標法 第2条第1項（商標の定義）。e-Gov法令検索（法令API、法令ID 334AC0000000125／334AC0000000121／334AC0000000123／334AC0000000127）で現行条文を確認。確認日 2026-10-01。"
       },
       "source": "original"
@@ -1056,7 +1056,7 @@
           "quality-review",
           "web-source"
         ],
-        "verifiedAt": "2026-10-01",
+        "verifiedAt": "2026-10-02",
         "note": "労働基準法 第36条第1項（過半数労働組合又は過半数代表者との書面による協定と行政官庁への届出）、第32条（法定労働時間）、第36条第3項・第4項（延長時間の限度があること。問題と解説では具体的な時間数に触れていない）。e-Gov法令検索（法令API、法令ID 322AC0000000049）で現行条文を確認。確認日 2026-10-01。"
       },
       "source": "original"
@@ -1107,7 +1107,7 @@
           "quality-review",
           "web-source"
         ],
-        "verifiedAt": "2026-10-01",
+        "verifiedAt": "2026-10-02",
         "note": "製造物責任法 第2条第1項（製造物＝製造又は加工された動産）、第2条第2項（欠陥）、第3条本文及びただし書（損害が当該製造物についてのみ生じたときは対象外）。e-Gov法令検索（法令API、法令ID 406AC0000000085）で現行条文を確認。ソフトウェア単体と役務が製造物に当たらない点は、同条と民法 第85条（物＝有体物）・第86条（動産）からの解釈（法令ID 129AC0000000089で条文を確認）。確認日 2026-10-01。ソフトウェア自体が無体物で対象外であること、損害が当該製造物のみの場合は対象外であることは消費者庁『製造物責任法の概要Q&A』Q3・Q5ほかで確認。役務については同Q&Aに直接の記述がなく、第2条第1項（動産）からの解釈。"
       },
       "source": "original"

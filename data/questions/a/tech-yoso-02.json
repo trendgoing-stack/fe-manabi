@@ -93,7 +93,7 @@
           "script",
           "quality-review"
         ],
-        "verifiedAt": "2026-10-01",
+        "verifiedAt": "2026-10-02",
         "script": "tools/verify/checks/tech-yoso-02.mjs"
       },
       "source": "original"
@@ -145,7 +145,7 @@
           "independent-solve",
           "quality-review"
         ],
-        "verifiedAt": "2026-10-01"
+        "verifiedAt": "2026-10-02"
       },
       "source": "original"
     },
@@ -192,7 +192,7 @@
           "independent-solve",
           "quality-review"
         ],
-        "verifiedAt": "2026-10-01"
+        "verifiedAt": "2026-10-02"
       },
       "source": "original"
     },
@@ -240,7 +240,7 @@
           "independent-solve",
           "quality-review"
         ],
-        "verifiedAt": "2026-10-01"
+        "verifiedAt": "2026-10-02"
       },
       "source": "original"
     },
@@ -290,7 +290,7 @@
           "independent-solve",
           "quality-review"
         ],
-        "verifiedAt": "2026-10-01"
+        "verifiedAt": "2026-10-02"
       },
       "source": "original"
     },
@@ -389,7 +389,7 @@
           "script",
           "quality-review"
         ],
-        "verifiedAt": "2026-10-01",
+        "verifiedAt": "2026-10-02",
         "script": "tools/verify/checks/tech-yoso-02.mjs"
       },
       "source": "original"
@@ -438,7 +438,7 @@
           "independent-solve",
           "quality-review"
         ],
-        "verifiedAt": "2026-10-01"
+        "verifiedAt": "2026-10-02"
       },
       "source": "original"
     },
@@ -490,7 +490,7 @@
           "script",
           "quality-review"
         ],
-        "verifiedAt": "2026-10-01",
+        "verifiedAt": "2026-10-02",
         "script": "tools/verify/checks/tech-yoso-02.mjs"
       },
       "source": "original"
@@ -539,7 +539,7 @@
           "script",
           "quality-review"
         ],
-        "verifiedAt": "2026-10-01",
+        "verifiedAt": "2026-10-02",
         "script": "tools/verify/checks/tech-yoso-02.mjs"
       },
       "source": "original"
@@ -588,7 +588,7 @@
           "script",
           "quality-review"
         ],
-        "verifiedAt": "2026-10-01",
+        "verifiedAt": "2026-10-02",
         "script": "tools/verify/checks/tech-yoso-02.mjs"
       },
       "source": "original"
@@ -639,7 +639,7 @@
           "independent-solve",
           "quality-review"
         ],
-        "verifiedAt": "2026-10-01"
+        "verifiedAt": "2026-10-02"
       },
       "source": "original"
     },
@@ -686,7 +686,7 @@
           "independent-solve",
           "quality-review"
         ],
-        "verifiedAt": "2026-10-01"
+        "verifiedAt": "2026-10-02"
       },
       "source": "original"
     },
@@ -761,7 +761,7 @@
           "script",
           "quality-review"
         ],
-        "verifiedAt": "2026-10-01",
+        "verifiedAt": "2026-10-02",
         "script": "tools/verify/checks/tech-yoso-02.mjs"
       },
       "source": "original"
@@ -811,7 +811,7 @@
           "independent-solve",
           "quality-review"
         ],
-        "verifiedAt": "2026-10-01"
+        "verifiedAt": "2026-10-02"
       },
       "source": "original"
     },
@@ -859,7 +859,7 @@
           "independent-solve",
           "quality-review"
         ],
-        "verifiedAt": "2026-10-01"
+        "verifiedAt": "2026-10-02"
       },
       "source": "original"
     },
@@ -908,7 +908,7 @@
           "script",
           "quality-review"
         ],
-        "verifiedAt": "2026-10-01",
+        "verifiedAt": "2026-10-02",
         "script": "tools/verify/checks/tech-yoso-02.mjs"
       },
       "source": "original"
@@ -960,7 +960,7 @@
           "independent-solve",
           "quality-review"
         ],
-        "verifiedAt": "2026-10-01"
+        "verifiedAt": "2026-10-02"
       },
       "source": "original"
     },
@@ -1007,7 +1007,7 @@
           "independent-solve",
           "quality-review"
         ],
-        "verifiedAt": "2026-10-01"
+        "verifiedAt": "2026-10-02"
       },
       "source": "original"
     },
@@ -1058,7 +1058,7 @@
           "independent-solve",
           "quality-review"
         ],
-        "verifiedAt": "2026-10-01"
+        "verifiedAt": "2026-10-02"
       },
       "source": "original"
     },
@@ -1109,7 +1109,7 @@
           "independent-solve",
           "quality-review"
         ],
-        "verifiedAt": "2026-10-01"
+        "verifiedAt": "2026-10-02"
       },
       "source": "original"
     },
@@ -1154,7 +1154,7 @@
           "independent-solve",
           "quality-review"
         ],
-        "verifiedAt": "2026-10-01"
+        "verifiedAt": "2026-10-02"
       },
       "source": "original"
     },
@@ -1203,7 +1203,7 @@
           "independent-solve",
           "quality-review"
         ],
-        "verifiedAt": "2026-10-01"
+        "verifiedAt": "2026-10-02"
       },
       "source": "original"
     }

@@ -49,7 +49,7 @@
           "independent-solve",
           "quality-review"
         ],
-        "verifiedAt": "2026-10-01"
+        "verifiedAt": "2026-10-02"
       },
       "source": "original"
     },
@@ -101,7 +101,7 @@
           "independent-solve",
           "quality-review"
         ],
-        "verifiedAt": "2026-10-01"
+        "verifiedAt": "2026-10-02"
       },
       "source": "original"
     },
@@ -153,7 +153,7 @@
           "independent-solve",
           "quality-review"
         ],
-        "verifiedAt": "2026-10-01"
+        "verifiedAt": "2026-10-02"
       },
       "source": "original"
     },
@@ -205,7 +205,7 @@
           "independent-solve",
           "quality-review"
         ],
-        "verifiedAt": "2026-10-01"
+        "verifiedAt": "2026-10-02"
       },
       "source": "original"
     },
@@ -276,7 +276,7 @@
           "script",
           "quality-review"
         ],
-        "verifiedAt": "2026-10-01",
+        "verifiedAt": "2026-10-02",
         "script": "tools/verify/checks/strat-01.mjs"
       },
       "source": "original"
@@ -324,7 +324,7 @@
           "independent-solve",
           "quality-review"
         ],
-        "verifiedAt": "2026-10-01"
+        "verifiedAt": "2026-10-02"
       },
       "source": "original"
     },
@@ -371,7 +371,7 @@
           "independent-solve",
           "quality-review"
         ],
-        "verifiedAt": "2026-10-01"
+        "verifiedAt": "2026-10-02"
       },
       "source": "original"
     },
@@ -418,7 +418,7 @@
           "independent-solve",
           "quality-review"
         ],
-        "verifiedAt": "2026-10-01"
+        "verifiedAt": "2026-10-02"
       },
       "source": "original"
     },
@@ -467,7 +467,7 @@
           "independent-solve",
           "quality-review"
         ],
-        "verifiedAt": "2026-10-01"
+        "verifiedAt": "2026-10-02"
       },
       "source": "original"
     },
@@ -517,7 +517,7 @@
           "independent-solve",
           "quality-review"
         ],
-        "verifiedAt": "2026-10-01"
+        "verifiedAt": "2026-10-02"
       },
       "source": "original"
     },
@@ -565,7 +565,7 @@
           "independent-solve",
           "quality-review"
         ],
-        "verifiedAt": "2026-10-01"
+        "verifiedAt": "2026-10-02"
       },
       "source": "original"
     },
@@ -614,7 +614,7 @@
           "script",
           "quality-review"
         ],
-        "verifiedAt": "2026-10-01",
+        "verifiedAt": "2026-10-02",
         "script": "tools/verify/checks/strat-01.mjs"
       },
       "source": "original"
@@ -669,7 +669,7 @@
           "script",
           "quality-review"
         ],
-        "verifiedAt": "2026-10-01",
+        "verifiedAt": "2026-10-02",
         "script": "tools/verify/checks/strat-01.mjs"
       },
       "source": "original"
@@ -762,7 +762,7 @@
           "script",
           "quality-review"
         ],
-        "verifiedAt": "2026-10-01",
+        "verifiedAt": "2026-10-02",
         "script": "tools/verify/checks/strat-01.mjs"
       },
       "source": "original"
@@ -836,7 +836,7 @@
           "script",
           "quality-review"
         ],
-        "verifiedAt": "2026-10-01",
+        "verifiedAt": "2026-10-02",
         "script": "tools/verify/checks/strat-01.mjs"
       },
       "source": "original"
@@ -885,7 +885,7 @@
           "independent-solve",
           "quality-review"
         ],
-        "verifiedAt": "2026-10-01"
+        "verifiedAt": "2026-10-02"
       },
       "source": "original"
     },
@@ -936,7 +936,7 @@
           "quality-review",
           "web-source"
         ],
-        "verifiedAt": "2026-10-01",
+        "verifiedAt": "2026-10-02",
         "note": "著作権法 第15条第2項（職務上作成するプログラムの著作物の著作者）。e-Gov法令検索（法令API、法令ID 345AC0000000048）で現行条文を確認。確認日 2026-10-01。"
       },
       "source": "original"
@@ -987,7 +987,7 @@
           "quality-review",
           "web-source"
         ],
-        "verifiedAt": "2026-10-01",
+        "verifiedAt": "2026-10-02",
         "note": "不正アクセス行為の禁止等に関する法律 第2条第4項（不正アクセス行為の定義。各号とも「電気通信回線を通じて」が要件）、第7条（識別符号の入力を不正に要求する行為の禁止）。e-Gov法令検索（法令API、法令ID 411AC0000000128）で現行条文を確認。確認日 2026-10-01。"
       },
       "source": "original"
@@ -1038,7 +1038,7 @@
           "quality-review",
           "web-source"
         ],
-        "verifiedAt": "2026-10-01",
+        "verifiedAt": "2026-10-02",
         "note": "個人情報の保護に関する法律 第2条第3項（要配慮個人情報の定義）、同条第2項（個人識別符号）。e-Gov法令検索（法令API、法令ID 415AC0000000057）で現行条文を確認。確認日 2026-10-01。"
       },
       "source": "original"
@@ -1092,7 +1092,7 @@
           "quality-review",
           "web-source"
         ],
-        "verifiedAt": "2026-10-01",
+        "verifiedAt": "2026-10-02",
         "note": "労働者派遣事業の適正な運営の確保及び派遣労働者の保護等に関する法律 第2条第1号（労働者派遣の定義。e-Gov法令検索の法令API、法令ID 360AC0000000088で確認）、労働者派遣事業と請負により行われる事業との区分に関する基準（昭和61年労働省告示第37号）第2条第1号イ・ロ（厚生労働省Webサイト掲載版で確認）。確認日 2026-10-01。"
       },
       "source": "original"

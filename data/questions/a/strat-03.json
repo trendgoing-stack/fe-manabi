@@ -45,7 +45,7 @@
           "independent-solve",
           "quality-review"
         ],
-        "verifiedAt": "2026-10-01"
+        "verifiedAt": "2026-10-02"
       },
       "source": "original"
     },
@@ -96,7 +96,7 @@
           "independent-solve",
           "quality-review"
         ],
-        "verifiedAt": "2026-10-01"
+        "verifiedAt": "2026-10-02"
       },
       "source": "original"
     },
@@ -143,7 +143,7 @@
           "independent-solve",
           "quality-review"
         ],
-        "verifiedAt": "2026-10-01"
+        "verifiedAt": "2026-10-02"
       },
       "source": "original"
     },
@@ -189,7 +189,7 @@
           "independent-solve",
           "quality-review"
         ],
-        "verifiedAt": "2026-10-01"
+        "verifiedAt": "2026-10-02"
       },
       "source": "original"
     },
@@ -238,7 +238,7 @@
           "quality-review",
           "web-source"
         ],
-        "verifiedAt": "2026-10-01",
+        "verifiedAt": "2026-10-02",
         "note": "法令に基づく制度ではなく、IT総合戦略本部 データ流通環境整備検討会「AI、IoT時代におけるデータ活用ワーキンググループ 中間とりまとめ」（2017）の定義による。総務省『平成30年版 情報通信白書』（PDS・情報銀行・データ取引市場）で、情報銀行・PDS・データ取引市場の位置付けと、総務省・経済産業省『情報信託機能の認定に係る指針』による民間の任意認定の仕組みを確認。確認日 2026-10-01。"
       },
       "source": "original"
@@ -286,7 +286,7 @@
           "independent-solve",
           "quality-review"
         ],
-        "verifiedAt": "2026-10-01"
+        "verifiedAt": "2026-10-02"
       },
       "source": "original"
     },
@@ -369,7 +369,7 @@
           "script",
           "quality-review"
         ],
-        "verifiedAt": "2026-10-01",
+        "verifiedAt": "2026-10-02",
         "script": "tools/verify/checks/strat-03.mjs"
       },
       "source": "original"
@@ -421,7 +421,7 @@
           "script",
           "quality-review"
         ],
-        "verifiedAt": "2026-10-01",
+        "verifiedAt": "2026-10-02",
         "script": "tools/verify/checks/strat-03.mjs"
       },
       "source": "original"
@@ -468,7 +468,7 @@
           "independent-solve",
           "quality-review"
         ],
-        "verifiedAt": "2026-10-01"
+        "verifiedAt": "2026-10-02"
       },
       "source": "original"
     },
@@ -553,7 +553,7 @@
           "script",
           "quality-review"
         ],
-        "verifiedAt": "2026-10-01",
+        "verifiedAt": "2026-10-02",
         "script": "tools/verify/checks/strat-03.mjs"
       },
       "source": "original"
@@ -601,7 +601,7 @@
           "independent-solve",
           "quality-review"
         ],
-        "verifiedAt": "2026-10-01"
+        "verifiedAt": "2026-10-02"
       },
       "source": "original"
     },
@@ -647,7 +647,7 @@
           "independent-solve",
           "quality-review"
         ],
-        "verifiedAt": "2026-10-01"
+        "verifiedAt": "2026-10-02"
       },
       "source": "original"
     },
@@ -695,7 +695,7 @@
           "independent-solve",
           "quality-review"
         ],
-        "verifiedAt": "2026-10-01"
+        "verifiedAt": "2026-10-02"
       },
       "source": "original"
     },
@@ -741,7 +741,7 @@
           "independent-solve",
           "quality-review"
         ],
-        "verifiedAt": "2026-10-01"
+        "verifiedAt": "2026-10-02"
       },
       "source": "original"
     },
@@ -790,7 +790,7 @@
           "script",
           "quality-review"
         ],
-        "verifiedAt": "2026-10-01",
+        "verifiedAt": "2026-10-02",
         "script": "tools/verify/checks/strat-03.mjs"
       },
       "source": "original"
@@ -843,7 +843,7 @@
           "independent-solve",
           "quality-review"
         ],
-        "verifiedAt": "2026-10-01"
+        "verifiedAt": "2026-10-02"
       },
       "source": "original"
     },
@@ -889,7 +889,7 @@
           "independent-solve",
           "quality-review"
         ],
-        "verifiedAt": "2026-10-01"
+        "verifiedAt": "2026-10-02"
       },
       "source": "original"
     },
@@ -939,7 +939,7 @@
           "independent-solve",
           "quality-review"
         ],
-        "verifiedAt": "2026-10-01"
+        "verifiedAt": "2026-10-02"
       },
       "source": "original"
     },
@@ -986,7 +986,7 @@
           "independent-solve",
           "quality-review"
         ],
-        "verifiedAt": "2026-10-01"
+        "verifiedAt": "2026-10-02"
       },
       "source": "original"
     },
@@ -1032,7 +1032,7 @@
           "independent-solve",
           "quality-review"
         ],
-        "verifiedAt": "2026-10-01"
+        "verifiedAt": "2026-10-02"
       },
       "source": "original"
     },
@@ -1078,7 +1078,7 @@
           "independent-solve",
           "quality-review"
         ],
-        "verifiedAt": "2026-10-01"
+        "verifiedAt": "2026-10-02"
       },
       "source": "original"
     },
@@ -1127,7 +1127,7 @@
           "script",
           "quality-review"
         ],
-        "verifiedAt": "2026-10-01",
+        "verifiedAt": "2026-10-02",
         "script": "tools/verify/checks/strat-03.mjs"
       },
       "source": "original"
@@ -1183,7 +1183,7 @@
           "script",
           "quality-review"
         ],
-        "verifiedAt": "2026-10-01",
+        "verifiedAt": "2026-10-02",
         "script": "tools/verify/checks/strat-03.mjs"
       },
       "source": "original"
@@ -1275,7 +1275,7 @@
           "script",
           "quality-review"
         ],
-        "verifiedAt": "2026-10-01",
+        "verifiedAt": "2026-10-02",
         "script": "tools/verify/checks/strat-03.mjs"
       },
       "source": "original"
@@ -1323,7 +1323,7 @@
           "quality-review",
           "web-source"
         ],
-        "verifiedAt": "2026-10-01",
+        "verifiedAt": "2026-10-02",
         "note": "法令ではなく会計基準による。企業会計審議会『連結キャッシュ・フロー計算書等の作成基準』（金融庁サイト掲載）第二の二の1（営業活動・投資活動・財務活動の区分）、注4（投資活動の例：固定資産・有価証券の取得及び売却）、注5（財務活動の例：株式の発行、配当金の支払、借入れ及び返済）で確認。確認日 2026-10-01。"
       },
       "source": "original"
@@ -1373,7 +1373,7 @@
           "script",
           "quality-review"
         ],
-        "verifiedAt": "2026-10-01",
+        "verifiedAt": "2026-10-02",
         "script": "tools/verify/checks/strat-03.mjs"
       },
       "source": "original"
@@ -1426,7 +1426,7 @@
           "script",
           "quality-review"
         ],
-        "verifiedAt": "2026-10-01",
+        "verifiedAt": "2026-10-02",
         "script": "tools/verify/checks/strat-03.mjs"
       },
       "source": "original"
@@ -1474,7 +1474,7 @@
           "independent-solve",
           "quality-review"
         ],
-        "verifiedAt": "2026-10-01"
+        "verifiedAt": "2026-10-02"
       },
       "source": "original"
     },
@@ -1525,7 +1525,7 @@
           "quality-review",
           "web-source"
         ],
-        "verifiedAt": "2026-10-01",
+        "verifiedAt": "2026-10-02",
         "note": "著作権法 第2条第1項第1号（著作物の定義。文化庁『著作権テキスト 令和6年度版』で、表現されていないアイデアは著作物から除かれることを確認）、第10条第1項第9号（プログラムの著作物）、第10条第3項（プログラムの保護はプログラム言語・規約・解法に及ばない。文化庁『コンピュータ・プログラムに係る著作権問題に関する調査研究協力者会議報告書』の記述で確認）。確認日 2026-10-01。e-Gov 法令API がメンテナンス中で、現行の条文そのものは取得できなかった。"
       },
       "source": "original"
@@ -1577,7 +1577,7 @@
           "quality-review",
           "web-source"
         ],
-        "verifiedAt": "2026-10-01",
+        "verifiedAt": "2026-10-02",
         "note": "著作権法 第32条第1項（公表された著作物、公正な慣行に合致、引用の目的上正当な範囲内）、第48条（出所の明示）。文化庁『令和6年度 著作権事務担当者講習会 著作権制度の概要について』の引用の条件（公表された著作物であること、明確な区別、主従関係、出所の明示）で確認。確認日 2026-10-01。e-Gov 法令API がメンテナンス中で、条文そのものは取得できなかった。"
       },
       "source": "original"
@@ -1626,7 +1626,7 @@
           "quality-review",
           "web-source"
         ],
-        "verifiedAt": "2026-10-01",
+        "verifiedAt": "2026-10-02",
         "note": "特定電気通信による情報の流通によって発生する権利侵害等への対処に関する法律（平成13年法律第137号。令和7年4月1日に現在の法律名に変更）。損害賠償責任の制限（第3条）、第5条第1項（発信者情報の開示請求）、第8条（発信者情報開示命令）、第5章・第6章（大規模特定電気通信役務提供者の削除対応の迅速化・運用状況の透明化）。総務省『インターネット上の違法・有害情報に対する対応（情報流通プラットフォーム対処法）』のページと総務省資料（令和7年11月、法第5条第1項・第8条を引用）で確認。第3条（損害賠償責任の制限）は、総務省『プロバイダ責任制限法 逐条解説』（2023年3月。令和3年改正後の条文を掲載）で確認。令和6年改正は第5章・第6章を追加したもので、第3条・第5条・第8条の番号は変わっていない（総務省のページが現行法の第20条・第21条・第26条・第28条を引用）。確認日 2026-10-01。e-Gov 法令API はメンテナンス中で、条文そのものは取得できなかった。"
       },
       "source": "original"
@@ -1676,7 +1676,7 @@
           "quality-review",
           "web-source"
         ],
-        "verifiedAt": "2026-10-01",
+        "verifiedAt": "2026-10-02",
         "note": "公益通報者保護法 第2条（公益通報、通報対象事実の定義）、第3条（解雇の無効。各号で事業者内部・行政機関・その他の外部への通報の保護要件）、第4条（労働者派遣契約の解除の無効）、第5条（不利益取扱いの禁止）。消費者庁『公益通報者保護法の概要』及び逐条解説『第3条（解雇の無効）』『第4条（労働者派遣契約の解除の無効）』で確認。確認日 2026-10-01。改正による罰則の新設や保護対象の拡大に左右されない論点に限定した。 令和7年改正（2026-12-01施行。フリーランスの追加、不利益取扱いへの刑事罰、解雇等の推定規定など）は本問の正解・誤答の判断を変えない。施行後に条番号を再確認する。"
       },
       "source": "original"
@@ -1724,7 +1724,7 @@
           "quality-review",
           "web-source"
         ],
-        "verifiedAt": "2026-10-01",
+        "verifiedAt": "2026-10-02",
         "note": "製造委託等に係る中小受託事業者に対する代金の支払の遅延等の防止に関する法律 第4条（発注内容等の明示義務）、第3条（支払期日を定める義務）、第5条第1項第2号（支払遅延の禁止）、第3号（減額の禁止）、第4号（返品の禁止。中小受託事業者に責任がある場合を除く）。公正取引委員会『委託事業者の禁止行為』『委託事業者の義務』のページで確認。確認日 2026-10-01。"
       },
       "source": "original"
@@ -1773,7 +1773,7 @@
           "quality-review",
           "web-source"
         ],
-        "verifiedAt": "2026-10-01",
+        "verifiedAt": "2026-10-02",
         "note": "個人情報の保護に関する法律 第2条第5項（仮名加工情報の定義）、第2条第6項（匿名加工情報の定義）、第41条第6項（仮名加工情報である個人データの第三者提供の禁止）、第41条第9項（第17条第2項、第26条、第32条〜第39条の適用除外）、第44条（匿名加工情報の第三者提供時の公表・明示）。個人情報保護委員会『個人情報の保護に関する法律についてのガイドライン（仮名加工情報・匿名加工情報編）』（令和8年4月版）で確認。確認日 2026-10-01。"
       },
       "source": "original"

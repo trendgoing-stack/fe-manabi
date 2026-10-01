@@ -282,3 +282,7 @@ body.is-busy .sticky-action { bottom: var(--safe-b); }
 .trace-input.is-ng { border-color: var(--ng); background: var(--ng-soft); }
 .trace-input.is-shown { border-color: var(--accent); }
 .trace-result { font-weight: 700; margin: 8px 0; }
+
+/* ---- ヘルプ ---- */
+.help-list { padding-left: 1.2em; list-style: disc; }
+.help-list li { margin: 0 0 8px; line-height: 1.75; }

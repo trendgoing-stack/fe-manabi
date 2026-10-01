@@ -119,7 +119,7 @@
           "script",
           "quality-review"
         ],
-        "verifiedAt": "2026-10-01",
+        "verifiedAt": "2026-10-02",
         "script": "tools/verify/checks/mgmt-03.mjs"
       },
       "source": "original"
@@ -249,7 +249,7 @@
           "script",
           "quality-review"
         ],
-        "verifiedAt": "2026-10-01",
+        "verifiedAt": "2026-10-02",
         "script": "tools/verify/checks/mgmt-03.mjs"
       },
       "source": "original"
@@ -349,7 +349,7 @@
           "script",
           "quality-review"
         ],
-        "verifiedAt": "2026-10-01",
+        "verifiedAt": "2026-10-02",
         "script": "tools/verify/checks/mgmt-03.mjs"
       },
       "source": "original"
@@ -451,7 +451,7 @@
           "script",
           "quality-review"
         ],
-        "verifiedAt": "2026-10-01",
+        "verifiedAt": "2026-10-02",
         "script": "tools/verify/checks/mgmt-03.mjs"
       },
       "source": "original"
@@ -537,7 +537,7 @@
           "script",
           "quality-review"
         ],
-        "verifiedAt": "2026-10-01",
+        "verifiedAt": "2026-10-02",
         "script": "tools/verify/checks/mgmt-03.mjs"
       },
       "source": "original"
@@ -592,7 +592,7 @@
           "script",
           "quality-review"
         ],
-        "verifiedAt": "2026-10-01",
+        "verifiedAt": "2026-10-02",
         "script": "tools/verify/checks/mgmt-03.mjs"
       },
       "source": "original"
@@ -640,7 +640,7 @@
           "independent-solve",
           "quality-review"
         ],
-        "verifiedAt": "2026-10-01"
+        "verifiedAt": "2026-10-02"
       },
       "source": "original"
     },
@@ -687,7 +687,7 @@
           "independent-solve",
           "quality-review"
         ],
-        "verifiedAt": "2026-10-01"
+        "verifiedAt": "2026-10-02"
       },
       "source": "original"
     },
@@ -732,7 +732,7 @@
           "independent-solve",
           "quality-review"
         ],
-        "verifiedAt": "2026-10-01"
+        "verifiedAt": "2026-10-02"
       },
       "source": "original"
     },
@@ -807,7 +807,7 @@
           "independent-solve",
           "quality-review"
         ],
-        "verifiedAt": "2026-10-01"
+        "verifiedAt": "2026-10-02"
       },
       "source": "original"
     },
@@ -855,7 +855,7 @@
           "independent-solve",
           "quality-review"
         ],
-        "verifiedAt": "2026-10-01"
+        "verifiedAt": "2026-10-02"
       },
       "source": "original"
     },
@@ -908,7 +908,7 @@
           "script",
           "quality-review"
         ],
-        "verifiedAt": "2026-10-01",
+        "verifiedAt": "2026-10-02",
         "script": "tools/verify/checks/mgmt-03.mjs"
       },
       "source": "original"
@@ -956,7 +956,7 @@
           "independent-solve",
           "quality-review"
         ],
-        "verifiedAt": "2026-10-01"
+        "verifiedAt": "2026-10-02"
       },
       "source": "original"
     },
@@ -1004,7 +1004,7 @@
           "independent-solve",
           "quality-review"
         ],
-        "verifiedAt": "2026-10-01"
+        "verifiedAt": "2026-10-02"
       },
       "source": "original"
     },
@@ -1052,7 +1052,7 @@
           "independent-solve",
           "quality-review"
         ],
-        "verifiedAt": "2026-10-01"
+        "verifiedAt": "2026-10-02"
       },
       "source": "original"
     },
@@ -1100,7 +1100,7 @@
           "independent-solve",
           "quality-review"
         ],
-        "verifiedAt": "2026-10-01"
+        "verifiedAt": "2026-10-02"
       },
       "source": "original"
     },
@@ -1149,7 +1149,7 @@
           "quality-review",
           "web-source"
         ],
-        "verifiedAt": "2026-10-01",
+        "verifiedAt": "2026-10-02",
         "note": "システム監査基準（経済産業省、令和5年4月26日）【基準8】監査証拠の入手と評価 解釈指針2(3)(4)。"
       },
       "source": "original"
@@ -1198,7 +1198,7 @@
           "independent-solve",
           "quality-review"
         ],
-        "verifiedAt": "2026-10-01"
+        "verifiedAt": "2026-10-02"
       },
       "source": "original"
     },
@@ -1247,7 +1247,7 @@
           "quality-review",
           "web-source"
         ],
-        "verifiedAt": "2026-10-01",
+        "verifiedAt": "2026-10-02",
         "note": "システム監査基準（経済産業省、令和5年4月26日）前文「監査人と取締役会等、経営者との関係」（保証を目的としたシステム監査と助言を目的としたシステム監査）。"
       },
       "source": "original"
@@ -1295,7 +1295,7 @@
           "independent-solve",
           "quality-review"
         ],
-        "verifiedAt": "2026-10-01"
+        "verifiedAt": "2026-10-02"
       },
       "source": "original"
     }

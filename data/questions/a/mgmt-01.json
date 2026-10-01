@@ -47,7 +47,7 @@
           "independent-solve",
           "quality-review"
         ],
-        "verifiedAt": "2026-10-01"
+        "verifiedAt": "2026-10-02"
       },
       "source": "original"
     },
@@ -142,7 +142,7 @@
           "script",
           "quality-review"
         ],
-        "verifiedAt": "2026-10-01",
+        "verifiedAt": "2026-10-02",
         "script": "tools/verify/checks/mgmt-01.mjs"
       },
       "source": "original"
@@ -198,7 +198,7 @@
           "script",
           "quality-review"
         ],
-        "verifiedAt": "2026-10-01",
+        "verifiedAt": "2026-10-02",
         "script": "tools/verify/checks/mgmt-01.mjs"
       },
       "source": "original"
@@ -248,7 +248,7 @@
           "script",
           "quality-review"
         ],
-        "verifiedAt": "2026-10-01",
+        "verifiedAt": "2026-10-02",
         "script": "tools/verify/checks/mgmt-01.mjs"
       },
       "source": "original"
@@ -294,7 +294,7 @@
           "independent-solve",
           "quality-review"
         ],
-        "verifiedAt": "2026-10-01"
+        "verifiedAt": "2026-10-02"
       },
       "source": "original"
     },
@@ -346,7 +346,7 @@
           "independent-solve",
           "quality-review"
         ],
-        "verifiedAt": "2026-10-01",
+        "verifiedAt": "2026-10-02",
         "note": "JIS Q 20000-1:2020 8.6.1 インシデント管理、8.6.3 問題管理、8.5.1 変更管理。一次情報（JIS本文）は閲覧できず、規格本文の転載サイトでのみ確認（2026-10-01）。"
       },
       "needsUserCheck": true,
@@ -399,7 +399,7 @@
           "script",
           "quality-review"
         ],
-        "verifiedAt": "2026-10-01",
+        "verifiedAt": "2026-10-02",
         "script": "tools/verify/checks/mgmt-01.mjs"
       },
       "source": "original"
@@ -450,7 +450,7 @@
           "independent-solve",
           "quality-review"
         ],
-        "verifiedAt": "2026-10-01",
+        "verifiedAt": "2026-10-02",
         "note": "JIS Q 20000-1:2020 8.5.1 変更管理、8.5.3 リリース及び展開管理、8.2.6 構成管理、8.6.1 インシデント管理。一次情報（JIS本文）は閲覧できず、規格本文の転載サイトでのみ確認（2026-10-01）。"
       },
       "needsUserCheck": true,
@@ -500,7 +500,7 @@
           "independent-solve",
           "quality-review"
         ],
-        "verifiedAt": "2026-10-01"
+        "verifiedAt": "2026-10-02"
       },
       "source": "original"
     },
@@ -551,7 +551,7 @@
           "quality-review",
           "web-source"
         ],
-        "verifiedAt": "2026-10-01",
+        "verifiedAt": "2026-10-02",
         "note": "システム監査基準（経済産業省、令和5年4月26日）基準4。確定版PDFで確認（2026-10-01）。"
       },
       "source": "original"
@@ -604,7 +604,7 @@
           "quality-review",
           "web-source"
         ],
-        "verifiedAt": "2026-10-01",
+        "verifiedAt": "2026-10-02",
         "note": "システム監査基準（経済産業省、令和5年4月26日）基準9、基準12 解釈指針1。確定版PDFで確認（2026-10-01）。確定版の定義は「監査証跡」の語を用いるが、解釈指針が監査証拠を記載事項に挙げており実質的な差はない。"
       },
       "source": "original"
@@ -655,7 +655,7 @@
           "quality-review",
           "web-source"
         ],
-        "verifiedAt": "2026-10-01",
+        "verifiedAt": "2026-10-02",
         "note": "システム監査基準（経済産業省、令和5年4月26日）基準8、基準12 解釈指針2。確定版PDFで確認（2026-10-01）。"
       },
       "source": "original"

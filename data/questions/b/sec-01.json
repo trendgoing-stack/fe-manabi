@@ -98,7 +98,7 @@
               "independent-solve",
               "quality-review"
             ],
-            "verifiedAt": "2026-10-01"
+            "verifiedAt": "2026-10-02"
           },
           "source": "original"
         },
@@ -143,7 +143,7 @@
               "independent-solve",
               "quality-review"
             ],
-            "verifiedAt": "2026-10-01"
+            "verifiedAt": "2026-10-02"
           },
           "source": "original"
         },
@@ -191,7 +191,7 @@
               "independent-solve",
               "quality-review"
             ],
-            "verifiedAt": "2026-10-01"
+            "verifiedAt": "2026-10-02"
           },
           "source": "original"
         }
@@ -307,7 +307,7 @@
               "independent-solve",
               "quality-review"
             ],
-            "verifiedAt": "2026-10-01"
+            "verifiedAt": "2026-10-02"
           },
           "source": "original"
         },
@@ -353,7 +353,7 @@
               "independent-solve",
               "quality-review"
             ],
-            "verifiedAt": "2026-10-01"
+            "verifiedAt": "2026-10-02"
           },
           "source": "original"
         }
@@ -412,7 +412,7 @@
               "independent-solve",
               "quality-review"
             ],
-            "verifiedAt": "2026-10-01"
+            "verifiedAt": "2026-10-02"
           },
           "source": "original"
         },
@@ -458,7 +458,7 @@
               "independent-solve",
               "quality-review"
             ],
-            "verifiedAt": "2026-10-01"
+            "verifiedAt": "2026-10-02"
           },
           "source": "original"
         },
@@ -504,7 +504,7 @@
               "independent-solve",
               "quality-review"
             ],
-            "verifiedAt": "2026-10-01"
+            "verifiedAt": "2026-10-02"
           },
           "source": "original"
         }
@@ -595,7 +595,7 @@
               "independent-solve",
               "quality-review"
             ],
-            "verifiedAt": "2026-10-01"
+            "verifiedAt": "2026-10-02"
           },
           "source": "original"
         },
@@ -640,7 +640,7 @@
               "independent-solve",
               "quality-review"
             ],
-            "verifiedAt": "2026-10-01"
+            "verifiedAt": "2026-10-02"
           },
           "source": "original"
         }
@@ -704,7 +704,7 @@
           "difficulty": 3,
           "stem": [
             "10月第1週の承認済みの作業申請は、次の表のとおりであった。",
-            "ログイン記録と作業申請を突き合わせたとき、申請どおりではないために確認が必要なログインを全て挙げたものはどれか。"
+            "ログイン記録と作業申請を突き合わせたとき、申請どおりではないために確認が必要なログインを全て挙げたものはどれか。ここで、対応する申請がないもの、使用した端末が申請と異なるもの、ログインからログアウトまでの時間が作業予定日時の範囲に収まっていないものを、申請どおりではないとする。"
           ],
           "table": {
             "header": [
@@ -767,7 +767,7 @@
               "independent-solve",
               "quality-review"
             ],
-            "verifiedAt": "2026-10-01"
+            "verifiedAt": "2026-10-02"
           },
           "source": "original"
         },
@@ -812,7 +812,7 @@
               "independent-solve",
               "quality-review"
             ],
-            "verifiedAt": "2026-10-01"
+            "verifiedAt": "2026-10-02"
           },
           "source": "original"
         },
@@ -858,7 +858,7 @@
               "independent-solve",
               "quality-review"
             ],
-            "verifiedAt": "2026-10-01"
+            "verifiedAt": "2026-10-02"
           },
           "source": "original"
         }
@@ -916,7 +916,7 @@
               "independent-solve",
               "quality-review"
             ],
-            "verifiedAt": "2026-10-01"
+            "verifiedAt": "2026-10-02"
           },
           "source": "original"
         },
@@ -963,7 +963,7 @@
               "independent-solve",
               "quality-review"
             ],
-            "verifiedAt": "2026-10-01"
+            "verifiedAt": "2026-10-02"
           },
           "source": "original"
         }
@@ -1052,7 +1052,7 @@
           "independent-solve",
           "quality-review"
         ],
-        "verifiedAt": "2026-10-01"
+        "verifiedAt": "2026-10-02"
       },
       "source": "original"
     },
@@ -1120,7 +1120,7 @@
           "independent-solve",
           "quality-review"
         ],
-        "verifiedAt": "2026-10-01"
+        "verifiedAt": "2026-10-02"
       },
       "source": "original"
     },
@@ -1208,7 +1208,7 @@
           "independent-solve",
           "quality-review"
         ],
-        "verifiedAt": "2026-10-01"
+        "verifiedAt": "2026-10-02"
       },
       "source": "original"
     },
@@ -1256,7 +1256,7 @@
           "independent-solve",
           "quality-review"
         ],
-        "verifiedAt": "2026-10-01"
+        "verifiedAt": "2026-10-02"
       },
       "source": "original"
     },
@@ -1328,7 +1328,7 @@
           "independent-solve",
           "quality-review"
         ],
-        "verifiedAt": "2026-10-01"
+        "verifiedAt": "2026-10-02"
       },
       "source": "original"
     }

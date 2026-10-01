@@ -221,6 +221,7 @@ export function settingsView(root) {
           ),
         ),
       ),
+      h('div', { class: 'btn-col' }, h('a', { class: 'btn big', href: '#/help' }, 'ヘルプ・注意事項')),
       h(
         'section',
         { class: 'card' },

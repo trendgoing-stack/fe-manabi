@@ -28,13 +28,13 @@
 | `difficulty` | ○ | 1（用語の基本）／2（理解・簡単な計算）／3（応用・複数段階の計算） |
 | `stem` | ○ | 問題文。段落ごとの文字列配列 |
 | `table` | | `{ "header": [], "rows": [[]] }` |
-| `code` | | 擬似言語のコード（フェーズ4） |
-| `figure` | | 図データ（フェーズ3） |
+| `code` | | 擬似言語のコード（「科目B」の節） |
+| `figure` | | 図データ（「図データ」の節） |
 | `choices` | ○ | 長さ4。`{ "text", "why" }`。`why` はその選択肢が正しい／誤りである理由を1文で |
 | `answer` | ○ | 0〜3（`choices` のindex） |
 | `fixedOrder` | | `true` なら並べ替えない（数値の昇順、組合せ形式など）。省略時 false |
 | `explanation` | ○ | 解説。ア〜エの記号や「1番目の選択肢」に触れず、内容で書く |
-| `terms` | ○ | 用語集のid配列（フェーズ3まで空配列でよい） |
+| `terms` | ○ | 用語集のid配列。作成時は空配列でよく、`node tools/link-terms.mjs` で自動的に付く |
 | `tags` | ○ | 絞り込み用。`"計算"` `"用語"` など |
 | `asOf` | | 法令・制度・規格に依存する場合の基準年月 `YYYY-MM` |
 | `verification` | ○ | `{ "status", "methods": [], "verifiedAt", "script"?, "note"? }` |
