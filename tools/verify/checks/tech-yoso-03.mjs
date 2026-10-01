@@ -133,7 +133,8 @@ export const checks = {
     };
     const rules = rowsOf(q).sort((a, b) => Number(a['番号']) - Number(b['番号']));
     const passes = (text) => {
-      const [, src, dst, svc] = text.match(/^(.+?)から(.+?)への(.+)$/);
+      // 「社内のPC」のような修飾は、図のラベル（PC）に合わせて取り除く
+      const [, src, dst, svc] = text.replace(/^社内の/, '').match(/^(.+?)から(.+?)への(.+)$/);
       const rule = rules.find(
         (r) => matches(r['送信元'], src) && matches(r['宛先'], dst) && (r['サービス'] === '全て' || r['サービス'] === svc),
       );

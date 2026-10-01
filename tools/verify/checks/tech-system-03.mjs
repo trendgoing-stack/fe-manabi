@@ -35,7 +35,8 @@ const OPS = {
 
 /** 図の論理回路を、入力値 { id: 0|1 } で評価し、出力 { id: 0|1 } を返す */
 function evalLogic(fig, inputs) {
-  const val = { ...inputs };
+  // 同じラベルの入力端子（例：A と A2 がどちらも「A」）には同じ値を入れる
+  const val = Object.fromEntries(fig.inputs.map((i) => [i.id, inputs[i.label]]));
   const gates = new Map(fig.gates.map((g) => [g.id, g]));
   const get = (id) => {
     if (id in val) return val[id];
@@ -172,7 +173,12 @@ export const checks = {
   },
 
   // RAID5：(台数 − 1) × 1台の容量
-  'a-tech-0173': (q) => pick(q, 3 * (6 - 1)),
+  // RAID5 で実効容量14Tバイト以上を確保する最少台数（1台分はパリティ）
+  'a-tech-0173': (q) => {
+    let n = 3;
+    while (2 * (n - 1) < 14) n++;
+    return pick(q, n);
+  },
 
   // 稼働率 = MTBF ÷ (MTBF + MTTR)
   'a-tech-0174': (q) => pick(q, (380 / (380 + 20)).toFixed(3)),

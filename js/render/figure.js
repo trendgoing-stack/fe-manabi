@@ -406,9 +406,15 @@ function drawLogic(c, fig) {
     c.extend(x - GW / 2 - 8, y - GH / 2, out, y + GH / 2);
   }
   // 配線：出力点から水平に進み、入力ピンの手前で縦に曲がる
-  const wire = (from, tx, ty, layer = 'back') => {
+  // lane：縦に曲がる位置をピンごとにずらし、同じゲートへの配線どうしが重ならないようにする
+  // 一つの出力が複数の入力に分岐する箇所には、接続を示す黒丸を打つ
+  const fanout = new Map();
+  for (const g of fig.gates) for (const src of g.in) fanout.set(src, (fanout.get(src) ?? 0) + 1);
+  for (const o of fig.outputs) fanout.set(o.from, (fanout.get(o.from) ?? 0) + 1);
+  const wire = (from, tx, ty, lane = 0, layer = 'back', branch = false) => {
     const [fx, fy] = from;
-    const mx = Math.max(fx + 12, tx - 18);
+    const mx = Math.max(fx + 12, tx - 14 - lane * 9);
+    if (branch && fy !== ty) c.add(s('circle', { cx: mx, cy: fy, r: 3, class: 'fig-dot' }), 'front');
     c.path(`M${fx},${fy} H${mx} V${ty} H${tx}`, [Math.min(fx, tx), Math.min(fy, ty), Math.max(fx, tx), Math.max(fy, ty)], { layer });
   };
   for (const g of fig.gates) {
@@ -420,7 +426,9 @@ function drawLogic(c, fig) {
       if (!from) return;
       const py = n === 1 ? y : y - GH / 2 + (GH * (k + 1)) / (n + 1);
       const px = x - GW / 2 + (g.op === 'OR' || g.op === 'NOR' || g.op === 'XOR' ? 6 : 0);
-      wire(from, g.op === 'XOR' ? px - 7 : px, py);
+      // 上から来る配線は上のピンほど内側、下から来る配線は下のピンほど内側で曲げる
+      const lane = from[1] <= py ? k : n - 1 - k;
+      wire(from, g.op === 'XOR' ? px - 7 : px, py, lane, 'back', fanout.get(src) > 1);
     });
   }
   for (const o of fig.outputs) {
