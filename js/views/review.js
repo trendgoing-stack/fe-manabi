@@ -3,7 +3,7 @@ import { h, fill } from '../dom.js';
 import * as storage from '../storage.js';
 import { app, availableQuestions, startSession } from '../state.js';
 import { dueQuestions } from '../selector.js';
-import { FLAG_KINDS } from '../categories.js';
+import { FLAG_KINDS, B_PREFIX } from '../categories.js';
 import { today, addDays } from '../date.js';
 import * as analytics from '../analytics.js';
 import { accuracyBar } from './home.js';
@@ -123,9 +123,12 @@ function weaknessSection() {
                 class: 'btn big',
                 onClick: () => {
                   // 苦手な上位（最大3カテゴリ）を選んだ状態で演習の条件設定を開く
+                  // 最も苦手なカテゴリと同じ科目の中から、苦手な上位（最大3カテゴリ）を選ぶ
+                  const isB = rows[0][0].startsWith(B_PREFIX);
+                  const names = rows.filter(([name]) => name.startsWith(B_PREFIX) === isB).slice(0, 3).map(([name]) => name.replace(B_PREFIX, ''));
                   const saved = storage.getMeta().drill ?? {};
                   storage.saveMeta({
-                    drill: { ...saved, criteria: { ...saved.criteria, fields: [], difficulties: [], state: 'all', categories: rows.slice(0, 3).map(([name]) => name) } },
+                    drill: { ...saved, criteria: { ...saved.criteria, subject: isB ? 'B' : 'A', fields: [], difficulties: [], state: 'all', categories: names } },
                   });
                   navigate('drill');
                 },

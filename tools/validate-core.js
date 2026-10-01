@@ -4,7 +4,8 @@ import { CATEGORIES } from '../js/categories.js';
 const STATUSES = ['unverified', 'ai-verified', 'user-verified', 'disputed'];
 const METHODS = ['independent-solve', 'script', 'quality-review', 'web-source'];
 const ID_RE = /^(a-(tech|mgmt|strat)|b-(algo|sec))-\d{4}$/;
-const ID_FIELD = { tech: 'technology', mgmt: 'management', strat: 'strategy' };
+const ID_FIELD = { tech: 'technology', mgmt: 'management', strat: 'strategy', algo: 'technology', sec: 'technology' };
+const B_CATEGORY = { algo: 'アルゴリズムとプログラミング', sec: 'セキュリティ' };
 const catByName = new Map(CATEGORIES.map((c) => [c.name, c]));
 const isStr = (v) => typeof v === 'string' && v.trim() !== '';
 
@@ -87,6 +88,13 @@ export function checkQuestion(q, glossaryIds) {
   }
   const idField = ID_FIELD[q.id?.split('-')[1]];
   if (idField && q.field !== idField) e.push('id の分野と field が一致しない');
+  const kind = q.id?.split('-')[1];
+  if (B_CATEGORY[kind] && q.category !== B_CATEGORY[kind]) e.push(`科目Bの ${kind} の問題は category「${B_CATEGORY[kind]}」`);
+  if (q.code && !(Array.isArray(q.code.lines) && q.code.lines.every((l) => typeof l === 'string'))) e.push('code.lines は文字列の配列');
+  if (q.trace) {
+    const t = q.trace;
+    if (!Array.isArray(t.vars) || !t.vars.length || !Array.isArray(t.rows) || !t.rows.every((r) => Array.isArray(r) && r.length === t.vars.length)) e.push('trace の形が不正（rows の各行は vars と同じ長さ）');
+  }
   if (![1, 2, 3].includes(q.difficulty)) e.push('difficulty は 1〜3');
   if (!Array.isArray(q.stem) || !q.stem.length || !q.stem.every(isStr)) e.push('stem は空でない文字列の配列');
   if (q.table && !(Array.isArray(q.table.header) && Array.isArray(q.table.rows) && q.table.rows.every((r) => Array.isArray(r) && r.length === q.table.header.length))) {
@@ -145,6 +153,15 @@ export function validateAll(meta, files, swText, glossary) {
     }
     if (json.schemaVersion !== meta.schemaVersion) errors.push({ where: file, msg: 'schemaVersion が meta.json と違う' });
     for (const item of json.items) {
+      if (item.questions) {
+        if (!/^b-(algo|sec)-set-\d{4}$/.test(item.setId ?? '')) errors.push({ where: item.setId ?? file, msg: 'setId の形式が不正' });
+        if (!Array.isArray(item.stem) || !item.stem.length) errors.push({ where: item.setId, msg: 'set の stem が空' });
+        if (item.questions.length < 2) errors.push({ where: item.setId, msg: 'set の設問は2問以上' });
+        if (item.code && !(Array.isArray(item.code.lines) && item.code.lines.length)) errors.push({ where: item.setId, msg: 'set の code.lines が不正' });
+        if (item.figure) for (const msg of checkFigure(item.figure)) errors.push({ where: item.setId, msg });
+        if (seen.has(item.setId)) errors.push({ where: item.setId, msg: 'setId が重複' });
+        else seen.set(item.setId, file);
+      }
       for (const q of item.questions ?? [item]) {
         questions.push(q);
         if (seen.has(q.id)) errors.push({ where: q.id, msg: `id が重複（${seen.get(q.id)} と ${file}）` });

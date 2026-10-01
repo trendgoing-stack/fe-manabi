@@ -2,8 +2,8 @@
 import { h, fill } from '../dom.js';
 import * as storage from '../storage.js';
 import { availableQuestions, startSession } from '../state.js';
-import { filterQuestions, shuffled, DEFAULT_CRITERIA } from '../selector.js';
-import { FIELDS, CATEGORIES } from '../categories.js';
+import { filterQuestions, shuffled, groupSets, takeWhole, DEFAULT_CRITERIA } from '../selector.js';
+import { FIELDS, CATEGORIES, B_CATEGORIES } from '../categories.js';
 import { today } from '../date.js';
 import { mockSection } from './mock.js';
 
@@ -31,8 +31,10 @@ export function drillView(root) {
   const group = (title, ...children) => h('section', { class: 'card' }, h('h2', null, title), h('div', { class: 'chips' }, children));
 
   const draw = () => {
-    // 分野を絞ったら、その分野に属さないカテゴリの選択は外す
-    const visibleCats = CATEGORIES.filter((cat) => !c.fields.length || c.fields.includes(cat.field));
+    // 分野を絞ったら、その分野に属さないカテゴリの選択は外す。科目Bは2分野だけ
+    const isB = c.subject === 'B';
+    if (isB) c.fields = [];
+    const visibleCats = isB ? B_CATEGORIES.map((name) => ({ name })) : CATEGORIES.filter((cat) => !c.fields.length || c.fields.includes(cat.field));
     c.categories = c.categories.filter((name) => visibleCats.some((cat) => cat.name === name));
     const matched = filterQuestions(pool, c, stats, today());
     const n = count === 0 ? matched.length : Math.min(count, matched.length);
@@ -42,7 +44,8 @@ export function drillView(root) {
       h('h1', null, '演習'),
       mockSection(),
       h('h2', { class: 'section-title' }, '一問一答'),
-      group('分野', FIELDS.map((f) => chip(f.short, c.fields.includes(f.id), () => update(() => (c.fields = toggle(c.fields, f.id)))))),
+      group('科目', [['A', '科目A'], ['B', '科目B']].map(([id, label]) => chip(label, c.subject === id, () => update(() => { c.subject = id; c.categories = []; c.fields = []; })))),
+      isB ? null : group('分野', FIELDS.map((f) => chip(f.short, c.fields.includes(f.id), () => update(() => (c.fields = toggle(c.fields, f.id)))))),
       group(
         'カテゴリ（複数選択可）',
         visibleCats.map((cat) => chip(cat.name, c.categories.includes(cat.name), () => update(() => (c.categories = toggle(c.categories, cat.name))))),
@@ -60,7 +63,7 @@ export function drillView(root) {
             type: 'button',
             class: 'btn primary big',
             disabled: n === 0,
-            onClick: () => startSession('drill', '一問一答', shuffled(matched).slice(0, n)),
+            onClick: () => startSession('drill', isB ? '科目B' : '一問一答', takeWhole(groupSets(shuffled(matched)), n)),
           },
           n ? `${n}問で始める` : '条件に合う問題がありません',
         ),

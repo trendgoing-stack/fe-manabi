@@ -41,8 +41,10 @@ export async function loadData() {
       return;
     }
     for (const item of r.value.items) {
-      // set 形式は設問単位に展開し、setId を付ける（表示はフェーズ4）
-      const qs = item.questions ? item.questions.map((q) => ({ ...q, setId: item.setId })) : [item];
+      // set 形式は設問単位に展開し、題材（setStem・setCode など）を各設問に付ける
+      const qs = item.questions
+        ? item.questions.map((q) => ({ ...q, setId: item.setId, setTitle: item.title, setStem: item.stem, setCode: item.code, setTable: item.table, setFigure: item.figure }))
+        : [item];
       for (const q of qs) {
         if (out.byId.has(q.id)) continue; // id 重複は先勝ち（validate.html で検出する）
         out.byId.set(q.id, q);

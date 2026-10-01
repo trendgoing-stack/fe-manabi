@@ -217,3 +217,68 @@ body.is-busy .sticky-action { bottom: var(--safe-b); }
 .flash-hint-ng { right: 14px; color: var(--ng); border: 2px solid var(--ng); }
 .flashcard.show-ok .flash-hint-ok, .flashcard.show-ng .flash-hint-ng { opacity: 1; }
 .flash-buttons { flex-wrap: nowrap; }
+
+/* ---- 科目B：題材・コード ---- */
+.q-set {
+  margin: 0 0 14px;
+  padding: 12px 14px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--surface);
+  line-height: 1.85;
+}
+.q-set-title { font-size: 1rem; margin: 0 0 6px; }
+.q-stem.is-b > p { line-height: 1.85; }
+.code-block {
+  margin: 8px 0 12px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--surface-2);
+}
+.code { border-collapse: collapse; font-family: var(--mono); font-size: 0.88rem; line-height: 1.6; }
+.code td { padding: 0 10px 0 0; vertical-align: top; }
+.code-no {
+  position: sticky; left: 0;
+  min-width: 2.6em;
+  padding: 0 8px !important;
+  text-align: right;
+  color: var(--muted);
+  background: var(--surface-2);
+  border-right: 1px solid var(--line);
+  user-select: none;
+  -webkit-user-select: none;
+}
+.code-src { white-space: pre; padding-left: 10px !important; }
+.code tr:first-child td { padding-top: 6px; }
+.code tr:last-child td { padding-bottom: 6px; }
+.code tr.is-hl td { background: var(--warn-soft); }
+.code tr.is-hl .code-no { color: var(--warn); font-weight: 700; }
+.line-ref {
+  display: inline;
+  padding: 0 2px;
+  margin: 0;
+  border: 0;
+  border-radius: 4px;
+  background: var(--warn-soft);
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+}
+
+/* ---- トレース表 ---- */
+.trace { margin: 0 0 16px; }
+.trace-table td { padding: 2px 4px; }
+.trace-input {
+  width: 5.5em;
+  min-height: 40px;
+  padding: 4px 6px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: var(--surface);
+  font-family: var(--mono);
+  text-align: center;
+}
+.trace-input.is-ok { border-color: var(--ok); background: var(--ok-soft); }
+.trace-input.is-ng { border-color: var(--ng); background: var(--ng-soft); }
+.trace-input.is-shown { border-color: var(--accent); }
+.trace-result { font-weight: 700; margin: 8px 0; }

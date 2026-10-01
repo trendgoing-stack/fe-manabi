@@ -6,6 +6,7 @@ import { isActive, select, commit, advance } from '../session.js';
 import { renderStem, renderChoices, renderExplanation, renderMetaLine, LABELS } from '../render/question.js';
 import { navigate } from '../router.js';
 import { openFlagDialog } from '../ui/flag.js';
+import { renderTrace } from '../ui/trace.js';
 
 export function runView(root) {
   const session = storage.getSession();
@@ -75,6 +76,7 @@ export function runView(root) {
         },
       }),
       item.done ? renderExplanation(q) : null,
+      renderTrace(q),
       h(
         'div',
         { class: 'sticky-action' },

@@ -5,6 +5,7 @@ import { app } from '../state.js';
 import { renderStem, renderChoices, renderExplanation, renderMetaLine } from '../render/question.js';
 import { openFlagDialog } from '../ui/flag.js';
 import { FLAG_KINDS } from '../categories.js';
+import { renderTrace } from '../ui/trace.js';
 
 export function questionView(root, [id]) {
   const q = app.data.byId.get(id);
@@ -44,6 +45,7 @@ export function questionView(root, [id]) {
       renderStem(q),
       renderChoices(q, { order: q.choices.map((_, i) => i), selected: null, revealed: true }),
       renderExplanation(q),
+      renderTrace(q),
       stat
         ? h('p', { class: 'muted small' }, `これまでの成績：${stat.correct}/${stat.attempts}（${pct(stat.correct, stat.attempts)}%）・次の復習日 ${stat.due}`)
         : null,

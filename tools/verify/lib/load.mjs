@@ -7,8 +7,13 @@ export const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '
 
 export const readJson = async (rel) => JSON.parse(await readFile(path.join(ROOT, rel), 'utf8'));
 
-/** set 形式を設問単位に展開する */
-export const flatten = (items) => items.flatMap((it) => (it.questions ? it.questions : [it]));
+/** set 形式を設問単位に展開する。設問には題材の stem・code・table・figure を setStem などとして付ける */
+export const flatten = (items) =>
+  items.flatMap((it) =>
+    it.questions
+      ? it.questions.map((q) => ({ ...q, setId: it.setId, setTitle: it.title, setStem: it.stem, setCode: it.code, setTable: it.table, setFigure: it.figure }))
+      : [it],
+  );
 
 /** @returns {Promise<{file:string, questions:object[]}[]>} */
 export async function loadAll() {

@@ -28,6 +28,13 @@ export const CATEGORIES = [
   { name: '企業と法務', field: 'strategy', syllabusRefs: ['企業活動', '法務'] },
 ];
 
+/** 科目Bの集計用カテゴリ（科目Aの同名カテゴリと分けて集計する） */
+export const B_CATEGORIES = ['アルゴリズムとプログラミング', 'セキュリティ'];
+export const B_PREFIX = '科目B ';
+
+/** 成績集計のキー。科目Bの問題は「科目B アルゴリズムとプログラミング」のように分ける */
+export const statKey = (id, category) => (String(id).startsWith('b-') ? B_PREFIX + category : category);
+
 export const fieldLabel = (id) => FIELDS.find((f) => f.id === id)?.label ?? id;
 export const categoriesOf = (field) => CATEGORIES.filter((c) => c.field === field);
 

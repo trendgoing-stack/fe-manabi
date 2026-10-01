@@ -1,6 +1,6 @@
 // 学習記録の集計。履歴（直近3000件）と、畳み込み済みの日別集計の両方を使う。
 import * as storage from './storage.js';
-import { CATEGORIES } from './categories.js';
+import { CATEGORIES, statKey, B_PREFIX } from './categories.js';
 import { localDate, addDays, parseDate, diffDays } from './date.js';
 
 const fieldOfCategory = new Map(CATEGORIES.map((c) => [c.name, c.field]));
@@ -22,7 +22,7 @@ export function byDay() {
   for (const [date, cats] of Object.entries(storage.getDaily())) {
     for (const [category, v] of Object.entries(cats)) add(date, category, v.n, v.ok);
   }
-  for (const e of storage.getHistory()) add(localDate(e.ts), e.category, 1, e.ok ? 1 : 0);
+  for (const e of storage.getHistory()) add(localDate(e.ts), statKey(e.id, e.category), 1, e.ok ? 1 : 0);
   return out;
 }
 
@@ -65,11 +65,11 @@ export function byCategory(days, since = null) {
   return out;
 }
 
-/** 分野別の回答数と正解数 */
+/** 分野別（科目Aの3分野と科目B）の回答数と正解数 */
 export function byField(days, since = null) {
-  const out = { technology: { n: 0, ok: 0 }, management: { n: 0, ok: 0 }, strategy: { n: 0, ok: 0 } };
+  const out = { technology: { n: 0, ok: 0 }, management: { n: 0, ok: 0 }, strategy: { n: 0, ok: 0 }, B: { n: 0, ok: 0 } };
   for (const [category, v] of byCategory(days, since)) {
-    const f = out[fieldOfCategory.get(category)];
+    const f = out[category.startsWith(B_PREFIX) ? 'B' : fieldOfCategory.get(category)];
     if (!f) continue;
     f.n += v.n;
     f.ok += v.ok;

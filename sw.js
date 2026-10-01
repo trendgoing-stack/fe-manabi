@@ -1,6 +1,6 @@
 // Service Worker：アプリ本体と data/ の全JSONをキャッシュファーストで返す。
 // アプリのコードや問題データを更新したら、必ず VERSION を上げる（data/meta.json の dataVersion と同じ値にする）。
-const VERSION = '2026.10.01-3';
+const VERSION = '2026.10.01-4';
 const CACHE = `festudy-${VERSION}`;
 
 const APP_SHELL = [
@@ -27,6 +27,7 @@ const APP_SHELL = [
   'js/terms.js',
   'js/types.js',
   'js/render/chart.js',
+  'js/render/code.js',
   'js/render/figure.js',
   'js/render/question.js',
   'js/render/text.js',
@@ -34,6 +35,7 @@ const APP_SHELL = [
   'js/ui/flag.js',
   'js/ui/term.js',
   'js/ui/toast.js',
+  'js/ui/trace.js',
   'js/views/cards.js',
   'js/views/drill.js',
   'js/views/glossary.js',

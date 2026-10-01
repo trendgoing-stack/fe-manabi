@@ -176,6 +176,7 @@ export function homeView(root) {
       { class: 'card' },
       h('h2', null, '分野別の正答率'),
       FIELDS.map((f) => accuracyBar(f.short, fields[f.id])),
+      fields.B.n ? accuracyBar('科目B', fields.B) : null,
       h('p', { class: 'muted small' }, '全期間の回答を集計しています。'),
     ),
   );

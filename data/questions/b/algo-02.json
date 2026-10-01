@@ -1,0 +1,1507 @@
+{
+  "schemaVersion": 1,
+  "items": [
+    {
+      "id": "b-algo-0021",
+      "subject": "B",
+      "field": "technology",
+      "category": "アルゴリズムとプログラミング",
+      "syllabusRef": "アルゴリズムとプログラミング",
+      "difficulty": 1,
+      "stem": [
+        "次の関数 findPos は、配列 data の中から target と等しい最初の要素を探し、その要素番号を返す。見つからなければ 0 を返す。4行目で data の末尾に target を番兵として追加することで、5行目の繰返しの条件から要素番号の範囲の判定を省いている。配列の要素番号は1から始まる。",
+        "findPos({8, 15, 3, 15, 22}, 9) を呼び出したとき、5行目の条件式 data[i] ≠ target が評価される回数は幾らか。"
+      ],
+      "code": {
+        "lines": [
+          "○整数型: findPos(整数型の配列: data, 整数型: target)",
+          "  整数型: n ← dataの要素数",
+          "  整数型: i ← 1",
+          "  data の末尾に target の値を追加する",
+          "  while (data[i] ≠ target)",
+          "    i ← i ＋ 1",
+          "  endwhile",
+          "  if (i ＞ n)",
+          "    return 0",
+          "  endif",
+          "  return i"
+        ]
+      },
+      "choices": [
+        {
+          "text": "4",
+          "why": "元の要素の途中で探索を終えたと考えた値で、9は元の5要素のどれとも一致しない。"
+        },
+        {
+          "text": "5",
+          "why": "元の要素数5だけを数えた値で、番兵 data[6] と比較して条件が偽になる評価が含まれていない。"
+        },
+        {
+          "text": "6",
+          "why": "i ＝ 1〜5 で条件が真になる5回と、i ＝ 6 で番兵と一致して偽になる1回の合計である。"
+        },
+        {
+          "text": "7",
+          "why": "番兵と一致した後にもう1回評価すると考えた値で、条件が偽になった時点で繰返しは終わる。"
+        }
+      ],
+      "answer": 2,
+      "fixedOrder": true,
+      "explanation": "9は data の元の5要素のどれとも等しくないので、5行目の条件式は i ＝ 1〜5 ではすべて真となり、そのたびに6行目で i が1増える。i ＝ 6 のとき data[6] は4行目で追加した番兵の9なので条件は偽となり、繰返しを抜ける。評価回数は 5 ＋ 1 ＝ 6 回である。その後、8行目で i ＝ 6 ＞ n ＝ 5 と判定され、9行目で 0 が返る。",
+      "terms": [],
+      "tags": [
+        "探索",
+        "線形探索",
+        "番兵",
+        "回数"
+      ],
+      "verification": {
+        "status": "ai-verified",
+        "methods": [
+          "independent-solve",
+          "script",
+          "quality-review"
+        ],
+        "verifiedAt": "2026-10-01",
+        "script": "tools/verify/checks/algo-02.mjs"
+      },
+      "source": "original"
+    },
+    {
+      "id": "b-algo-0022",
+      "subject": "B",
+      "field": "technology",
+      "category": "アルゴリズムとプログラミング",
+      "syllabusRef": "アルゴリズムとプログラミング",
+      "difficulty": 1,
+      "stem": [
+        "次の手続 bubbleSort は、配列 a の要素を昇順に整列する。大域変数 swaps は、要素を交換した回数を数える。配列の要素番号は1から始まる。",
+        "swaps が 0 の状態で bubbleSort({5, 2, 6, 1, 4}) を実行した。実行後の swaps の値は幾らか。"
+      ],
+      "code": {
+        "lines": [
+          "大域: 整数型: swaps ← 0",
+          "○bubbleSort(整数型の配列: a)",
+          "  整数型: i, j, w",
+          "  for (i を aの要素数 から 2 まで 1 ずつ減らす)",
+          "    for (j を 1 から i − 1 まで 1 ずつ増やす)",
+          "      if (a[j] ＞ a[j ＋ 1])",
+          "        w ← a[j]",
+          "        a[j] ← a[j ＋ 1]",
+          "        a[j ＋ 1] ← w",
+          "        swaps ← swaps ＋ 1",
+          "      endif",
+          "    endfor",
+          "  endfor"
+        ]
+      },
+      "trace": {
+        "caption": "bubbleSort({5, 2, 6, 1, 4}) を実行したとき、6行目を実行する直前の値",
+        "vars": [
+          "i",
+          "j",
+          "swaps"
+        ],
+        "rows": [
+          [
+            "5",
+            "1",
+            "0"
+          ],
+          [
+            "5",
+            "2",
+            "1"
+          ],
+          [
+            "5",
+            "3",
+            "1"
+          ],
+          [
+            "5",
+            "4",
+            "2"
+          ],
+          [
+            "4",
+            "1",
+            "3"
+          ],
+          [
+            "4",
+            "2",
+            "3"
+          ],
+          [
+            "4",
+            "3",
+            "4"
+          ],
+          [
+            "3",
+            "1",
+            "5"
+          ],
+          [
+            "3",
+            "2",
+            "6"
+          ],
+          [
+            "2",
+            "1",
+            "6"
+          ]
+        ]
+      },
+      "choices": [
+        {
+          "text": "3",
+          "why": "最初の走査（i ＝ 5）での交換回数だけを数えた値である。"
+        },
+        {
+          "text": "4",
+          "why": "外側の繰返し（4行目）の回数であり、交換回数ではない。"
+        },
+        {
+          "text": "6",
+          "why": "各走査の交換回数 3、2、1、0 の合計で、大小関係が逆の要素の組の数とも等しい。"
+        },
+        {
+          "text": "10",
+          "why": "6行目の比較の回数であり、比較のたびに交換が起きるわけではない。"
+        }
+      ],
+      "answer": 2,
+      "fixedOrder": true,
+      "explanation": "6行目の比較は、4行目の i ＝ 5, 4, 3, 2 に対してそれぞれ4, 3, 2, 1回、計10回行われる。そのうち a[j] ＞ a[j ＋ 1] となって7〜10行目の交換が行われるのは、i ＝ 5 で3回（5と2、6と1、6と4）、i ＝ 4 で2回（5と1、5と4）、i ＝ 3 で1回（2と1）、i ＝ 2 で0回なので、swaps は6となる。隣り合う要素の交換1回で、大小関係が逆になっている組がちょうど1つ解消されるため、交換回数は逆になっている組の数と等しい。",
+      "terms": [],
+      "tags": [
+        "整列",
+        "バブルソート",
+        "回数"
+      ],
+      "verification": {
+        "status": "ai-verified",
+        "methods": [
+          "independent-solve",
+          "script",
+          "quality-review"
+        ],
+        "verifiedAt": "2026-10-01",
+        "script": "tools/verify/checks/algo-02.mjs"
+      },
+      "source": "original"
+    },
+    {
+      "id": "b-algo-0023",
+      "subject": "B",
+      "field": "technology",
+      "category": "アルゴリズムとプログラミング",
+      "syllabusRef": "アルゴリズムとプログラミング",
+      "difficulty": 2,
+      "stem": [
+        "次の手続 selectionSort は、配列 a の要素を昇順に整列する。配列の要素番号は1から始まる。",
+        "selectionSort({7, 3, 9, 2, 5, 4}) を実行したとき、3行目の繰返しで i ＝ 3 の処理（4〜12行目）を終えた直後の配列 a の内容はどれか。"
+      ],
+      "code": {
+        "lines": [
+          "○selectionSort(整数型の配列: a)",
+          "  整数型: i, j, m, w",
+          "  for (i を 1 から aの要素数 − 1 まで 1 ずつ増やす)",
+          "    m ← i",
+          "    for (j を i ＋ 1 から aの要素数 まで 1 ずつ増やす)",
+          "      if (a[j] ＜ a[m])",
+          "        m ← j",
+          "      endif",
+          "    endfor",
+          "    w ← a[i]",
+          "    a[i] ← a[m]",
+          "    a[m] ← w",
+          "  endfor"
+        ]
+      },
+      "trace": {
+        "caption": "selectionSort({7, 3, 9, 2, 5, 4}) を実行したとき、10行目を実行する直前の値",
+        "vars": [
+          "i",
+          "m"
+        ],
+        "rows": [
+          [
+            "1",
+            "4"
+          ],
+          [
+            "2",
+            "2"
+          ],
+          [
+            "3",
+            "6"
+          ],
+          [
+            "4",
+            "5"
+          ],
+          [
+            "5",
+            "5"
+          ]
+        ]
+      },
+      "choices": [
+        {
+          "text": "{2, 3, 4, 7, 5, 9}",
+          "why": "a[3]〜a[6] の最小値4（a[6]）と a[3] の9を交換した結果である。"
+        },
+        {
+          "text": "{2, 3, 4, 5, 7, 9}",
+          "why": "i ＝ 4 の処理まで終えた後の内容で、i ＝ 3 の直後ではまだ7と5が逆順である。"
+        },
+        {
+          "text": "{2, 3, 9, 7, 5, 4}",
+          "why": "i ＝ 2 の処理を終えた直後の内容で、i ＝ 3 の交換がまだ反映されていない。"
+        },
+        {
+          "text": "{2, 3, 4, 9, 7, 5}",
+          "why": "最小値を挿入して残りを後ろへずらした場合の内容で、11〜12行目は2要素の交換である。"
+        }
+      ],
+      "answer": 0,
+      "explanation": "各回の繰返しでは、5〜9行目で a[i]〜a[6] の最小値の位置 m を求め、10〜12行目で a[i] と a[m] を交換する。i ＝ 1 では最小値2（m ＝ 4）と7を交換して {2, 3, 9, 7, 5, 4}、i ＝ 2 では a[2] の3が最小なので m ＝ 2 のまま変化しない。i ＝ 3 では a[3]〜a[6] の最小値4（m ＝ 6）と a[3] の9を交換するので、{2, 3, 4, 7, 5, 9} となる。",
+      "terms": [],
+      "tags": [
+        "整列",
+        "選択ソート",
+        "途中状態"
+      ],
+      "verification": {
+        "status": "ai-verified",
+        "methods": [
+          "independent-solve",
+          "script",
+          "quality-review"
+        ],
+        "verifiedAt": "2026-10-01",
+        "script": "tools/verify/checks/algo-02.mjs"
+      },
+      "source": "original"
+    },
+    {
+      "id": "b-algo-0024",
+      "subject": "B",
+      "field": "technology",
+      "category": "アルゴリズムとプログラミング",
+      "syllabusRef": "アルゴリズムとプログラミング",
+      "difficulty": 2,
+      "stem": [
+        "次の手続 insertionSort は、挿入ソートによって配列 a の要素を昇順に整列する。a[i] を x に取り出し、その前にある整列済みの部分の適切な位置に x を挿入する。配列の要素番号は1から始まる。",
+        "プログラム中の［ a ］に入れる字句として、適切なものはどれか。"
+      ],
+      "code": {
+        "lines": [
+          "○insertionSort(整数型の配列: a)",
+          "  整数型: i, j, x",
+          "  for (i を 2 から aの要素数 まで 1 ずつ増やす)",
+          "    x ← a[i]",
+          "    j ← i − 1",
+          "    while ((j ≧ 1) and (［ a ］))",
+          "      a[j ＋ 1] ← a[j]",
+          "      j ← j − 1",
+          "    endwhile",
+          "    a[j ＋ 1] ← x",
+          "  endfor"
+        ]
+      },
+      "choices": [
+        {
+          "text": "a[j] ＜ x",
+          "why": "x より小さい要素をずらすことになり、要素が降順に並ぶ。"
+        },
+        {
+          "text": "a[j ＋ 1] ＞ x",
+          "why": "最初の比較では a[j ＋ 1] が x 自身なので条件が常に偽となり、要素がずらされない。"
+        },
+        {
+          "text": "a[j] ＞ x",
+          "why": "整列済みの部分を後ろから見て、x より大きい要素だけを後ろへずらす条件である。"
+        },
+        {
+          "text": "a[j] ＞ a[i]",
+          "why": "7行目で a[i] が書き換えられると比較の相手が x でなくなり、x を先頭側まで移せない。"
+        }
+      ],
+      "answer": 2,
+      "explanation": "6〜9行目の繰返しは、整列済みの a[1]〜a[i − 1] を後ろから順に調べ、x より大きい要素を7行目で1つ後ろへずらす処理である。したがって［ a ］は a[j] ＞ x となり、x 以下の要素が見つかるか j が0になった時点で繰返しを抜け、10行目で空いた a[j ＋ 1] に x を入れる。x と等しい要素はずらさないので、等しい値どうしの並び順も保たれる。a[j] ＞ a[i] では、7行目で a[i] が上書きされた後の比較が誤り、例えば {3, 4, 1} を正しく整列できない。",
+      "terms": [],
+      "tags": [
+        "整列",
+        "挿入ソート",
+        "空欄補充"
+      ],
+      "verification": {
+        "status": "ai-verified",
+        "methods": [
+          "independent-solve",
+          "script",
+          "quality-review"
+        ],
+        "verifiedAt": "2026-10-01",
+        "script": "tools/verify/checks/algo-02.mjs"
+      },
+      "source": "original"
+    },
+    {
+      "id": "b-algo-0025",
+      "subject": "B",
+      "field": "technology",
+      "category": "アルゴリズムとプログラミング",
+      "syllabusRef": "アルゴリズムとプログラミング",
+      "difficulty": 2,
+      "stem": [
+        "次の関数 binSearch は、昇順に整列された配列 data から key を2分探索し、見つかればその要素番号を、見つからなければ 0 を返す。ここで、÷ は商の整数部分（小数点以下を切り捨てた値）を求める演算である。配列の要素番号は1から始まる。",
+        "data が {4, 9, 13, 18, 22, 27, 31, 36, 40, 45, 51} のとき、binSearch(data, 33) を呼び出した。6行目で mid に代入される値を順に並べたものはどれか。"
+      ],
+      "code": {
+        "lines": [
+          "○整数型: binSearch(整数型の配列: data, 整数型: key)",
+          "  整数型: lo ← 1",
+          "  整数型: hi ← dataの要素数",
+          "  整数型: mid",
+          "  while (lo ≦ hi)",
+          "    mid ← (lo ＋ hi) ÷ 2",
+          "    if (data[mid] ＝ key)",
+          "      return mid",
+          "    elseif (data[mid] ＜ key)",
+          "      lo ← mid ＋ 1",
+          "    else",
+          "      hi ← mid − 1",
+          "    endif",
+          "  endwhile",
+          "  return 0"
+        ]
+      },
+      "trace": {
+        "caption": "binSearch(data, 33) を実行したとき、6行目を実行する直前の値",
+        "vars": [
+          "lo",
+          "hi"
+        ],
+        "rows": [
+          [
+            "1",
+            "11"
+          ],
+          [
+            "7",
+            "11"
+          ],
+          [
+            "7",
+            "8"
+          ],
+          [
+            "8",
+            "8"
+          ]
+        ]
+      },
+      "choices": [
+        {
+          "text": "6, 3, 4, 5",
+          "why": "2回目以降で前半を探しており、data[6] ＝ 27 ＜ 33 のときは後半を探す。"
+        },
+        {
+          "text": "6, 9, 7, 8",
+          "why": "lo と hi を10行目・12行目で更新しながら、(lo ＋ hi) ÷ 2 を順に求めた値である。"
+        },
+        {
+          "text": "6, 9, 7",
+          "why": "mid ＝ 7 の後も lo ＝ 8、hi ＝ 8 で5行目の条件が真なので、もう1回 mid を求める。"
+        },
+        {
+          "text": "6, 9, 8, 7",
+          "why": "(7 ＋ 8) ÷ 2 を切り上げて8とした場合の並びで、÷ は小数点以下を切り捨てる。"
+        }
+      ],
+      "answer": 1,
+      "explanation": "最初は lo ＝ 1、hi ＝ 11 なので mid ＝ 6 となり、data[6] ＝ 27 ＜ 33 から10行目で lo ＝ 7 となる。次に mid ＝ (7 ＋ 11) ÷ 2 ＝ 9 で、data[9] ＝ 40 ＞ 33 から12行目で hi ＝ 8、続いて mid ＝ (7 ＋ 8) ÷ 2 ＝ 7 で、data[7] ＝ 31 ＜ 33 から lo ＝ 8 となる。lo ＝ hi ＝ 8 なので mid ＝ 8 となり、data[8] ＝ 36 ＞ 33 から hi ＝ 7 となって5行目の条件が偽になり、15行目で 0 を返す。mid の値は 6, 9, 7, 8 の順である。",
+      "terms": [],
+      "tags": [
+        "探索",
+        "2分探索",
+        "途中状態"
+      ],
+      "verification": {
+        "status": "ai-verified",
+        "methods": [
+          "independent-solve",
+          "script",
+          "quality-review"
+        ],
+        "verifiedAt": "2026-10-01",
+        "script": "tools/verify/checks/algo-02.mjs"
+      },
+      "source": "original"
+    },
+    {
+      "setId": "b-algo-set-0011",
+      "subject": "B",
+      "title": "クイックソートの分割と再帰呼出し",
+      "stem": [
+        "次の手続 quickSort は、配列 a の要素番号 lo から hi までの範囲を、クイックソートによって昇順に整列する。範囲の末尾の要素 a[hi] を基準値 p とし、6〜18行目で p より小さい要素を範囲の前方に集めて、p をその直後に置く（分割）。その後、19行目と20行目で、p より前の範囲と後ろの範囲のそれぞれに対して quickSort を再帰的に呼び出す。",
+        "配列は参照渡しであり、呼び出された側での変更は呼出し元にも反映される。配列の要素番号は1から始まる。"
+      ],
+      "code": {
+        "lines": [
+          "○quickSort(整数型の配列: a, 整数型: lo, 整数型: hi)",
+          "  整数型: p, i, j, w",
+          "  if (lo ≧ hi)",
+          "    return",
+          "  endif",
+          "  p ← a[hi]",
+          "  i ← lo − 1",
+          "  for (j を lo から hi − 1 まで 1 ずつ増やす)",
+          "    if (a[j] ＜ p)",
+          "      i ← i ＋ 1",
+          "      w ← a[i]",
+          "      a[i] ← a[j]",
+          "      a[j] ← w",
+          "    endif",
+          "  endfor",
+          "  w ← a[i ＋ 1]",
+          "  a[i ＋ 1] ← a[hi]",
+          "  a[hi] ← w",
+          "  quickSort(a, lo, i)",
+          "  quickSort(a, i ＋ 2, hi)"
+        ]
+      },
+      "questions": [
+        {
+          "id": "b-algo-0026",
+          "subject": "B",
+          "field": "technology",
+          "category": "アルゴリズムとプログラミング",
+          "syllabusRef": "アルゴリズムとプログラミング",
+          "difficulty": 2,
+          "stem": [
+            "配列 a が {6, 2, 8, 3, 9, 5} のとき、quickSort(a, 1, 6) を実行した。最初の呼出しで18行目の実行を終えた直後（19行目の再帰呼出しの前）の a の内容はどれか。配列の要素番号は1から始まる。"
+          ],
+          "choices": [
+            {
+              "text": "{2, 3, 5, 6, 9, 8}",
+              "why": "5より小さい2と3を前方に集めた後、基準値5を a[3] に置いた結果である。"
+            },
+            {
+              "text": "{2, 3, 8, 6, 9, 5}",
+              "why": "8〜15行目を終えた時点の内容で、16〜18行目で基準値を移す処理が反映されていない。"
+            },
+            {
+              "text": "{2, 5, 8, 6, 9, 3}",
+              "why": "基準値を a[i] と交換した場合の内容で、交換の相手は a[i ＋ 1] である。"
+            },
+            {
+              "text": "{2, 3, 5, 6, 8, 9}",
+              "why": "整列がすべて終わった後の内容で、9と8は後の再帰呼出しで入れ替わる。"
+            }
+          ],
+          "answer": 0,
+          "explanation": "基準値は6行目で p ＝ a[6] ＝ 5、7行目で i ＝ 0 となる。8〜15行目では、j ＝ 2 の2と j ＝ 4 の3が5より小さいので、それぞれ i を1増やして a[i] と a[j] を交換し、a は {2, 6, 8, 3, 9, 5} を経て {2, 3, 8, 6, 9, 5}、i ＝ 2 となる。16〜18行目で a[i ＋ 1] ＝ a[3] の8と a[6] の5を交換するので、{2, 3, 5, 6, 9, 8} となる。",
+          "terms": [
+            "g-0029"
+          ],
+          "tags": [
+            "整列",
+            "クイックソート",
+            "途中状態"
+          ],
+          "verification": {
+            "status": "ai-verified",
+            "methods": [
+              "independent-solve",
+              "script",
+              "quality-review"
+            ],
+            "verifiedAt": "2026-10-01",
+            "script": "tools/verify/checks/algo-02.mjs"
+          },
+          "source": "original"
+        },
+        {
+          "id": "b-algo-0027",
+          "subject": "B",
+          "field": "technology",
+          "category": "アルゴリズムとプログラミング",
+          "syllabusRef": "アルゴリズムとプログラミング",
+          "difficulty": 3,
+          "stem": [
+            "配列 a が {6, 2, 8, 3, 9, 5} のとき、quickSort(a, 1, 6) を実行した。最初の呼出しを含めて、quickSort が呼び出される回数は幾らか。配列の要素番号は1から始まる。"
+          ],
+          "choices": [
+            {
+              "text": "3",
+              "why": "分割を行う呼出し（lo ＜ hi の呼出し）だけを数えた値である。"
+            },
+            {
+              "text": "4",
+              "why": "3行目の条件が真ですぐに戻る呼出しだけを数えた値である。"
+            },
+            {
+              "text": "6",
+              "why": "最初の quickSort(a, 1, 6) の呼出しを数えていない値である。"
+            },
+            {
+              "text": "7",
+              "why": "分割を行う3回の呼出しと、範囲の要素数が1以下ですぐに戻る4回の呼出しの合計である。"
+            }
+          ],
+          "answer": 3,
+          "fixedOrder": true,
+          "explanation": "quickSort(a, 1, 6) では分割の後に基準値5が a[3] に置かれ i ＝ 2 なので、19・20行目で quickSort(a, 1, 2) と quickSort(a, 4, 6) を呼び出す。quickSort(a, 1, 2) は {2, 3} を基準値3で分割して i ＝ 1 となり、quickSort(a, 1, 1) と quickSort(a, 3, 2) を呼び出す。quickSort(a, 4, 6) は {6, 9, 8} を基準値8で分割して {6, 8, 9}、i ＝ 4 となり、quickSort(a, 4, 4) と quickSort(a, 6, 6) を呼び出す。lo ≧ hi の4回の呼出しは3行目の条件が真となって4行目ですぐに戻るので、呼出しは全部で 1 ＋ 2 ＋ 4 ＝ 7 回となる。",
+          "terms": [],
+          "tags": [
+            "整列",
+            "クイックソート",
+            "再帰",
+            "回数"
+          ],
+          "verification": {
+            "status": "ai-verified",
+            "methods": [
+              "independent-solve",
+              "script",
+              "quality-review"
+            ],
+            "verifiedAt": "2026-10-01",
+            "script": "tools/verify/checks/algo-02.mjs"
+          },
+          "source": "original"
+        },
+        {
+          "id": "b-algo-0028",
+          "subject": "B",
+          "field": "technology",
+          "category": "アルゴリズムとプログラミング",
+          "syllabusRef": "アルゴリズムとプログラミング",
+          "difficulty": 3,
+          "stem": [
+            "要素数6の配列 a に対して quickSort(a, 1, 6) を実行する。a の初期内容が次のうちどれのとき、9行目の比較が実行される回数が最も多くなるか。配列の要素番号は1から始まる。"
+          ],
+          "choices": [
+            {
+              "text": "{4, 1, 5, 2, 6, 3}",
+              "why": "最初の基準値3で前後が2個と3個に分かれ、比較は計8回にとどまる。"
+            },
+            {
+              "text": "{2, 4, 6, 1, 3, 5}",
+              "why": "最初の基準値5で前後が4個と1個に分かれ、比較は計9回となる。"
+            },
+            {
+              "text": "{5, 3, 1, 6, 4, 2}",
+              "why": "最初の基準値2で前後が1個と4個に分かれ、比較は計10回となる。"
+            },
+            {
+              "text": "{2, 5, 3, 4, 1, 6}",
+              "why": "基準値が毎回範囲の最大か最小となり、比較は 5 ＋ 4 ＋ 3 ＋ 2 ＋ 1 の計15回となる。"
+            }
+          ],
+          "answer": 3,
+          "explanation": "9行目の比較は、1回の分割で範囲の要素数より1少ない回数だけ実行される。{2, 5, 3, 4, 1, 6} では、基準値が 6（最大）、1（最小）、2（最小）、5（最大）、4（最大）の順になり、分割のたびに一方の範囲は空、もう一方の範囲は要素数が1減るだけになる。そのため比較回数は 5 ＋ 4 ＋ 3 ＋ 2 ＋ 1 ＝ 15 回となり、最も多い。基準値が範囲の中央に近い値になるほど範囲が均等に分かれ、比較回数は少なくなる。",
+          "terms": [],
+          "tags": [
+            "整列",
+            "クイックソート",
+            "計算量",
+            "回数"
+          ],
+          "verification": {
+            "status": "ai-verified",
+            "methods": [
+              "independent-solve",
+              "script",
+              "quality-review"
+            ],
+            "verifiedAt": "2026-10-01",
+            "script": "tools/verify/checks/algo-02.mjs"
+          },
+          "source": "original"
+        }
+      ]
+    },
+    {
+      "id": "b-algo-0029",
+      "subject": "B",
+      "field": "technology",
+      "category": "アルゴリズムとプログラミング",
+      "syllabusRef": "アルゴリズムとプログラミング",
+      "difficulty": 1,
+      "stem": [
+        "次の関数 sumOdd は、再帰呼出しを用いて定義されている。配列の要素番号は1から始まる。",
+        "sumOdd(9) の戻り値は幾らか。"
+      ],
+      "code": {
+        "lines": [
+          "○整数型: sumOdd(整数型: n)",
+          "  if (n ≦ 0)",
+          "    return 0",
+          "  endif",
+          "  return n ＋ sumOdd(n − 2)"
+        ]
+      },
+      "trace": {
+        "caption": "sumOdd(9) を実行したとき、2行目を実行する直前の n の値（呼び出された順）",
+        "vars": [
+          "n"
+        ],
+        "rows": [
+          [
+            "9"
+          ],
+          [
+            "7"
+          ],
+          [
+            "5"
+          ],
+          [
+            "3"
+          ],
+          [
+            "1"
+          ],
+          [
+            "-1"
+          ]
+        ]
+      },
+      "choices": [
+        {
+          "text": "16",
+          "why": "最初の n ＝ 9 を加えていない値で、5行目では n 自身も加える。"
+        },
+        {
+          "text": "25",
+          "why": "9、7、5、3、1 を加えた値で、n ＝ −1 の呼出しは3行目で 0 を返す。"
+        },
+        {
+          "text": "45",
+          "why": "1〜9のすべての整数の和で、5行目では n を2ずつ減らしている。"
+        },
+        {
+          "text": "945",
+          "why": "9、7、5、3、1 の積であり、5行目で行うのは加算である。"
+        }
+      ],
+      "answer": 1,
+      "fixedOrder": true,
+      "explanation": "5行目で n に sumOdd(n − 2) の戻り値を加えるので、sumOdd(9) ＝ 9 ＋ sumOdd(7) ＝ 9 ＋ 7 ＋ sumOdd(5) … と展開される。n が −1 になると2行目の条件が真となり、3行目で 0 を返す。したがって戻り値は 9 ＋ 7 ＋ 5 ＋ 3 ＋ 1 ＋ 0 ＝ 25 となる。",
+      "terms": [],
+      "tags": [
+        "再帰",
+        "実行結果"
+      ],
+      "verification": {
+        "status": "ai-verified",
+        "methods": [
+          "independent-solve",
+          "script",
+          "quality-review"
+        ],
+        "verifiedAt": "2026-10-01",
+        "script": "tools/verify/checks/algo-02.mjs"
+      },
+      "source": "original"
+    },
+    {
+      "id": "b-algo-0030",
+      "subject": "B",
+      "field": "technology",
+      "category": "アルゴリズムとプログラミング",
+      "syllabusRef": "アルゴリズムとプログラミング",
+      "difficulty": 3,
+      "stem": [
+        "次の関数 f は、再帰呼出しを用いて定義されている。大域変数 calls は、f が呼び出された回数を数える。配列の要素番号は1から始まる。",
+        "calls が 0 の状態で f(7) を呼び出した。f(7) の処理が終わった時点の calls の値は幾らか。"
+      ],
+      "code": {
+        "lines": [
+          "大域: 整数型: calls ← 0",
+          "○整数型: f(整数型: n)",
+          "  calls ← calls ＋ 1",
+          "  if (n ≦ 2)",
+          "    return 1",
+          "  endif",
+          "  return f(n − 1) ＋ f(n − 3)"
+        ]
+      },
+      "choices": [
+        {
+          "text": "9",
+          "why": "f(7) の戻り値であり、呼出しの回数ではない。"
+        },
+        {
+          "text": "11",
+          "why": "f(6) の処理での呼出し回数であり、f(7) 自身と f(4) の処理での呼出しが含まれていない。"
+        },
+        {
+          "text": "16",
+          "why": "最初の f(7) の呼出しを数えていない値で、3行目は f(7) の呼出しでも実行される。"
+        },
+        {
+          "text": "17",
+          "why": "f(7) 自身の1回と、f(6) の処理での11回、f(4) の処理での5回の合計である。"
+        }
+      ],
+      "answer": 3,
+      "fixedOrder": true,
+      "explanation": "f(n) の処理で calls が増える回数を C(n) とすると、n ≦ 2 では3行目の1回だけなので C(n) ＝ 1、n ≧ 3 では7行目で f(n − 1) と f(n − 3) を呼び出すので C(n) ＝ 1 ＋ C(n − 1) ＋ C(n − 3) となる。C(3) ＝ 1 ＋ 1 ＋ 1 ＝ 3、C(4) ＝ 1 ＋ 3 ＋ 1 ＝ 5、C(5) ＝ 1 ＋ 5 ＋ 1 ＝ 7、C(6) ＝ 1 ＋ 7 ＋ 3 ＝ 11、C(7) ＝ 1 ＋ 11 ＋ 5 ＝ 17 となる。なお、f(7) の戻り値は9である。",
+      "terms": [],
+      "tags": [
+        "再帰",
+        "回数"
+      ],
+      "verification": {
+        "status": "ai-verified",
+        "methods": [
+          "independent-solve",
+          "script",
+          "quality-review"
+        ],
+        "verifiedAt": "2026-10-01",
+        "script": "tools/verify/checks/algo-02.mjs"
+      },
+      "source": "original"
+    },
+    {
+      "id": "b-algo-0031",
+      "subject": "B",
+      "field": "technology",
+      "category": "アルゴリズムとプログラミング",
+      "syllabusRef": "アルゴリズムとプログラミング",
+      "difficulty": 2,
+      "stem": [
+        "次の関数 merge は、それぞれ昇順に整列された二つの配列 x と y を併合（マージ）し、すべての要素を昇順に並べた新しい配列を返す。配列の要素番号は1から始まる。",
+        "プログラム中の［ a ］に入れる字句として、適切なものはどれか。"
+      ],
+      "code": {
+        "lines": [
+          "○整数型の配列: merge(整数型の配列: x, 整数型の配列: y)",
+          "  整数型の配列: z ← {}",
+          "  整数型: i ← 1",
+          "  整数型: j ← 1",
+          "  while ((i ≦ xの要素数) and (j ≦ yの要素数))",
+          "    if (x[i] ≦ y[j])",
+          "      z の末尾に x[i] の値を追加する",
+          "      i ← i ＋ 1",
+          "    else",
+          "      z の末尾に y[j] の値を追加する",
+          "      j ← j ＋ 1",
+          "    endif",
+          "  endwhile",
+          "  while (［ a ］)",
+          "    z の末尾に x[i] の値を追加する",
+          "    i ← i ＋ 1",
+          "  endwhile",
+          "  while (j ≦ yの要素数)",
+          "    z の末尾に y[j] の値を追加する",
+          "    j ← j ＋ 1",
+          "  endwhile",
+          "  return z"
+        ]
+      },
+      "choices": [
+        {
+          "text": "i ≦ xの要素数",
+          "why": "x に残っている要素を、x の末尾まですべて z に追加する条件である。"
+        },
+        {
+          "text": "i ＜ xの要素数",
+          "why": "x の最後の要素が残っているときに、その要素が z に追加されない。"
+        },
+        {
+          "text": "i ≦ yの要素数",
+          "why": "x の残りを y の要素数で判定しており、x の方が長いと要素が残り、y の方が長いと範囲外の x[i] を参照する。"
+        },
+        {
+          "text": "j ≦ xの要素数",
+          "why": "繰返しの中で変化しない j で判定しており、条件が真なら i が x の要素数を超えて範囲外の x[i] を参照する。"
+        }
+      ],
+      "answer": 0,
+      "explanation": "5〜13行目の繰返しは、x と y のどちらかの要素をすべて z に移し終えた時点で終わる。その時点でもう一方の配列には、z の末尾の値以上の要素が昇順のまま残っている。14〜17行目は x の残りを、18〜21行目は y の残りをそのまま z に追加する処理なので、［ a ］は18行目と対になる i ≦ xの要素数 となる。",
+      "terms": [],
+      "tags": [
+        "整列",
+        "マージ",
+        "空欄補充"
+      ],
+      "verification": {
+        "status": "ai-verified",
+        "methods": [
+          "independent-solve",
+          "script",
+          "quality-review"
+        ],
+        "verifiedAt": "2026-10-01",
+        "script": "tools/verify/checks/algo-02.mjs"
+      },
+      "source": "original"
+    },
+    {
+      "id": "b-algo-0032",
+      "subject": "B",
+      "field": "technology",
+      "category": "アルゴリズムとプログラミング",
+      "syllabusRef": "アルゴリズムとプログラミング",
+      "difficulty": 2,
+      "stem": [
+        "次の関数 countSort は、0以上 maxV 以下の整数を要素とする配列 a の要素を、計数ソートによって昇順に並べた新しい配列を返す。cnt[v ＋ 1] には、a の中に値 v が現れる回数を数える。配列の要素番号は1から始まる。",
+        "プログラム中の［ a ］に入れる字句として、適切なものはどれか。"
+      ],
+      "code": {
+        "lines": [
+          "○整数型の配列: countSort(整数型の配列: a, 整数型: maxV)",
+          "  整数型の配列: cnt ← {}",
+          "  整数型の配列: b ← {}",
+          "  整数型: i, k",
+          "  for (i を 0 から maxV まで 1 ずつ増やす)",
+          "    cnt の末尾に 0 を追加する",
+          "  endfor",
+          "  for (i を 1 から aの要素数 まで 1 ずつ増やす)",
+          "    cnt[a[i] ＋ 1] ← cnt[a[i] ＋ 1] ＋ 1",
+          "  endfor",
+          "  for (i を 0 から maxV まで 1 ずつ増やす)",
+          "    for (k を 1 から ［ a ］ まで 1 ずつ増やす)",
+          "      b の末尾に i の値を追加する",
+          "    endfor",
+          "  endfor",
+          "  return b"
+        ]
+      },
+      "choices": [
+        {
+          "text": "cnt[i]",
+          "why": "値 i − 1 の個数を参照しており、i ＝ 0 では要素番号0となって範囲外になる。"
+        },
+        {
+          "text": "maxV",
+          "why": "値ごとの個数によらず、どの値も maxV 個ずつ追加してしまう。"
+        },
+        {
+          "text": "cnt[i ＋ 1]",
+          "why": "値 i が現れた回数だけ、i を b の末尾に追加する指定である。"
+        },
+        {
+          "text": "a[i ＋ 1]",
+          "why": "元の配列の要素の値を回数として使っており、値 i の個数とは関係がない。"
+        }
+      ],
+      "answer": 2,
+      "explanation": "5〜7行目で cnt を maxV ＋ 1 個の0で初期化し、8〜10行目で a の各要素の値 v について cnt[v ＋ 1] を1増やす。11〜15行目では、値 i を小さい順に、a に現れた回数だけ b に追加すればよいので、12行目の繰返しの上限は cnt[i ＋ 1] となる。要素どうしを比較せずに整列でき、要素数を n とすると処理量は n ＋ maxV に比例する。",
+      "terms": [],
+      "tags": [
+        "整列",
+        "計数ソート",
+        "空欄補充"
+      ],
+      "verification": {
+        "status": "ai-verified",
+        "methods": [
+          "independent-solve",
+          "script",
+          "quality-review"
+        ],
+        "verifiedAt": "2026-10-01",
+        "script": "tools/verify/checks/algo-02.mjs"
+      },
+      "source": "original"
+    },
+    {
+      "id": "b-algo-0033",
+      "subject": "B",
+      "field": "technology",
+      "category": "アルゴリズムとプログラミング",
+      "syllabusRef": "アルゴリズムとプログラミング",
+      "difficulty": 2,
+      "stem": [
+        "次の手続 bubbleSort2 は、バブルソートによって配列 a の要素を昇順に整列する。1回の走査（7〜14行目）で一度も交換が起きなければ、整列済みと判断して終了する。配列の要素番号は1から始まる。",
+        "bubbleSort2({3, 1, 2, 4, 5, 6}) を実行したとき、8行目の比較が実行される回数は幾らか。"
+      ],
+      "code": {
+        "lines": [
+          "○bubbleSort2(整数型の配列: a)",
+          "  整数型: i, j, w",
+          "  論理型: swapped",
+          "  i ← aの要素数",
+          "  do",
+          "    swapped ← false",
+          "    for (j を 1 から i − 1 まで 1 ずつ増やす)",
+          "      if (a[j] ＞ a[j ＋ 1])",
+          "        w ← a[j]",
+          "        a[j] ← a[j ＋ 1]",
+          "        a[j ＋ 1] ← w",
+          "        swapped ← true",
+          "      endif",
+          "    endfor",
+          "    i ← i − 1",
+          "  while (swapped and (i ≧ 2))"
+        ]
+      },
+      "trace": {
+        "caption": "bubbleSort2({3, 1, 2, 4, 5, 6}) を実行したとき、15行目を実行する直前の値",
+        "vars": [
+          "i",
+          "swapped",
+          "a"
+        ],
+        "rows": [
+          [
+            "6",
+            "true",
+            "{1, 2, 3, 4, 5, 6}"
+          ],
+          [
+            "5",
+            "false",
+            "{1, 2, 3, 4, 5, 6}"
+          ]
+        ]
+      },
+      "choices": [
+        {
+          "text": "5",
+          "why": "1回目の走査だけを数えた値で、交換が起きたので2回目の走査も行われる。"
+        },
+        {
+          "text": "9",
+          "why": "交換が起きた1回目の走査の5回と、交換が起きなかった2回目の走査の4回の合計である。"
+        },
+        {
+          "text": "12",
+          "why": "交換が起きなかった走査の後にもう1回走査した場合の 5 ＋ 4 ＋ 3 である。"
+        },
+        {
+          "text": "15",
+          "why": "途中で終了しない場合の 5 ＋ 4 ＋ 3 ＋ 2 ＋ 1 であり、16行目の判定が考慮されていない。"
+        }
+      ],
+      "answer": 1,
+      "fixedOrder": true,
+      "explanation": "1回目の走査（i ＝ 6）では8行目の比較を5回行い、3と1、3と2を交換して a は {1, 2, 3, 4, 5, 6} となる。swapped は true なので、15行目で i ＝ 5 とした後、16行目の条件が真となり2回目の走査を行う。2回目の走査（i ＝ 5）では比較を4回行うが交換は起きないので、swapped は false のままとなり、16行目で繰返しを終える。比較回数は 5 ＋ 4 ＝ 9 回で、交換の有無で打ち切らない場合の15回より少ない。",
+      "terms": [],
+      "tags": [
+        "整列",
+        "バブルソート",
+        "計算量",
+        "回数"
+      ],
+      "verification": {
+        "status": "ai-verified",
+        "methods": [
+          "independent-solve",
+          "script",
+          "quality-review"
+        ],
+        "verifiedAt": "2026-10-01",
+        "script": "tools/verify/checks/algo-02.mjs"
+      },
+      "source": "original"
+    },
+    {
+      "id": "b-algo-0034",
+      "subject": "B",
+      "field": "technology",
+      "category": "アルゴリズムとプログラミング",
+      "syllabusRef": "アルゴリズムとプログラミング",
+      "difficulty": 3,
+      "stem": [
+        "次の関数 search は、昇順に整列された配列 d から key を2分探索し、見つかればその要素番号を、見つからなければ 0 を返すために作成したものである。しかし10行目に誤りがあり、key の値によっては処理が終了しない。ここで、÷ は商の整数部分（小数点以下を切り捨てた値）を求める演算である。配列の要素番号は1から始まる。",
+        "d が {3, 8, 14, 20, 27, 35} のとき、search(d, key) の処理が終了しなくなる key はどれか。"
+      ],
+      "code": {
+        "lines": [
+          "○整数型: search(整数型の配列: d, 整数型: key)",
+          "  整数型: lo ← 1",
+          "  整数型: hi ← dの要素数",
+          "  整数型: mid",
+          "  while (lo ≦ hi)",
+          "    mid ← (lo ＋ hi) ÷ 2",
+          "    if (d[mid] ＝ key)",
+          "      return mid",
+          "    elseif (d[mid] ＜ key)",
+          "      lo ← mid",
+          "    else",
+          "      hi ← mid − 1",
+          "    endif",
+          "  endwhile",
+          "  return 0"
+        ]
+      },
+      "choices": [
+        {
+          "text": "3",
+          "why": "mid ＝ 3 の後に hi ＝ 2 となり、mid ＝ 1 で d[1] ＝ 3 が見つかって終了する。"
+        },
+        {
+          "text": "14",
+          "why": "最初の mid ＝ 3 で d[3] ＝ 14 が見つかり、8行目で終了する。"
+        },
+        {
+          "text": "27",
+          "why": "mid が 3、4、5 と進み、d[5] ＝ 27 が見つかって終了する。"
+        },
+        {
+          "text": "35",
+          "why": "lo ＝ 5、hi ＝ 6 で mid ＝ 5 が続き、10行目で lo が変わらなくなる。"
+        }
+      ],
+      "answer": 3,
+      "fixedOrder": true,
+      "explanation": "key ＝ 35 では、mid は 3、4、5 と進み、10行目でそのたびに lo ＝ mid となって lo ＝ 5、hi ＝ 6 になる。すると6行目で mid ＝ (5 ＋ 6) ÷ 2 ＝ 5、d[5] ＝ 27 ＜ 35 なので10行目で lo ← 5 となり、lo も hi も変わらないまま同じ処理を繰り返す。÷ が切り捨てのため mid は lo に等しくなり得るので、10行目は lo ← mid ＋ 1 とする必要がある。",
+      "terms": [],
+      "tags": [
+        "探索",
+        "2分探索",
+        "誤りの特定"
+      ],
+      "verification": {
+        "status": "ai-verified",
+        "methods": [
+          "independent-solve",
+          "script",
+          "quality-review"
+        ],
+        "verifiedAt": "2026-10-01",
+        "script": "tools/verify/checks/algo-02.mjs"
+      },
+      "source": "original"
+    },
+    {
+      "setId": "b-algo-set-0012",
+      "subject": "B",
+      "title": "マージソートの再帰と比較回数",
+      "stem": [
+        "次の関数 mergeSort は、配列 a を前半と後半に分け、それぞれを再帰的に整列した後、二つの整列済みの配列を併合（マージ）して、昇順に整列された新しい配列を返す。大域変数 comps は、併合の際に24行目で要素どうしを比較した回数を数える。",
+        "ここで、÷ は商の整数部分（小数点以下を切り捨てた値）を求める演算である。配列の要素番号は1から始まる。"
+      ],
+      "code": {
+        "lines": [
+          "大域: 整数型: comps ← 0",
+          "○整数型の配列: mergeSort(整数型の配列: a)",
+          "  整数型: n ← aの要素数",
+          "  整数型: mid, i, j",
+          "  整数型の配列: left ← {}",
+          "  整数型の配列: right ← {}",
+          "  整数型の配列: z ← {}",
+          "  if (n ≦ 1)",
+          "    return a",
+          "  endif",
+          "  mid ← n ÷ 2",
+          "  for (i を 1 から mid まで 1 ずつ増やす)",
+          "    left の末尾に a[i] の値を追加する",
+          "  endfor",
+          "  for (i を mid ＋ 1 から n まで 1 ずつ増やす)",
+          "    right の末尾に a[i] の値を追加する",
+          "  endfor",
+          "  left ← mergeSort(left)",
+          "  right ← mergeSort(right)",
+          "  i ← 1",
+          "  j ← 1",
+          "  while ((i ≦ leftの要素数) and (j ≦ rightの要素数))",
+          "    comps ← comps ＋ 1",
+          "    if (left[i] ≦ right[j])",
+          "      z の末尾に left[i] の値を追加する",
+          "      i ← i ＋ 1",
+          "    else",
+          "      z の末尾に right[j] の値を追加する",
+          "      j ← j ＋ 1",
+          "    endif",
+          "  endwhile",
+          "  while (i ≦ leftの要素数)",
+          "    z の末尾に left[i] の値を追加する",
+          "    i ← i ＋ 1",
+          "  endwhile",
+          "  while (j ≦ rightの要素数)",
+          "    z の末尾に right[j] の値を追加する",
+          "    j ← j ＋ 1",
+          "  endwhile",
+          "  return z"
+        ]
+      },
+      "questions": [
+        {
+          "id": "b-algo-0035",
+          "subject": "B",
+          "field": "technology",
+          "category": "アルゴリズムとプログラミング",
+          "syllabusRef": "アルゴリズムとプログラミング",
+          "difficulty": 2,
+          "stem": [
+            "mergeSort({5, 1, 7, 3, 6, 2, 4}) を呼び出したとき、最初の呼出しを含めて mergeSort が呼び出される回数は幾らか。配列の要素番号は1から始まる。"
+          ],
+          "choices": [
+            {
+              "text": "6",
+              "why": "併合を行う呼出し（要素数2以上の呼出し）だけを数えた値である。"
+            },
+            {
+              "text": "7",
+              "why": "要素数1で9行目からすぐに戻る呼出しだけを数えた値である。"
+            },
+            {
+              "text": "12",
+              "why": "最初の mergeSort の呼出しを数えていない値である。"
+            },
+            {
+              "text": "13",
+              "why": "要素数1の呼出し7回と、要素数2以上の呼出し6回の合計である。"
+            }
+          ],
+          "answer": 3,
+          "fixedOrder": true,
+          "explanation": "要素数が2以上の呼出しは、18行目と19行目で前半と後半に対して1回ずつ再帰呼出しを行い、要素数が1になると9行目でそのまま返る。要素数7は3と4に、3は1と2に、4は2と2に、2は1と1に分かれるので、要素数1の呼出しは7回、要素数2以上の呼出しは 1 ＋ 2 ＋ 3 ＝ 6 回となる。合計は13回で、一般に要素数 n（n ≧ 1）なら 2n − 1 回となる。",
+          "terms": [
+            "g-0029"
+          ],
+          "tags": [
+            "整列",
+            "マージソート",
+            "再帰",
+            "回数"
+          ],
+          "verification": {
+            "status": "ai-verified",
+            "methods": [
+              "independent-solve",
+              "script",
+              "quality-review"
+            ],
+            "verifiedAt": "2026-10-01",
+            "script": "tools/verify/checks/algo-02.mjs"
+          },
+          "source": "original"
+        },
+        {
+          "id": "b-algo-0036",
+          "subject": "B",
+          "field": "technology",
+          "category": "アルゴリズムとプログラミング",
+          "syllabusRef": "アルゴリズムとプログラミング",
+          "difficulty": 3,
+          "stem": [
+            "comps が 0 の状態で mergeSort({5, 1, 7, 3, 6, 2, 4}) を呼び出した。処理が終わった時点の comps の値は幾らか。配列の要素番号は1から始まる。"
+          ],
+          "choices": [
+            {
+              "text": "6",
+              "why": "最後の併合（{1, 5, 7} と {2, 3, 4, 6}）での比較回数だけを数えた値である。"
+            },
+            {
+              "text": "13",
+              "why": "mergeSort の呼出し回数であり、比較の回数ではない。"
+            },
+            {
+              "text": "14",
+              "why": "前半の整列で3回、後半の整列で5回、最後の併合で6回の比較の合計である。"
+            },
+            {
+              "text": "21",
+              "why": "7個の要素のすべての組を比較した場合の回数で、併合では一方が尽きると比較しない。"
+            }
+          ],
+          "answer": 2,
+          "fixedOrder": true,
+          "explanation": "前半 {5, 1, 7} は {5} と {1, 7} に分かれ、{1, 7} の整列で1回、{5} と {1, 7} の併合で2回比較して計3回となる。後半 {3, 6, 2, 4} は {3, 6} と {2, 4} の整列でそれぞれ1回、{3, 6} と {2, 4} の併合で3回比較して計5回となる。最後に {1, 5, 7} と {2, 3, 4, 6} を併合すると、6が z に追加されて right が尽きるまでに6回比較し、残りの7は32〜35行目で比較せずに追加される。合計は 3 ＋ 5 ＋ 6 ＝ 14 である。",
+          "terms": [],
+          "tags": [
+            "整列",
+            "マージソート",
+            "計算量",
+            "回数"
+          ],
+          "verification": {
+            "status": "ai-verified",
+            "methods": [
+              "independent-solve",
+              "script",
+              "quality-review"
+            ],
+            "verifiedAt": "2026-10-01",
+            "script": "tools/verify/checks/algo-02.mjs"
+          },
+          "source": "original"
+        },
+        {
+          "id": "b-algo-0037",
+          "subject": "B",
+          "field": "technology",
+          "category": "アルゴリズムとプログラミング",
+          "syllabusRef": "アルゴリズムとプログラミング",
+          "difficulty": 2,
+          "stem": [
+            "comps が 0 の状態で、次の要素数4の配列のそれぞれに対して mergeSort を呼び出す。処理が終わった時点の comps の値が最も小さくなるものはどれか。配列の要素番号は1から始まる。"
+          ],
+          "choices": [
+            {
+              "text": "{1, 3, 2, 4}",
+              "why": "最後の併合 {1, 3} と {2, 4} で要素が交互に取り出されて3回比較し、計5回となる。"
+            },
+            {
+              "text": "{2, 1, 4, 3}",
+              "why": "最後の併合で {1, 2} がすべて {3, 4} より小さく、2回で left が尽きるので計4回となる。"
+            },
+            {
+              "text": "{2, 4, 1, 3}",
+              "why": "最後の併合 {2, 4} と {1, 3} で3回比較し、計5回となる。"
+            },
+            {
+              "text": "{3, 1, 4, 2}",
+              "why": "最後の併合 {1, 3} と {2, 4} で3回比較し、計5回となる。"
+            }
+          ],
+          "answer": 1,
+          "explanation": "要素数4では、前半2個と後半2個の整列でそれぞれ1回ずつ比較し、最後に2個どうしを併合する。最後の併合の比較回数は、一方の配列が先に尽きるまでの回数で、一方の配列の要素がすべてもう一方の要素より先に取り出される場合（前半がすべて後半以下、または後半がすべて前半より小さい場合）は2回、そうでなければ3回となる。{2, 1, 4, 3} は前半が {1, 2}、後半が {3, 4} に整列されるので、comps は 1 ＋ 1 ＋ 2 ＝ 4 となり、ほかの配列の5より小さい。",
+          "terms": [],
+          "tags": [
+            "整列",
+            "マージソート",
+            "計算量"
+          ],
+          "verification": {
+            "status": "ai-verified",
+            "methods": [
+              "independent-solve",
+              "script",
+              "quality-review"
+            ],
+            "verifiedAt": "2026-10-01",
+            "script": "tools/verify/checks/algo-02.mjs"
+          },
+          "source": "original"
+        }
+      ]
+    },
+    {
+      "id": "b-algo-0038",
+      "subject": "B",
+      "field": "technology",
+      "category": "アルゴリズムとプログラミング",
+      "syllabusRef": "アルゴリズムとプログラミング",
+      "difficulty": 3,
+      "stem": [
+        "次の関数 power は、x の n 乗（n ≧ 0）を、n を半分にしたときの結果を再帰的に利用して求める。大域変数 mul は、10行目と13行目で行う乗算の回数を数える（h × h は1回、h × h × x は2回と数える）。ここで、÷ は商の整数部分（小数点以下を切り捨てた値）を求める演算である。配列の要素番号は1から始まる。",
+        "mul が 0 の状態で power(3, 13) を呼び出した。処理が終わった時点の mul の値は幾らか。"
+      ],
+      "code": {
+        "lines": [
+          "大域: 整数型: mul ← 0",
+          "○整数型: power(整数型: x, 整数型: n)",
+          "  整数型: h",
+          "  if (n ＝ 0)",
+          "    return 1",
+          "  endif",
+          "  h ← power(x, n ÷ 2)",
+          "  if (n mod 2 ＝ 0)",
+          "    mul ← mul ＋ 1",
+          "    return h × h",
+          "  endif",
+          "  mul ← mul ＋ 2",
+          "  return h × h × x"
+        ]
+      },
+      "trace": {
+        "caption": "power(3, 13) を実行したとき、8行目を実行する直前の値（実行された順）",
+        "vars": [
+          "n",
+          "h"
+        ],
+        "rows": [
+          [
+            "1",
+            "1"
+          ],
+          [
+            "3",
+            "3"
+          ],
+          [
+            "6",
+            "27"
+          ],
+          [
+            "13",
+            "729"
+          ]
+        ]
+      },
+      "choices": [
+        {
+          "text": "4",
+          "why": "乗算を行う呼出しの回数であり、n が奇数の呼出しでは2回乗算する。"
+        },
+        {
+          "text": "7",
+          "why": "n ＝ 1, 3, 13 で2回ずつ、n ＝ 6 で1回の乗算を行った合計である。"
+        },
+        {
+          "text": "12",
+          "why": "3を1個ずつ掛けていく方法の乗算回数であり、n を半分にする効果が反映されていない。"
+        },
+        {
+          "text": "13",
+          "why": "n の値そのものであり、乗算の回数ではない。"
+        }
+      ],
+      "answer": 1,
+      "fixedOrder": true,
+      "explanation": "power(3, 13) は7行目で power(3, 6) を呼び出し、同様に power(3, 3)、power(3, 1)、power(3, 0) と続く。power(3, 0) は5行目で1を返し、その後 n ＝ 1, 3, 6, 13 の順に8行目以降が実行される。n が奇数の1、3、13では12行目で mul が2ずつ、偶数の6では9行目で1増えるので、mul は 2 ＋ 2 ＋ 1 ＋ 2 ＝ 7 となる。3を1個ずつ掛ける方法では12回の乗算が必要であり、n を半分にしていくことで乗算の回数は log_{2}n に比例する程度に減る。",
+      "terms": [],
+      "tags": [
+        "再帰",
+        "分割統治",
+        "回数"
+      ],
+      "verification": {
+        "status": "ai-verified",
+        "methods": [
+          "independent-solve",
+          "script",
+          "quality-review"
+        ],
+        "verifiedAt": "2026-10-01",
+        "script": "tools/verify/checks/algo-02.mjs"
+      },
+      "source": "original"
+    },
+    {
+      "id": "b-algo-0039",
+      "subject": "B",
+      "field": "technology",
+      "category": "アルゴリズムとプログラミング",
+      "syllabusRef": "アルゴリズムとプログラミング",
+      "difficulty": 2,
+      "stem": [
+        "次の手続 sortDesc は、配列 a の要素を降順（大きい順）に整列するために作成したものである。しかし、sortDesc({4, 9, 2, 7}) を実行すると a は {2, 4, 7, 9} となり、正しく動作しない。配列の要素番号は1から始まる。",
+        "a を降順に整列するための修正として、適切なものはどれか。"
+      ],
+      "code": {
+        "lines": [
+          "○sortDesc(整数型の配列: a)",
+          "  整数型: i, j, w",
+          "  for (i を 1 から aの要素数 − 1 まで 1 ずつ増やす)",
+          "    for (j を aの要素数 から i ＋ 1 まで 1 ずつ減らす)",
+          "      if (a[j − 1] ＞ a[j])",
+          "        w ← a[j − 1]",
+          "        a[j − 1] ← a[j]",
+          "        a[j] ← w",
+          "      endif",
+          "    endfor",
+          "  endfor"
+        ]
+      },
+      "choices": [
+        {
+          "text": "5行目の a[j − 1] ＞ a[j] を a[j − 1] ＜ a[j] にする",
+          "why": "後ろの要素の方が大きいときに交換するので、大きい値が前方へ移り降順になる。"
+        },
+        {
+          "text": "3行目の aの要素数 − 1 を aの要素数 にする",
+          "why": "増えた最後の i では4行目の繰返しが1回も実行されず、結果は昇順のままである。"
+        },
+        {
+          "text": "4行目の i ＋ 1 を i にする",
+          "why": "j ＝ i ＝ 1 のとき5行目で a[0] を参照し、要素番号が範囲外になる。"
+        },
+        {
+          "text": "8行目の a[j] ← w を a[j] ← a[j − 1] にする",
+          "why": "7行目で a[j − 1] に a[j] の値を入れた後なので a[j] は変わらず、元の a[j − 1] の値が失われる。"
+        }
+      ],
+      "answer": 0,
+      "explanation": "4〜10行目は、配列の後ろから前へ隣り合う要素を比べ、5行目の条件が真なら6〜8行目で交換する。現在の条件 a[j − 1] ＞ a[j] では、小さい値が前方へ移るので昇順になる。降順にするには、後ろの要素の方が大きいときに交換すればよいので、5行目を a[j − 1] ＜ a[j] とする。3行目と4行目の範囲は、i 回目の走査で a[i] に残りの要素の中で最も前に来るべき値が確定するように正しく設定されている。",
+      "terms": [],
+      "tags": [
+        "整列",
+        "バブルソート",
+        "誤りの修正"
+      ],
+      "verification": {
+        "status": "ai-verified",
+        "methods": [
+          "independent-solve",
+          "script",
+          "quality-review"
+        ],
+        "verifiedAt": "2026-10-01",
+        "script": "tools/verify/checks/algo-02.mjs"
+      },
+      "source": "original"
+    },
+    {
+      "id": "b-algo-0040",
+      "subject": "B",
+      "field": "technology",
+      "category": "アルゴリズムとプログラミング",
+      "syllabusRef": "アルゴリズムとプログラミング",
+      "difficulty": 2,
+      "stem": [
+        "次の関数 countPairs がある。配列の要素番号は1から始まる。",
+        "countPairs({2, 5, 2, 7, 5, 2}) を呼び出したときの戻り値は幾らか。"
+      ],
+      "code": {
+        "lines": [
+          "○整数型: countPairs(整数型の配列: a)",
+          "  整数型: i, j",
+          "  整数型: c ← 0",
+          "  for (i を 1 から aの要素数 − 1 まで 1 ずつ増やす)",
+          "    for (j を i ＋ 1 から aの要素数 まで 1 ずつ増やす)",
+          "      if (a[i] ＝ a[j])",
+          "        c ← c ＋ 1",
+          "      endif",
+          "    endfor",
+          "  endfor",
+          "  return c"
+        ]
+      },
+      "choices": [
+        {
+          "text": "2",
+          "why": "2回以上現れる値（2 と 5）の種類の数であり、3個ある 2 からは3組が数えられる。"
+        },
+        {
+          "text": "4",
+          "why": "値 2 の3個から3組、値 5 の2個から1組が数えられ、7行目は計4回実行される。"
+        },
+        {
+          "text": "8",
+          "why": "等しい組を (i, j) と (j, i) の両方で数えた値であり、5行目の j は i ＋ 1 から始まる。"
+        },
+        {
+          "text": "15",
+          "why": "6行目の比較が実行される回数であり、c が増えるのは6行目の条件が真のときだけである。"
+        }
+      ],
+      "answer": 1,
+      "fixedOrder": true,
+      "explanation": "4〜5行目の繰返しは、i ＜ j となる要素番号の組 (i, j) を1回ずつ作り、6行目で a[i] と a[j] を比べて、等しければ7行目で c を1増やす。つまり countPairs は、値が等しい要素の組の数を返す。{2, 5, 2, 7, 5, 2} では、値 2 が要素番号1、3、6 にあるので (1, 3)、(1, 6)、(3, 6) の3組、値 5 が要素番号2、5 にあるので (2, 5) の1組となり、戻り値は 4 である。なお、6行目の比較は a の内容によらず 5 ＋ 4 ＋ 3 ＋ 2 ＋ 1 ＝ 15 回実行される。",
+      "terms": [],
+      "tags": [
+        "トレース",
+        "回数"
+      ],
+      "verification": {
+        "status": "ai-verified",
+        "methods": [
+          "independent-solve",
+          "script",
+          "quality-review"
+        ],
+        "verifiedAt": "2026-10-01",
+        "script": "tools/verify/checks/algo-02.mjs"
+      },
+      "source": "original"
+    }
+  ]
+}

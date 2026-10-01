@@ -2,11 +2,10 @@
 import { h, fill, pct } from '../dom.js';
 import * as storage from '../storage.js';
 import { app, availableQuestions } from '../state.js';
-import { remainingMs, pause, resume, pickQuestions, createMock, finishMock } from '../mock.js';
+import { remainingMs, pause, resume, pickQuestions, createMock, finishMock, GROUPS } from '../mock.js';
 import { renderStem, renderChoices } from '../render/question.js';
 import { navigate } from '../router.js';
 import { openDialog, confirmDialog } from '../ui/dialog.js';
-import { FIELDS } from '../categories.js';
 import { accuracyBar } from './home.js';
 import { localDate } from '../date.js';
 
@@ -16,18 +15,18 @@ const fmt = (ms) => {
 };
 
 /** 模擬試験を始める（演習タブから呼ぶ） */
-export async function startMock() {
-  const spec = app.data.meta?.examSpec?.A;
+export async function startMock(subject) {
+  const spec = app.data.meta?.examSpec?.[subject];
   if (!spec) return;
   if (storage.getActiveMock()) return navigate('mock');
-  const pool = availableQuestions().filter((q) => q.subject === 'A');
+  const pool = availableQuestions().filter((q) => q.subject === subject);
   if (pool.length < spec.count) {
     if (!(await confirmDialog(`出題できる問題が${pool.length}問しかありません。${pool.length}問で始めますか？`, { ok: '始める' }))) return;
   }
-  const ok = await confirmDialog(`科目Aの模擬試験（${Math.min(spec.count, pool.length)}問／${spec.minutes}分）を始めます。解説は終了後に表示します。`, { ok: '開始' });
+  const ok = await confirmDialog(`科目${subject}の模擬試験（${Math.min(spec.count, pool.length)}問／${spec.minutes}分）を始めます。解説は終了後に表示します。`, { ok: '開始' });
   if (!ok) return;
-  const qs = pickQuestions(pool, spec.ratio, storage.listMocks());
-  createMock(qs, spec.minutes, storage.getSettings());
+  const qs = pickQuestions(subject, pool, spec.ratio, storage.listMocks().filter((m) => m.subject === subject));
+  createMock(subject, qs, spec.minutes, storage.getSettings());
   navigate('mock');
 }
 
@@ -225,13 +224,13 @@ export function mockResultView(root, [id]) {
     h(
       'section',
       { class: 'card center' },
-      h('p', { class: 'muted' }, `科目A・${localDate(m.startedAt)}`),
+      h('p', { class: 'muted' }, `科目${m.subject}・${localDate(m.startedAt)}`),
       h('p', { class: 'score' }, `${ok} / ${total}`, h('small', null, ' 問正解')),
       h('p', { class: 'score-sub' }, `正答率 ${pct(ok, total)}%`),
       h('p', { class: 'muted small' }, `所要時間 ${fmt(m.elapsedMs)}`),
     ),
     h('div', { class: 'notice' }, 'この結果は正答数（素点）です。本試験はIRT（項目応答理論）による評価点で合否を判定するため、得点の換算方法が異なります。'),
-    h('section', { class: 'card' }, h('h2', null, '分野別の正答率'), FIELDS.map((f) => accuracyBar(f.short, byField[f.id] ?? { n: 0, ok: 0 }))),
+    h('section', { class: 'card' }, h('h2', null, '分野別の正答率'), GROUPS[m.subject].map((g) => accuracyBar(g.label, byField[g.key] ?? { n: 0, ok: 0 }))),
     wrong.length
       ? h(
           'section',
@@ -261,17 +260,24 @@ export function mockResultView(root, [id]) {
 
 /** 演習タブに出す模擬試験の欄 */
 export function mockSection() {
-  const spec = app.data.meta?.examSpec?.A;
   const active = storage.getActiveMock();
   const past = storage.listMocks().slice(0, 5);
+  const spec = (subject) => app.data.meta?.examSpec?.[subject];
+  const has = (subject) => availableQuestions().some((q) => q.subject === subject);
   return h(
     'section',
     { class: 'card' },
-    h('h2', null, '模擬試験（科目A）'),
-    h('p', { class: 'muted small' }, `${spec?.count ?? 60}問／${spec?.minutes ?? 90}分。分野の配分は本試験に合わせ、直近の模擬試験で出していない問題を優先します。`),
+    h('h2', null, '模擬試験'),
+    h('p', { class: 'muted small' }, '配分は本試験に合わせ、直近の模擬試験で出していない問題を優先します。'),
     active
-      ? h('button', { type: 'button', class: 'btn primary big', onClick: () => navigate('mock') }, `再開する（残り ${fmt(remainingMs(active))}）`)
-      : h('button', { type: 'button', class: 'btn big', onClick: startMock }, '模擬試験を始める'),
+      ? h('button', { type: 'button', class: 'btn primary big', onClick: () => navigate('mock') }, `科目${active.subject}を再開する（残り ${fmt(remainingMs(active))}）`)
+      : h(
+          'div',
+          { class: 'btn-col' },
+          ['A', 'B'].filter(has).map((subject) =>
+            h('button', { type: 'button', class: 'btn big', onClick: () => startMock(subject) }, `科目${subject}（${spec(subject)?.count ?? ''}問／${spec(subject)?.minutes ?? ''}分）を始める`),
+          ),
+        ),
     past.length
       ? h(
           'ul',
@@ -283,7 +289,7 @@ export function mockSection() {
               h(
                 'a',
                 { href: `#/mock-result/${encodeURIComponent(p.id)}` },
-                h('span', null, `${localDate(p.startedAt)}　${p.result.ok} / ${p.result.total}問（${pct(p.result.ok, p.result.total)}%）`),
+                h('span', null, `科目${p.subject ?? 'A'}　${localDate(p.startedAt)}　${p.result.ok} / ${p.result.total}問（${pct(p.result.ok, p.result.total)}%）`),
               ),
             ),
           ),

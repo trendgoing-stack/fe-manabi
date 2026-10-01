@@ -57,6 +57,36 @@ export function dueQuestions(questions, stats, today) {
     .sort((a, b) => stats[a.id].due.localeCompare(stats[b.id].due) || stats[a.id].lastAt - stats[b.id].lastAt);
 }
 
+/** set の設問がばらばらにならないよう、最初に現れた位置にまとめて並べる（set 内は id 順） */
+export function groupSets(questions) {
+  const out = [];
+  const done = new Set();
+  for (const q of questions) {
+    if (!q.setId) out.push(q);
+    else if (!done.has(q.setId)) {
+      done.add(q.setId);
+      out.push(...questions.filter((x) => x.setId === q.setId).sort((a, b) => a.id.localeCompare(b.id)));
+    }
+  }
+  return out;
+}
+
+/**
+ * 先頭から n 問を、set を途中で切らずに取り出す（収まらない set は飛ばし、足りなければ後ろから埋める）。
+ * @param {import('./types.js').Question[]} questions  groupSets 済みの並び
+ */
+export function takeWhole(questions, n) {
+  const units = [];
+  for (const q of questions) {
+    const last = units[units.length - 1];
+    if (q.setId && last && last[0].setId === q.setId) last.push(q);
+    else units.push([q]);
+  }
+  const out = [];
+  for (const u of units) if (out.length + u.length <= n) out.push(...u);
+  return out;
+}
+
 /** Fisher–Yates */
 export function shuffled(arr) {
   const a = arr.slice();

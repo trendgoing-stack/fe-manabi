@@ -2,6 +2,7 @@
 // 学習記録は端末内にだけ保存し、外部へは送信しない。
 import { schedule } from './srs.js';
 import { localDate } from './date.js';
+import { statKey } from './categories.js';
 
 export const PREFIX = 'festudy:';
 export const STORAGE_SCHEMA = 1;
@@ -118,7 +119,7 @@ function foldHistory(history) {
   let until = getMeta().foldedUntil ?? 0;
   for (const e of history.splice(0, history.length - HISTORY_MAX)) {
     const day = (daily[localDate(e.ts)] ??= {});
-    const c = (day[e.category] ??= { n: 0, ok: 0 });
+    const c = (day[statKey(e.id, e.category)] ??= { n: 0, ok: 0 });
     c.n++;
     if (e.ok) c.ok++;
     until = Math.max(until, e.ts);

@@ -12,6 +12,7 @@ if (!file) {
 const { items } = JSON.parse(await readFile(file, 'utf8'));
 const blind = flatten(items).map((q) => ({
   id: q.id,
+  ...(q.setId ? { set: { setId: q.setId, title: q.setTitle, stem: q.setStem, ...(q.setCode ? { code: q.setCode } : {}), ...(q.setTable ? { table: q.setTable } : {}), ...(q.setFigure ? { figure: q.setFigure } : {}) } } : {}),
   stem: q.stem,
   ...(q.table ? { table: q.table } : {}),
   ...(q.code ? { code: q.code } : {}),

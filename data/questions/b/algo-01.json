@@ -1,0 +1,1426 @@
+{
+  "schemaVersion": 1,
+  "items": [
+    {
+      "id": "b-algo-0001",
+      "subject": "B",
+      "field": "technology",
+      "category": "アルゴリズムとプログラミング",
+      "syllabusRef": "アルゴリズムとプログラミング",
+      "difficulty": 1,
+      "stem": [
+        "次の手続 main を実行したとき、7行目で出力される x と y の値の組合せとして、正しいものはどれか。"
+      ],
+      "code": {
+        "lines": [
+          "○main()",
+          "  整数型: x ← 7, y ← 3, z",
+          "  z ← x",
+          "  x ← y",
+          "  y ← z ＋ x",
+          "  x ← y − x",
+          "  x, y を出力する"
+        ]
+      },
+      "choices": [
+        {
+          "text": "x は 3、y は 7",
+          "why": "3行目〜4行目の値の入替えだけを考え、5行目と6行目の代入を反映していない。"
+        },
+        {
+          "text": "x は 3、y は 10",
+          "why": "5行目までは正しいが、6行目で x に y − x の値 7 が代入されることを見落としている。"
+        },
+        {
+          "text": "x は 7、y は 10",
+          "why": "5行目で y は 7＋3＝10 になり、6行目で x は 10−3＝7 になるので正しい。"
+        },
+        {
+          "text": "x は 10、y は 7",
+          "why": "x と y に入る値を取り違えている。"
+        }
+      ],
+      "answer": 2,
+      "fixedOrder": true,
+      "explanation": "2行目で x＝7、y＝3 になる。3行目で z に x の値 7 を退避し、4行目で x に y の値 3 を代入する。5行目で y ← z ＋ x により y＝7＋3＝10 となり、6行目で x ← y − x により x＝10−3＝7 となる。したがって7行目では x は 7、y は 10 が出力される。代入は右辺を計算してから左辺の変数を書き換えるので、各行の実行時点の値で計算することが大切である。",
+      "terms": [],
+      "tags": [
+        "変数と代入",
+        "トレース"
+      ],
+      "verification": {
+        "status": "ai-verified",
+        "methods": [
+          "independent-solve",
+          "script",
+          "quality-review"
+        ],
+        "verifiedAt": "2026-10-01",
+        "script": "tools/verify/checks/algo-01.mjs"
+      },
+      "source": "original"
+    },
+    {
+      "id": "b-algo-0002",
+      "subject": "B",
+      "field": "technology",
+      "category": "アルゴリズムとプログラミング",
+      "syllabusRef": "アルゴリズムとプログラミング",
+      "difficulty": 1,
+      "stem": [
+        "関数 fee は、荷物の重さ weight（kg、整数）と速達の指定 express を受け取り、配送料金（円）を返す。",
+        "fee(10, true) を呼び出したときの戻り値はどれか。"
+      ],
+      "code": {
+        "lines": [
+          "○整数型: fee(整数型: weight, 論理型: express)",
+          "  整数型: f",
+          "  if (weight ≦ 2)",
+          "    f ← 500",
+          "  elseif (weight ≦ 10)",
+          "    f ← 800",
+          "  else",
+          "    f ← 1200",
+          "  endif",
+          "  if (express)",
+          "    f ← f ＋ 300",
+          "  endif",
+          "  return f"
+        ]
+      },
+      "choices": [
+        {
+          "text": "800",
+          "why": "5行目の条件で決まる基本料金だけで、10行目〜12行目の速達の加算を反映していない。"
+        },
+        {
+          "text": "1,100",
+          "why": "5行目の条件 weight ≦ 10 が真で f は 800 になり、11行目で 300 が加算されるので正しい。"
+        },
+        {
+          "text": "1,200",
+          "why": "重さ 10 を「10を超える」側と判断し、さらに速達の加算を忘れた値である。"
+        },
+        {
+          "text": "1,500",
+          "why": "重さ 10 を「10を超える」側と判断し、8行目の 1200 に 300 を加えた値である。"
+        }
+      ],
+      "answer": 1,
+      "fixedOrder": true,
+      "explanation": "weight＝10 なので、3行目の weight ≦ 2 は偽、5行目の weight ≦ 10 は真となり、6行目で f＝800 になる。elseif の条件が真になった時点で残りの else は実行されない。次に express は true なので10行目の条件が成り立ち、11行目で f＝800＋300＝1,100 となって13行目で返される。≦ は等しい場合も含むことに注意する。",
+      "terms": [],
+      "tags": [
+        "選択処理"
+      ],
+      "verification": {
+        "status": "ai-verified",
+        "methods": [
+          "independent-solve",
+          "script",
+          "quality-review"
+        ],
+        "verifiedAt": "2026-10-01",
+        "script": "tools/verify/checks/algo-01.mjs"
+      },
+      "source": "original"
+    },
+    {
+      "id": "b-algo-0003",
+      "subject": "B",
+      "field": "technology",
+      "category": "アルゴリズムとプログラミング",
+      "syllabusRef": "アルゴリズムとプログラミング",
+      "difficulty": 2,
+      "stem": [
+        "次の関数 countPairs について、countPairs(6) を呼び出したとき、5行目は何回実行されるか。"
+      ],
+      "code": {
+        "lines": [
+          "○整数型: countPairs(整数型: n)",
+          "  整数型: i, j, c ← 0",
+          "  for (i を 1 から n まで 1 ずつ増やす)",
+          "    for (j を i から n まで 2 ずつ増やす)",
+          "      c ← c ＋ 1",
+          "    endfor",
+          "  endfor",
+          "  return c"
+        ]
+      },
+      "choices": [
+        {
+          "text": "12",
+          "why": "i が 1〜6 のときの内側の繰返し回数 3、3、2、2、1、1 を合計した値なので正しい。"
+        },
+        {
+          "text": "18",
+          "why": "内側の繰返しが i に関係なく毎回 3 回実行されると考えた値である。"
+        },
+        {
+          "text": "21",
+          "why": "4行目の増分を 1 と考え、6＋5＋4＋3＋2＋1 を計算した値である。"
+        },
+        {
+          "text": "36",
+          "why": "外側と内側がそれぞれ 6 回ずつ繰り返されると考えた値である。"
+        }
+      ],
+      "answer": 0,
+      "fixedOrder": true,
+      "explanation": "3行目の外側の繰返しで i は 1〜6 をとる。4行目の内側の繰返しは j を i から 6 まで 2 ずつ増やすので、i＝1 のとき j＝1, 3, 5 の3回、i＝2 のとき j＝2, 4, 6 の3回、i＝3 のとき j＝3, 5 の2回、i＝4 のとき j＝4, 6 の2回、i＝5 と i＝6 のときは1回ずつとなる。したがって5行目の実行回数は 3＋3＋2＋2＋1＋1＝12 回である。",
+      "terms": [],
+      "tags": [
+        "繰返し処理",
+        "実行回数"
+      ],
+      "verification": {
+        "status": "ai-verified",
+        "methods": [
+          "independent-solve",
+          "script",
+          "quality-review"
+        ],
+        "verifiedAt": "2026-10-01",
+        "script": "tools/verify/checks/algo-01.mjs"
+      },
+      "source": "original"
+    },
+    {
+      "id": "b-algo-0004",
+      "subject": "B",
+      "field": "technology",
+      "category": "アルゴリズムとプログラミング",
+      "syllabusRef": "アルゴリズムとプログラミング",
+      "difficulty": 2,
+      "stem": [
+        "関数 maxPos は、整数型の配列 a の要素のうち最大の値をもつ要素の要素番号を返す。配列の要素番号は1から始まる。",
+        "maxPos({4, 9, 2, 9, 6}) を呼び出したときの戻り値はどれか。"
+      ],
+      "code": {
+        "lines": [
+          "○整数型: maxPos(整数型の配列: a)",
+          "  整数型: i, pos ← 1",
+          "  for (i を 2 から aの要素数 まで 1 ずつ増やす)",
+          "    if (a[i] ≧ a[pos])",
+          "      pos ← i",
+          "    endif",
+          "  endfor",
+          "  return pos"
+        ]
+      },
+      "trace": {
+        "caption": "maxPos({4, 9, 2, 9, 6}) を実行したとき、4行目を実行する直前の値",
+        "vars": [
+          "i",
+          "pos"
+        ],
+        "rows": [
+          [
+            "2",
+            "1"
+          ],
+          [
+            "3",
+            "2"
+          ],
+          [
+            "4",
+            "2"
+          ],
+          [
+            "5",
+            "4"
+          ]
+        ]
+      },
+      "choices": [
+        {
+          "text": "2",
+          "why": "4行目の比較を ＞ と読み、最大値が最初に現れる位置を答えている。"
+        },
+        {
+          "text": "4",
+          "why": "4行目の比較は ≧ なので、同じ最大値 9 が後に現れると pos が更新され、要素番号 4 が返るので正しい。"
+        },
+        {
+          "text": "5",
+          "why": "配列の最後の要素の要素番号であり、最大値の位置ではない。"
+        },
+        {
+          "text": "9",
+          "why": "最大値そのものであり、関数が返す要素番号ではない。"
+        }
+      ],
+      "answer": 1,
+      "fixedOrder": true,
+      "explanation": "2行目で pos＝1 とし、3行目から i＝2〜5 について4行目で a[i] と a[pos] を比べる。i＝2 では 9 ≧ 4 なので5行目で pos＝2、i＝3 では 2 ≧ 9 が偽、i＝4 では 9 ≧ 9 が真なので pos＝4、i＝5 では 6 ≧ 9 が偽となる。比較が ≧ なので、最大値が複数あるときは最後に現れた要素の要素番号 4 が8行目で返される。",
+      "terms": [],
+      "tags": [
+        "配列",
+        "最大値",
+        "トレース"
+      ],
+      "verification": {
+        "status": "ai-verified",
+        "methods": [
+          "independent-solve",
+          "script",
+          "quality-review"
+        ],
+        "verifiedAt": "2026-10-01",
+        "script": "tools/verify/checks/algo-01.mjs"
+      },
+      "source": "original"
+    },
+    {
+      "id": "b-algo-0005",
+      "subject": "B",
+      "field": "technology",
+      "category": "アルゴリズムとプログラミング",
+      "syllabusRef": "アルゴリズムとプログラミング",
+      "difficulty": 2,
+      "stem": [
+        "関数 countIn は、整数型の配列 data の要素のうち、値が lo 以上 hi 以下である要素の個数を返す。lo ≦ hi とする。配列の要素番号は1から始まる。",
+        "プログラム中の［ a ］に入れる字句として、適切なものはどれか。"
+      ],
+      "code": {
+        "lines": [
+          "○整数型: countIn(整数型の配列: data, 整数型: lo, 整数型: hi)",
+          "  整数型: i, c ← 0",
+          "  for (i を 1 から dataの要素数 まで 1 ずつ増やす)",
+          "    if (［ a ］)",
+          "      c ← c ＋ 1",
+          "    endif",
+          "  endfor",
+          "  return c"
+        ]
+      },
+      "choices": [
+        {
+          "text": "data[i] ≧ lo or data[i] ≦ hi",
+          "why": "or ではどちらか一方を満たせば真になり、範囲外の要素も数えてしまう。"
+        },
+        {
+          "text": "data[i] ＞ lo and data[i] ＜ hi",
+          "why": "境界の値 lo と hi に等しい要素が数えられない。"
+        },
+        {
+          "text": "not (data[i] ＜ lo and data[i] ＞ hi)",
+          "why": "lo 未満かつ hi 超の値は存在しないので、括弧内は常に偽となり、すべての要素を数えてしまう。"
+        },
+        {
+          "text": "data[i] ≧ lo and data[i] ≦ hi",
+          "why": "lo 以上と hi 以下の両方を満たすときだけ真になるので正しい。"
+        }
+      ],
+      "answer": 3,
+      "explanation": "3行目で data の要素を先頭から順に調べ、4行目の条件が真のときだけ5行目で c を1増やす。「lo 以上 hi 以下」は「lo 以上」と「hi 以下」が同時に成り立つことなので、二つの比較を and で結び、等号を含む ≧ と ≦ を使う。or で結ぶと片方だけ満たす範囲外の値も数えてしまい、＞ と ＜ を使うと境界の値が数えられない。",
+      "terms": [],
+      "tags": [
+        "空欄補充",
+        "論理演算",
+        "配列"
+      ],
+      "verification": {
+        "status": "ai-verified",
+        "methods": [
+          "independent-solve",
+          "script",
+          "quality-review"
+        ],
+        "verifiedAt": "2026-10-01",
+        "script": "tools/verify/checks/algo-01.mjs"
+      },
+      "source": "original"
+    },
+    {
+      "id": "b-algo-0006",
+      "subject": "B",
+      "field": "technology",
+      "category": "アルゴリズムとプログラミング",
+      "syllabusRef": "アルゴリズムとプログラミング",
+      "difficulty": 1,
+      "stem": [
+        "関数 canBorrow は、図書の貸出しの可否を返す。age は利用者の年齢、member は会員登録の有無、overdue は返却が遅れている冊数である。",
+        "canBorrow を次のように呼び出したとき、戻り値が true になるものはどれか。"
+      ],
+      "code": {
+        "lines": [
+          "○論理型: canBorrow(整数型: age, 論理型: member, 整数型: overdue)",
+          "  論理型: ok",
+          "  ok ← (age ≧ 12 or member) and not (overdue ＞ 0)",
+          "  return ok"
+        ]
+      },
+      "choices": [
+        {
+          "text": "canBorrow(10, false, 0)",
+          "why": "年齢が12未満で会員でもないので、括弧内の or が偽となり false が返る。"
+        },
+        {
+          "text": "canBorrow(15, false, 2)",
+          "why": "年齢の条件は満たすが、返却が遅れている冊数が 0 より大きいので false が返る。"
+        },
+        {
+          "text": "canBorrow(10, true, 0)",
+          "why": "会員なので or の部分が真になり、遅れている冊数も 0 なので true が返る。"
+        },
+        {
+          "text": "canBorrow(30, true, 1)",
+          "why": "年齢と会員の条件は満たすが、返却が遅れている冊数が 1 あるので false が返る。"
+        }
+      ],
+      "answer": 2,
+      "explanation": "3行目の式は、「12歳以上か会員である」ことと「返却が遅れている本がない」ことの両方が成り立つときだけ true になる。not (overdue ＞ 0) は overdue が 0 のときに真となる。年齢が 10 でも member が true なら括弧内の or は真になり、overdue が 0 なので全体が真になる。15歳や30歳でも overdue が 1 以上なら and の右側が偽になり、false が返る。",
+      "terms": [],
+      "tags": [
+        "論理演算",
+        "選択処理"
+      ],
+      "verification": {
+        "status": "ai-verified",
+        "methods": [
+          "independent-solve",
+          "script",
+          "quality-review"
+        ],
+        "verifiedAt": "2026-10-01",
+        "script": "tools/verify/checks/algo-01.mjs"
+      },
+      "source": "original"
+    },
+    {
+      "id": "b-algo-0007",
+      "subject": "B",
+      "field": "technology",
+      "category": "アルゴリズムとプログラミング",
+      "syllabusRef": "アルゴリズムとプログラミング",
+      "difficulty": 2,
+      "stem": [
+        "次のプログラムで手続 main を実行したとき、5行目で出力される値の並びはどれか。配列の要素番号は1から始まる。",
+        "ここで、手続を呼び出すとき、整数型の引数には値の写しが渡され（値渡し）、配列の引数には呼出し元の配列そのものが渡される（参照渡し）。出力は値を空白で区切って並べたものである。"
+      ],
+      "code": {
+        "lines": [
+          "○main()",
+          "  整数型: x ← 5",
+          "  整数型の配列: b ← {5, 5}",
+          "  change(x, b)",
+          "  x, b[1], b[2] を出力する",
+          "○change(整数型: v, 整数型の配列: arr)",
+          "  v ← v × 2",
+          "  arr[1] ← v",
+          "  arr[2] ← arr[2] ＋ 1"
+        ]
+      },
+      "choices": [
+        {
+          "text": "5 5 5",
+          "why": "配列も値渡しと考え、change での変更が b に反映されないとした並びである。"
+        },
+        {
+          "text": "5 10 6",
+          "why": "x は値渡しなので 5 のままで、配列 b は参照渡しなので8行目と9行目の変更が反映されるので正しい。"
+        },
+        {
+          "text": "10 5 5",
+          "why": "整数型と配列の渡し方を逆に考えた並びである。"
+        },
+        {
+          "text": "10 10 6",
+          "why": "x も参照渡しと考え、7行目の変更が x に反映されるとした並びである。"
+        }
+      ],
+      "answer": 1,
+      "fixedOrder": true,
+      "explanation": "4行目で change を呼び出すと、v には x の値 5 の写しが、arr には配列 b そのものが渡される。7行目で v は 10 になるが、これは写しの変更なので main の x は 5 のままである。8行目で arr[1]＝10、9行目で arr[2]＝5＋1＝6 となり、arr は b と同じ配列なので b は {10, 6} になる。したがって5行目では 5 10 6 が出力される。",
+      "terms": [],
+      "tags": [
+        "手続",
+        "引数",
+        "配列"
+      ],
+      "verification": {
+        "status": "ai-verified",
+        "methods": [
+          "independent-solve",
+          "script",
+          "quality-review"
+        ],
+        "verifiedAt": "2026-10-01",
+        "script": "tools/verify/checks/algo-01.mjs"
+      },
+      "source": "original"
+    },
+    {
+      "id": "b-algo-0008",
+      "subject": "B",
+      "field": "technology",
+      "category": "アルゴリズムとプログラミング",
+      "syllabusRef": "アルゴリズムとプログラミング",
+      "difficulty": 2,
+      "stem": [
+        "次のプログラムで手続 main を実行したとき、13行目で出力される値はどれか。ここで、total は大域変数であり、どの手続からも参照・更新できる。mod は剰余を求める。"
+      ],
+      "code": {
+        "lines": [
+          "大域: 整数型: total ← 0",
+          "○record(整数型: x)",
+          "  if (x mod 3 ＝ 0)",
+          "    total ← total ＋ x",
+          "  else",
+          "    total ← total − 1",
+          "  endif",
+          "○main()",
+          "  整数型: i",
+          "  for (i を 1 から 7 まで 1 ずつ増やす)",
+          "    record(i × 2)",
+          "  endfor",
+          "  total を出力する"
+        ]
+      },
+      "choices": [
+        {
+          "text": "11",
+          "why": "3の倍数を加えた後にも、7回すべてで 1 を引いたと考えた値である。"
+        },
+        {
+          "text": "13",
+          "why": "3の倍数 6 と 12 の和 18 から、残り5回分の 1 を引いた値なので正しい。"
+        },
+        {
+          "text": "18",
+          "why": "6行目の減算を見落とし、3の倍数の和だけを求めた値である。"
+        },
+        {
+          "text": "23",
+          "why": "6行目で 1 を引く代わりに 1 を加えたと考えた値である。"
+        }
+      ],
+      "answer": 1,
+      "fixedOrder": true,
+      "explanation": "10行目の繰返しで、11行目は record を引数 2, 4, 6, 8, 10, 12, 14 で順に呼び出す。record の3行目で引数が3の倍数かを調べ、6 と 12 のときは4行目で total に加え、それ以外の5回は6行目で total から1を引く。total は大域変数なので呼出しをまたいで値が引き継がれ、0＋6＋12−5＝13 が13行目で出力される。",
+      "terms": [],
+      "tags": [
+        "大域変数",
+        "手続",
+        "選択処理"
+      ],
+      "verification": {
+        "status": "ai-verified",
+        "methods": [
+          "independent-solve",
+          "script",
+          "quality-review"
+        ],
+        "verifiedAt": "2026-10-01",
+        "script": "tools/verify/checks/algo-01.mjs"
+      },
+      "source": "original"
+    },
+    {
+      "id": "b-algo-0009",
+      "subject": "B",
+      "field": "technology",
+      "category": "アルゴリズムとプログラミング",
+      "syllabusRef": "アルゴリズムとプログラミング",
+      "difficulty": 3,
+      "stem": [
+        "手続 reverse は、整数型の配列 a の要素の並びを逆順にするためのものである。例えば a が {1, 2, 3, 4} なら {4, 3, 2, 1} に並べ替える。配列の要素番号は1から始まり、÷ は商の整数部分を求める。",
+        "ところが、このプログラムを実行すると、a の内容が元のままになってしまう。正しく逆順にするための修正として、適切なものはどれか。"
+      ],
+      "code": {
+        "lines": [
+          "○reverse(整数型の配列: a)",
+          "  整数型: i, t, n",
+          "  n ← aの要素数",
+          "  for (i を 1 から n まで 1 ずつ増やす)",
+          "    t ← a[i]",
+          "    a[i] ← a[n − i ＋ 1]",
+          "    a[n − i ＋ 1] ← t",
+          "  endfor"
+        ]
+      },
+      "choices": [
+        {
+          "text": "5行目を「t ← a[n − i ＋ 1]」に改める",
+          "why": "退避する値が交換相手と同じになり、a[i] に後ろの値を写すだけで交換にならない。"
+        },
+        {
+          "text": "6行目を「a[i] ← a[n − i]」に改める",
+          "why": "交換する相手の位置が1つずれ、i が n のときは要素番号 0 を参照してしまう。"
+        },
+        {
+          "text": "7行目を「a[n − i ＋ 1] ← a[i]」に改める",
+          "why": "6行目で後ろの値を写した a[i] を後ろの位置に書き戻すだけになり、退避した t が使われないので交換にならない。"
+        },
+        {
+          "text": "4行目の「n まで」を「n ÷ 2 まで」に改める",
+          "why": "交換を前半の要素だけで行えば、各組が1回ずつ交換されて逆順になるので正しい。"
+        }
+      ],
+      "answer": 3,
+      "explanation": "5行目〜7行目は、t を使って a[i] と a[n − i ＋ 1] を交換する処理で、それ自体は正しい。しかし4行目で i を 1 から n まで動かすと、前半で交換した組を後半でもう一度交換して元に戻してしまう。例えば n＝4 では i＝1 と i＝4 がどちらも1番目と4番目の交換になる。繰返しを n ÷ 2 までにすれば、各組を1回ずつ交換して逆順にできる。要素数が奇数のときの中央の要素は交換の必要がない。",
+      "terms": [],
+      "tags": [
+        "誤りの修正",
+        "配列",
+        "繰返し処理"
+      ],
+      "verification": {
+        "status": "ai-verified",
+        "methods": [
+          "independent-solve",
+          "script",
+          "quality-review"
+        ],
+        "verifiedAt": "2026-10-01",
+        "script": "tools/verify/checks/algo-01.mjs"
+      },
+      "source": "original"
+    },
+    {
+      "id": "b-algo-0010",
+      "subject": "B",
+      "field": "technology",
+      "category": "アルゴリズムとプログラミング",
+      "syllabusRef": "アルゴリズムとプログラミング",
+      "difficulty": 2,
+      "stem": [
+        "次の関数 revNum について、revNum(4070) を呼び出したときの戻り値はどれか。ここで、÷ は商の整数部分を求め、mod は剰余を求める。"
+      ],
+      "code": {
+        "lines": [
+          "○整数型: revNum(整数型: n)",
+          "  整数型: r ← 0",
+          "  while (n ＞ 0)",
+          "    r ← r × 10 ＋ n mod 10",
+          "    n ← n ÷ 10",
+          "  endwhile",
+          "  return r"
+        ]
+      },
+      "trace": {
+        "caption": "revNum(4070) を実行したとき、4行目を実行する直前の値",
+        "vars": [
+          "n",
+          "r"
+        ],
+        "rows": [
+          [
+            "4070",
+            "0"
+          ],
+          [
+            "407",
+            "0"
+          ],
+          [
+            "40",
+            "7"
+          ],
+          [
+            "4",
+            "70"
+          ]
+        ]
+      },
+      "choices": [
+        {
+          "text": "74",
+          "why": "取り出した数字のうち 0 を無視して、7 と 4 だけを並べた値である。"
+        },
+        {
+          "text": "407",
+          "why": "5行目の除算で一の位を取り除いた値であり、桁を逆順にした値ではない。"
+        },
+        {
+          "text": "704",
+          "why": "一の位から順に 0, 7, 0, 4 を取り出して r の末尾に付け足すので、先頭の 0 が消えて 704 になり正しい。"
+        },
+        {
+          "text": "7,040",
+          "why": "繰返しを1回多く実行し、r をさらに 10 倍したと考えた値である。"
+        }
+      ],
+      "answer": 2,
+      "fixedOrder": true,
+      "explanation": "4行目は r を10倍して n の一の位（n mod 10）を加え、5行目は n から一の位を取り除く。n＝4070 のとき r＝0×10＋0＝0、n＝407 のとき r＝0×10＋7＝7、n＝40 のとき r＝7×10＋0＝70、n＝4 のとき r＝70×10＋4＝704 となり、n＝0 で3行目の条件が偽になって繰返しを終える。元の数の一の位の 0 は先頭の 0 になるので、戻り値は 704 である。",
+      "terms": [],
+      "tags": [
+        "繰返し処理",
+        "算術演算",
+        "トレース"
+      ],
+      "verification": {
+        "status": "ai-verified",
+        "methods": [
+          "independent-solve",
+          "script",
+          "quality-review"
+        ],
+        "verifiedAt": "2026-10-01",
+        "script": "tools/verify/checks/algo-01.mjs"
+      },
+      "source": "original"
+    },
+    {
+      "id": "b-algo-0011",
+      "subject": "B",
+      "field": "technology",
+      "category": "アルゴリズムとプログラミング",
+      "syllabusRef": "アルゴリズムとプログラミング",
+      "difficulty": 3,
+      "stem": [
+        "次の関数 reduce について、reduce(21, 9) を呼び出したとき、9行目を実行する直前の x と y の値を、(x, y) の形で実行順に並べたものはどれか。"
+      ],
+      "code": {
+        "lines": [
+          "○整数型: reduce(整数型: x, 整数型: y)",
+          "  整数型: c ← 0",
+          "  do",
+          "    if (x ＞ y)",
+          "      x ← x − y",
+          "    else",
+          "      y ← y − x",
+          "    endif",
+          "    c ← c ＋ 1",
+          "  while (x ≠ y)",
+          "  return x"
+        ]
+      },
+      "trace": {
+        "caption": "reduce(21, 9) を実行したとき、9行目を実行する直前の値",
+        "vars": [
+          "x",
+          "y",
+          "c"
+        ],
+        "rows": [
+          [
+            "12",
+            "9",
+            "0"
+          ],
+          [
+            "3",
+            "9",
+            "1"
+          ],
+          [
+            "3",
+            "6",
+            "2"
+          ],
+          [
+            "3",
+            "3",
+            "3"
+          ]
+        ]
+      },
+      "choices": [
+        {
+          "text": "(12, 9) → (3, 9) → (3, 6) → (3, 3)",
+          "why": "4行目〜8行目で大きい方から小さい方を引いた後の値を、x と y が等しくなるまで並べたものなので正しい。"
+        },
+        {
+          "text": "(21, 9) → (12, 9) → (3, 9) → (3, 6)",
+          "why": "4行目〜8行目で値を更新する前の値を並べたものであり、9行目の直前の値ではない。"
+        },
+        {
+          "text": "(12, 9) → (3, 9) → (3, 6) → (3, 3) → (3, 0)",
+          "why": "10行目の条件 x ≠ y が偽になって繰返しが終わることを見落とし、もう1回実行している。"
+        },
+        {
+          "text": "(12, 9) → (3, 9) → (6, 3) → (3, 3)",
+          "why": "差を常に x に入れ、小さい方の値を y に移すと考えた並びであり、7行目では y だけが y − x に更新されることを反映していない。"
+        }
+      ],
+      "answer": 0,
+      "explanation": "3行目〜10行目は後判定の繰返しで、本体を1回実行してから10行目で x ≠ y を調べる。1回目は 21 ＞ 9 なので5行目で x＝12、2回目は 12 ＞ 9 なので x＝3、3回目は 3 ＞ 9 が偽なので7行目で y＝9−3＝6、4回目も偽なので y＝6−3＝3 となる。ここで x と y がともに 3 になり、10行目の条件が偽になって繰返しを終え、11行目で 3 を返す。",
+      "terms": [],
+      "tags": [
+        "繰返し処理",
+        "後判定",
+        "トレース"
+      ],
+      "verification": {
+        "status": "ai-verified",
+        "methods": [
+          "independent-solve",
+          "script",
+          "quality-review"
+        ],
+        "verifiedAt": "2026-10-01",
+        "script": "tools/verify/checks/algo-01.mjs"
+      },
+      "source": "original"
+    },
+    {
+      "id": "b-algo-0012",
+      "subject": "B",
+      "field": "technology",
+      "category": "アルゴリズムとプログラミング",
+      "syllabusRef": "アルゴリズムとプログラミング",
+      "difficulty": 2,
+      "stem": [
+        "関数 isPal は、文字列 s が前から読んでも後ろから読んでも同じ文字の並び（回文）であれば true を、そうでなければ false を返す。s[i] は s の i 番目の文字を表し、文字の番号は1から始まる。÷ は商の整数部分を求める。",
+        "プログラム中の［ a ］に入れる字句として、適切なものはどれか。"
+      ],
+      "code": {
+        "lines": [
+          "○論理型: isPal(文字列型: s)",
+          "  整数型: i, n",
+          "  n ← sの文字数",
+          "  for (i を 1 から n ÷ 2 まで 1 ずつ増やす)",
+          "    if (s[i] ≠ ［ a ］)",
+          "      return false",
+          "    endif",
+          "  endfor",
+          "  return true"
+        ]
+      },
+      "choices": [
+        {
+          "text": "s[n − i]",
+          "why": "比べる相手が1文字前にずれ、i＝1 のときに末尾の文字ではなく後ろから2番目の文字と比べてしまう。"
+        },
+        {
+          "text": "s[n ÷ 2 ＋ i]",
+          "why": "前半と後半を同じ向きに比べるので、\"abab\" のような回文でない文字列にも true を返す。"
+        },
+        {
+          "text": "s[i ＋ 1]",
+          "why": "隣の文字と比べるだけなので、\"aaab\" のような回文でない文字列にも true を返す。"
+        },
+        {
+          "text": "s[n − i ＋ 1]",
+          "why": "i 番目の文字と、後ろから i 番目の文字を比べることになるので正しい。"
+        }
+      ],
+      "answer": 3,
+      "explanation": "回文かどうかは、前から i 番目の文字と後ろから i 番目の文字が等しいかを、i を 1 から文字数の半分まで調べれば分かる。文字数が n のとき、後ろから i 番目の文字の番号は n − i ＋ 1 である。5行目で一組でも異なれば6行目で false を返し、4行目の繰返しを最後まで終えたら9行目で true を返す。文字数が奇数のときの中央の文字は比べる必要がない。",
+      "terms": [],
+      "tags": [
+        "空欄補充",
+        "文字列処理"
+      ],
+      "verification": {
+        "status": "ai-verified",
+        "methods": [
+          "independent-solve",
+          "script",
+          "quality-review"
+        ],
+        "verifiedAt": "2026-10-01",
+        "script": "tools/verify/checks/algo-01.mjs"
+      },
+      "source": "original"
+    },
+    {
+      "id": "b-algo-0013",
+      "subject": "B",
+      "field": "technology",
+      "category": "アルゴリズムとプログラミング",
+      "syllabusRef": "アルゴリズムとプログラミング",
+      "difficulty": 3,
+      "stem": [
+        "関数 tally は、0 以上 100 以下の得点が入った配列 scores を受け取り、得点を 0〜19、20〜39、40〜59、60〜79、80〜100 の5区分に分けて、区分ごとの人数を格納した配列を返す。配列の要素番号は1から始まり、÷ は商の整数部分を求める。",
+        "tally({45, 80, 19, 100, 60, 39, 20}) を呼び出したときの戻り値はどれか。"
+      ],
+      "code": {
+        "lines": [
+          "○整数型の配列: tally(整数型の配列: scores)",
+          "  整数型の配列: cnt ← {0, 0, 0, 0, 0}",
+          "  整数型: i, k",
+          "  for (i を 1 から scoresの要素数 まで 1 ずつ増やす)",
+          "    k ← scores[i] ÷ 20 ＋ 1",
+          "    if (k ＞ 5)",
+          "      k ← 5",
+          "    endif",
+          "    cnt[k] ← cnt[k] ＋ 1",
+          "  endfor",
+          "  return cnt"
+        ]
+      },
+      "trace": {
+        "caption": "tally({45, 80, 19, 100, 60, 39, 20}) を実行したとき、9行目を実行する直前の値",
+        "vars": [
+          "i",
+          "k"
+        ],
+        "rows": [
+          [
+            "1",
+            "3"
+          ],
+          [
+            "2",
+            "5"
+          ],
+          [
+            "3",
+            "1"
+          ],
+          [
+            "4",
+            "5"
+          ],
+          [
+            "5",
+            "4"
+          ],
+          [
+            "6",
+            "2"
+          ],
+          [
+            "7",
+            "2"
+          ]
+        ]
+      },
+      "choices": [
+        {
+          "text": "{2, 1, 1, 1, 2}",
+          "why": "20 を 0〜19 の区分に数えており、20 ÷ 20 ＋ 1＝2 となることを見落としている。"
+        },
+        {
+          "text": "{1, 1, 2, 1, 2}",
+          "why": "39 ÷ 20 を四捨五入して 2 とし、39 を 40〜59 の区分に数えている。"
+        },
+        {
+          "text": "{1, 2, 1, 2, 1}",
+          "why": "80 を 60〜79 の区分に数えており、80 ÷ 20 ＋ 1＝5 となることを見落としている。"
+        },
+        {
+          "text": "{1, 2, 1, 1, 2}",
+          "why": "5行目で求めた区分番号の要素を1ずつ増やし、100 は6行目と7行目で区分5に入るので正しい。"
+        }
+      ],
+      "answer": 3,
+      "explanation": "5行目で得点を 20 で割った商に 1 を加えて区分番号 k を求める。45 は 3、80 は 5、19 は 1、60 は 4、39 は 2、20 は 2 となる。100 は 100 ÷ 20 ＋ 1＝6 になるが、6行目と7行目で k を 5 に直すので区分5に入る。9行目で cnt[k] を1ずつ増やすと、区分1は 19 の1人、区分2は 39 と 20 の2人、区分3は 45 の1人、区分4は 60 の1人、区分5は 80 と 100 の2人となり、{1, 2, 1, 1, 2} が返る。",
+      "terms": [],
+      "tags": [
+        "配列",
+        "集計",
+        "整数除算",
+        "トレース"
+      ],
+      "verification": {
+        "status": "ai-verified",
+        "methods": [
+          "independent-solve",
+          "script",
+          "quality-review"
+        ],
+        "verifiedAt": "2026-10-01",
+        "script": "tools/verify/checks/algo-01.mjs"
+      },
+      "source": "original"
+    },
+    {
+      "id": "b-algo-0014",
+      "subject": "B",
+      "field": "technology",
+      "category": "アルゴリズムとプログラミング",
+      "syllabusRef": "アルゴリズムとプログラミング",
+      "difficulty": 3,
+      "stem": [
+        "次のプログラムで手続 main を実行したとき、出力される値を出力された順に並べたものはどれか。",
+        "ここで、式は演算子の左側の項から順に評価し、関数の引数は関数を呼び出す前に評価する。整数型の引数は値渡しである。"
+      ],
+      "code": {
+        "lines": [
+          "○main()",
+          "  整数型: a ← 3",
+          "  a ← step(step(a) − 1) ＋ step(a)",
+          "  a を出力する",
+          "○整数型: step(整数型: x)",
+          "  x を出力する",
+          "  return x × 2"
+        ]
+      },
+      "choices": [
+        {
+          "text": "3, 5, 3, 16",
+          "why": "内側の step(3)、外側の step(5)、右側の step(3) の順に引数が出力され、最後に 10＋6＝16 が出力されるので正しい。"
+        },
+        {
+          "text": "3, 5, 6, 22",
+          "why": "右側の step(a) を呼ぶ時点で a が 6 に変わっていると考えたが、a は3行目の代入が終わるまで 3 のままである。"
+        },
+        {
+          "text": "5, 3, 3, 16",
+          "why": "外側の step が内側の step より先に出力すると考えたが、引数を先に評価するので内側が先に出力する。"
+        },
+        {
+          "text": "6, 10, 6, 16",
+          "why": "6行目で出力されるのを戻り値と取り違えており、6行目が出力するのは引数 x である。"
+        }
+      ],
+      "answer": 0,
+      "explanation": "3行目の右辺は左側の項から評価する。まず step(step(a) − 1) の引数を求めるために内側の step(3) を呼び、6行目で 3 を出力して 6 を返す。次に外側の step(6 − 1) を呼び、5 を出力して 10 を返す。続いて右側の step(a) を呼ぶが、a は代入前なので 3 のままであり、3 を出力して 6 を返す。最後に a ← 10＋6＝16 となり、4行目で 16 を出力する。",
+      "terms": [],
+      "tags": [
+        "関数",
+        "戻り値",
+        "評価順序"
+      ],
+      "verification": {
+        "status": "ai-verified",
+        "methods": [
+          "independent-solve",
+          "script",
+          "quality-review"
+        ],
+        "verifiedAt": "2026-10-01",
+        "script": "tools/verify/checks/algo-01.mjs"
+      },
+      "source": "original"
+    },
+    {
+      "setId": "b-algo-set-0001",
+      "subject": "B",
+      "title": "連続する文字の圧縮",
+      "stem": [
+        "関数 encode は、1文字以上の文字列 s を受け取り、同じ文字が連続する部分を「その文字」と「連続した個数」の組に置き換えた文字列を返す。例えば encode(\"aaab\") は \"a3b1\" を返す。",
+        "s[i] は s の i 番目の文字を表し、文字の番号は1から始まる。文字列に文字や整数を ＋ で結ぶと、その文字、又は整数を数字の並びにした文字列を末尾に連結した文字列になる。＋ は左から順に計算する。"
+      ],
+      "code": {
+        "lines": [
+          "○文字列型: encode(文字列型: s)",
+          "  文字列型: r ← \"\"",
+          "  整数型: i, n ← 1",
+          "  for (i を 2 から sの文字数 まで 1 ずつ増やす)",
+          "    if (s[i] ＝ s[i − 1])",
+          "      n ← n ＋ 1",
+          "    else",
+          "      r ← r ＋ s[i − 1] ＋ n",
+          "      n ← 1",
+          "    endif",
+          "  endfor",
+          "  r ← r ＋ s[sの文字数] ＋ n",
+          "  return r"
+        ]
+      },
+      "questions": [
+        {
+          "id": "b-algo-0015",
+          "subject": "B",
+          "field": "technology",
+          "category": "アルゴリズムとプログラミング",
+          "syllabusRef": "アルゴリズムとプログラミング",
+          "difficulty": 2,
+          "stem": [
+            "encode(\"ppqqqr\") を呼び出したときの戻り値はどれか。"
+          ],
+          "trace": {
+            "caption": "encode(\"ppqqqr\") を実行したとき、9行目を実行する直前の値",
+            "vars": [
+              "i",
+              "n",
+              "r"
+            ],
+            "rows": [
+              [
+                "3",
+                "2",
+                "p2"
+              ],
+              [
+                "6",
+                "3",
+                "p2q3"
+              ]
+            ]
+          },
+          "choices": [
+            {
+              "text": "\"p2q3\"",
+              "why": "繰返しの中では最後の文字の組が追加されないことを補う12行目を見落としている。"
+            },
+            {
+              "text": "\"p2q2r0\"",
+              "why": "9行目で n を 0 に戻すと考えた結果であり、新しい文字は1個目から数える。"
+            },
+            {
+              "text": "\"p2q3r1\"",
+              "why": "文字が変わるたびに直前の文字と個数を8行目で追加し、最後の組を12行目で追加するので正しい。"
+            },
+            {
+              "text": "\"2p3q1r\"",
+              "why": "個数と文字の順序が逆であり、8行目と12行目では文字の後に個数を連結する。"
+            }
+          ],
+          "answer": 2,
+          "explanation": "4行目の繰返しで、5行目では i 番目の文字が直前の文字と同じかを調べる。同じなら6行目で n を増やし、異なるなら8行目で直前の文字と個数 n を r に追加し、9行目で n を 1 に戻す。\"ppqqqr\" では i＝3 で p から q に変わって r＝\"p2\"、i＝6 で q から r に変わって r＝\"p2q3\" となる。最後の文字 r の組は繰返しの中では追加されないので、12行目で \"r1\" を追加し、\"p2q3r1\" を返す。",
+          "terms": [],
+          "tags": [
+            "文字列処理",
+            "トレース"
+          ],
+          "verification": {
+            "status": "ai-verified",
+            "methods": [
+              "independent-solve",
+              "script",
+              "quality-review"
+            ],
+            "verifiedAt": "2026-10-01",
+            "script": "tools/verify/checks/algo-01.mjs"
+          },
+          "source": "original"
+        },
+        {
+          "id": "b-algo-0016",
+          "subject": "B",
+          "field": "technology",
+          "category": "アルゴリズムとプログラミング",
+          "syllabusRef": "アルゴリズムとプログラミング",
+          "difficulty": 2,
+          "stem": [
+            "次の文字列を encode に与えたとき、戻り値の文字数が引数の文字数よりも多くなるものはどれか。"
+          ],
+          "choices": [
+            {
+              "text": "\"aaaa\"",
+              "why": "戻り値は \"a4\" で2文字となり、引数の4文字より少ない。"
+            },
+            {
+              "text": "\"aabb\"",
+              "why": "戻り値は \"a2b2\" で4文字となり、引数と同じ文字数である。"
+            },
+            {
+              "text": "\"aaabbb\"",
+              "why": "戻り値は \"a3b3\" で4文字となり、引数の6文字より少ない。"
+            },
+            {
+              "text": "\"abba\"",
+              "why": "戻り値は \"a1b2a1\" で6文字となり、引数の4文字より多いので正しい。"
+            }
+          ],
+          "answer": 3,
+          "explanation": "連続の個数が1桁であれば、文字が連続する部分1つにつき戻り値は2文字になる。\"aaaa\" は \"a4\"、\"aabb\" は \"a2b2\"、\"aaabbb\" は \"a3b3\" となり、いずれも引数より短いか同じ長さである。\"abba\" は i＝2 と i＝4 で文字が変わるので、8行目で \"a1\"、\"b2\" が追加され、12行目で \"a1\" が追加されて \"a1b2a1\" の6文字となる。同じ文字があまり連続しない文字列では、この方式はかえって長くなる。",
+          "terms": [],
+          "tags": [
+            "文字列処理"
+          ],
+          "verification": {
+            "status": "ai-verified",
+            "methods": [
+              "independent-solve",
+              "script",
+              "quality-review"
+            ],
+            "verifiedAt": "2026-10-01",
+            "script": "tools/verify/checks/algo-01.mjs"
+          },
+          "source": "original"
+        }
+      ]
+    },
+    {
+      "setId": "b-algo-set-0002",
+      "subject": "B",
+      "title": "値が増え続ける区間の長さ",
+      "stem": [
+        "関数 longestRise は、1個以上の要素をもつ整数型の配列 a を受け取り、隣り合う要素の値が前の要素より大きくなり続ける区間のうち、最も長い区間の要素数を返す。例えば {2, 7, 1, 4, 5} では {1, 4, 5} の区間が最も長いので 3 を返す。配列の要素番号は1から始まる。"
+      ],
+      "code": {
+        "lines": [
+          "○整数型: longestRise(整数型の配列: a)",
+          "  整数型: i, len ← 1, best ← 1",
+          "  for (i を 2 から aの要素数 まで 1 ずつ増やす)",
+          "    if (a[i] ＞ a[i − 1])",
+          "      len ← len ＋ 1",
+          "      if (len ＞ best)",
+          "        best ← len",
+          "      endif",
+          "    else",
+          "      len ← 1",
+          "    endif",
+          "  endfor",
+          "  return best"
+        ]
+      },
+      "questions": [
+        {
+          "id": "b-algo-0017",
+          "subject": "B",
+          "field": "technology",
+          "category": "アルゴリズムとプログラミング",
+          "syllabusRef": "アルゴリズムとプログラミング",
+          "difficulty": 2,
+          "stem": [
+            "longestRise({3, 5, 8, 2, 4, 6, 9, 1}) を呼び出したときの戻り値はどれか。"
+          ],
+          "trace": {
+            "caption": "longestRise({3, 5, 8, 2, 4, 6, 9, 1}) を実行したとき、4行目を実行する直前の値",
+            "vars": [
+              "i",
+              "len",
+              "best"
+            ],
+            "rows": [
+              [
+                "2",
+                "1",
+                "1"
+              ],
+              [
+                "3",
+                "2",
+                "2"
+              ],
+              [
+                "4",
+                "3",
+                "3"
+              ],
+              [
+                "5",
+                "1",
+                "3"
+              ],
+              [
+                "6",
+                "2",
+                "3"
+              ],
+              [
+                "7",
+                "3",
+                "3"
+              ],
+              [
+                "8",
+                "4",
+                "4"
+              ]
+            ]
+          },
+          "choices": [
+            {
+              "text": "3",
+              "why": "最初の区間 {3, 5, 8} の要素数であり、後に現れるより長い区間を反映していない。"
+            },
+            {
+              "text": "4",
+              "why": "区間 {2, 4, 6, 9} の要素数であり、最も長い区間なので正しい。"
+            },
+            {
+              "text": "5",
+              "why": "前の要素より大きくなった回数の合計であり、区間の要素数ではない。"
+            },
+            {
+              "text": "8",
+              "why": "配列全体の要素数であり、増え続ける区間の長さではない。"
+            }
+          ],
+          "answer": 1,
+          "fixedOrder": true,
+          "explanation": "4行目で a[i] が直前の要素より大きければ5行目で len を1増やし、そうでなければ10行目で len を1に戻す。len は現在の区間の要素数で、6行目と7行目で best にそれまでの最大値を保持する。i＝2, 3 で len は 2, 3 になり best＝3、i＝4 で 2 ＜ 8 なので len＝1、i＝5〜7 で len は 2, 3, 4 になり、i＝7 で best＝4 となる。i＝8 で len＝1 に戻り、13行目で 4 を返す。",
+          "terms": [],
+          "tags": [
+            "配列",
+            "繰返し処理",
+            "トレース"
+          ],
+          "verification": {
+            "status": "ai-verified",
+            "methods": [
+              "independent-solve",
+              "script",
+              "quality-review"
+            ],
+            "verifiedAt": "2026-10-01",
+            "script": "tools/verify/checks/algo-01.mjs"
+          },
+          "source": "original"
+        },
+        {
+          "id": "b-algo-0018",
+          "subject": "B",
+          "field": "technology",
+          "category": "アルゴリズムとプログラミング",
+          "syllabusRef": "アルゴリズムとプログラミング",
+          "difficulty": 3,
+          "stem": [
+            "longestRise({3, 5, 8, 2, 4, 6, 9, 1}) を呼び出したとき、7行目は何回実行されるか。"
+          ],
+          "choices": [
+            {
+              "text": "3",
+              "why": "len が best を上回る i＝2, 3, 7 のときだけ実行されるので正しい。"
+            },
+            {
+              "text": "4",
+              "why": "戻り値である best の最終値であり、7行目の実行回数ではない。"
+            },
+            {
+              "text": "5",
+              "why": "4行目の条件が真になって5行目が実行される回数である。"
+            },
+            {
+              "text": "7",
+              "why": "3行目の繰返しの回数であり、7行目は6行目の条件が真のときだけ実行される。"
+            }
+          ],
+          "answer": 0,
+          "fixedOrder": true,
+          "explanation": "7行目は、4行目の条件が真で、さらに6行目で len ＞ best が成り立つときだけ実行される。i＝2 で len＝2 ＞ 1、i＝3 で len＝3 ＞ 2 なので実行される。i＝5 と i＝6 では len が 2, 3 で best＝3 を超えないので実行されず、i＝7 で len＝4 ＞ 3 となって実行される。i＝4 と i＝8 は4行目の条件が偽である。したがって7行目の実行回数は3回である。",
+          "terms": [],
+          "tags": [
+            "配列",
+            "実行回数"
+          ],
+          "verification": {
+            "status": "ai-verified",
+            "methods": [
+              "independent-solve",
+              "script",
+              "quality-review"
+            ],
+            "verifiedAt": "2026-10-01",
+            "script": "tools/verify/checks/algo-01.mjs"
+          },
+          "source": "original"
+        }
+      ]
+    },
+    {
+      "setId": "b-algo-set-0003",
+      "subject": "B",
+      "title": "ポイントカードの残高管理",
+      "stem": [
+        "ある店のポイントカードでは、買物の金額100円につき1ポイントを付与し（100円未満の端数は切り捨て）、保有ポイントの範囲で利用できる。次のプログラムは、その処理を大域変数で管理するものである。",
+        "point は保有ポイント、hist は point が変化するたびにその値を末尾に追加していく配列で、どちらもすべての手続から参照・更新できる。手続 earn はポイントを付与し、関数 use は p ポイントの利用を試みて、利用できたかどうかを返す。÷ は商の整数部分を求め、配列の要素番号は1から始まる。"
+      ],
+      "code": {
+        "lines": [
+          "大域: 整数型: point ← 0",
+          "大域: 整数型の配列: hist ← {}",
+          "○earn(整数型: yen)",
+          "  point ← point ＋ yen ÷ 100",
+          "  hist の末尾に point の値を追加する",
+          "○論理型: use(整数型: p)",
+          "  if (p ＞ point)",
+          "    return false",
+          "  endif",
+          "  point ← point − p",
+          "  hist の末尾に point の値を追加する",
+          "  return true",
+          "○main()",
+          "  論理型: ok",
+          "  earn(1250)",
+          "  earn(380)",
+          "  ok ← use(10)",
+          "  ok ← use(8)",
+          "  earn(990)",
+          "  point を出力する"
+        ]
+      },
+      "questions": [
+        {
+          "id": "b-algo-0019",
+          "subject": "B",
+          "field": "technology",
+          "category": "アルゴリズムとプログラミング",
+          "syllabusRef": "アルゴリズムとプログラミング",
+          "difficulty": 2,
+          "stem": [
+            "手続 main を実行したとき、20行目で出力される値はどれか。"
+          ],
+          "choices": [
+            {
+              "text": "5",
+              "why": "17行目の利用までの値であり、19行目の earn(990) による付与を反映していない。"
+            },
+            {
+              "text": "6",
+              "why": "18行目の use(8) で保有ポイントが足りないのに、8 ポイントを差し引いたと考えた値である。"
+            },
+            {
+              "text": "14",
+              "why": "12＋3−10＋9 の値であり、18行目の利用は7行目の条件で断られるので正しい。"
+            },
+            {
+              "text": "16",
+              "why": "金額を合計してから 100 で割った 26 から 10 を引いた値であり、付与は呼出しごとに切り捨てる。"
+            }
+          ],
+          "answer": 2,
+          "fixedOrder": true,
+          "explanation": "15行目の earn(1250) で4行目により point＝0＋12＝12、16行目の earn(380) で point＝12＋3＝15 となる。17行目の use(10) は7行目の 10 ＞ 15 が偽なので10行目で point＝5 となる。18行目の use(8) は 8 ＞ 5 が真なので8行目で false を返し、point は変わらない。19行目の earn(990) で point＝5＋9＝14 となり、20行目で 14 が出力される。",
+          "terms": [],
+          "tags": [
+            "大域変数",
+            "手続",
+            "整数除算"
+          ],
+          "verification": {
+            "status": "ai-verified",
+            "methods": [
+              "independent-solve",
+              "script",
+              "quality-review"
+            ],
+            "verifiedAt": "2026-10-01",
+            "script": "tools/verify/checks/algo-01.mjs"
+          },
+          "source": "original"
+        },
+        {
+          "id": "b-algo-0020",
+          "subject": "B",
+          "field": "technology",
+          "category": "アルゴリズムとプログラミング",
+          "syllabusRef": "アルゴリズムとプログラミング",
+          "difficulty": 3,
+          "stem": [
+            "手続 main の実行を終えたとき、配列 hist の内容はどれか。"
+          ],
+          "choices": [
+            {
+              "text": "{12, 15, 5, 14}",
+              "why": "付与と利用ができたときだけ変化後の point が追加され、断られた use(8) では追加されないので正しい。"
+            },
+            {
+              "text": "{12, 15, 5, 5, 14}",
+              "why": "18行目の use(8) でも11行目が実行されると考えたが、8行目の return で関数を抜けている。"
+            },
+            {
+              "text": "{12, 3, −10, 9}",
+              "why": "変化後の point ではなく、増減した量を記録すると考えている。"
+            },
+            {
+              "text": "{12, 15, 5, −3, 6}",
+              "why": "保有ポイントを確かめずに use(8) で 8 ポイントを差し引いたと考えている。"
+            }
+          ],
+          "answer": 0,
+          "explanation": "hist には、5行目（earn）と11行目（use）で変化後の point の値が追加される。15行目と16行目の earn で 12 と 15 が、17行目の use(10) で 5 が追加される。18行目の use(8) では7行目の条件が真となり8行目の return false で関数を抜けるので、10行目と11行目は実行されず何も追加されない。19行目の earn(990) で 14 が追加され、hist は {12, 15, 5, 14} となる。",
+          "terms": [],
+          "tags": [
+            "大域変数",
+            "配列",
+            "手続"
+          ],
+          "verification": {
+            "status": "ai-verified",
+            "methods": [
+              "independent-solve",
+              "script",
+              "quality-review"
+            ],
+            "verifiedAt": "2026-10-01",
+            "script": "tools/verify/checks/algo-01.mjs"
+          },
+          "source": "original"
+        }
+      ]
+    }
+  ]
+}
