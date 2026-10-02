@@ -286,3 +286,32 @@ body.is-busy .sticky-action { bottom: var(--safe-b); }
 /* ---- ヘルプ ---- */
 .help-list { padding-left: 1.2em; list-style: disc; }
 .help-list li { margin: 0 0 8px; line-height: 1.75; }
+
+/* ---- 用語集：分野・カテゴリ ---- */
+.glossary-controls { margin: 0 0 8px; }
+.cat-index { display: flex; flex-wrap: wrap; gap: 6px; margin: 0 0 12px; }
+.cat-index a {
+  display: inline-flex; align-items: center;
+  min-height: 44px; padding: 4px 12px;
+  border: 1px solid var(--line); border-radius: 8px;
+  background: var(--surface); color: var(--text); text-decoration: none; font-size: 0.85rem;
+}
+.field-heading { margin: 18px 0 8px; padding-left: 10px; border-left: 5px solid var(--accent); }
+.cat-heading { scroll-margin-top: calc(var(--safe-t) + 8px); margin-top: 0 !important; }
+.term-sub { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+.field-tag {
+  display: inline-block; padding: 0 8px; border-radius: 999px;
+  font-size: 0.72rem; font-weight: 700; line-height: 1.6;
+  background: var(--surface-2); color: var(--text);
+}
+.field-technology { --tag: #2f6fb5; }
+.field-management { --tag: #96591d; }
+.field-strategy { --tag: #7a4fb0; }
+.field-tag.field-technology, .field-tag.field-management, .field-tag.field-strategy { background: var(--tag); color: #fff; }
+.field-heading.field-technology, .field-heading.field-management, .field-heading.field-strategy { border-left-color: var(--tag); }
+@media (prefers-color-scheme: dark) {
+  .field-technology { --tag: #4f8fd6; }
+  .field-management { --tag: #c98a3e; }
+  .field-strategy { --tag: #9a72d0; }
+  .field-tag.field-technology, .field-tag.field-management, .field-tag.field-strategy { color: #0d1214; }
+}
