@@ -35,7 +35,28 @@
 
 /**
  * @typedef {Object} FigureData  図データ（CONTENT.md「図データ」）
- * @property {'tree'|'state'|'er'|'network'|'logic'|'gantt'|'arrow'} type
+ * @property {'tree'|'state'|'er'|'network'|'logic'|'gantt'|'arrow'|'layers'|'flow'|'venn'|'bar'|'seq'} type
+ */
+
+/**
+ * @typedef {Object} TextSection
+ * @property {string} id            例: t01-01
+ * @property {string} title
+ * @property {string[]} points      この節の要点
+ * @property {{type:string}[]} blocks
+ * @property {string[]} [questionTags]  「この節の問題を解く」で優先する問題の tags
+ * @property {Verification} verification
+ */
+
+/**
+ * @typedef {Object} TextChapter
+ * @property {string} id            例: t01
+ * @property {Subject} subject
+ * @property {Field} field
+ * @property {string} category
+ * @property {string} title
+ * @property {string} summary
+ * @property {TextSection[]} sections
  */
 
 /**

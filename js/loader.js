@@ -8,6 +8,7 @@
  * @property {string[]} failed   読み込めなかったファイル名
  * @property {import('./types.js').GlossaryTerm[]} glossary
  * @property {Map<string, import('./types.js').GlossaryTerm>} termById
+ * @property {import('./types.js').TextChapter[]} texts   解説テキストの章（meta.textFiles の順）
  */
 
 const getJson = async (url) => {
@@ -19,7 +20,7 @@ const getJson = async (url) => {
 /** @returns {Promise<Loaded>} */
 export async function loadData() {
   /** @type {Loaded} */
-  const out = { meta: null, questions: [], byId: new Map(), failed: [], glossary: [], termById: new Map() };
+  const out = { meta: null, questions: [], byId: new Map(), failed: [], glossary: [], termById: new Map(), texts: [] };
   try {
     out.meta = await getJson('data/meta.json');
   } catch {
@@ -27,7 +28,13 @@ export async function loadData() {
     return out;
   }
 
-  const [glossary, ...results] = await Promise.allSettled([getJson('data/glossary.json'), ...out.meta.files.map((f) => getJson(`data/${f}`))]);
+  const textFiles = out.meta.textFiles ?? [];
+  const [glossary, ...all] = await Promise.allSettled([getJson('data/glossary.json'), ...out.meta.files.map((f) => getJson(`data/${f}`)), ...textFiles.map((f) => getJson(`data/${f}`))]);
+  const results = all.slice(0, out.meta.files.length);
+  all.slice(out.meta.files.length).forEach((r, i) => {
+    if (r.status === 'fulfilled' && Array.isArray(r.value?.sections)) out.texts.push(r.value);
+    else out.failed.push(textFiles[i]);
+  });
   if (glossary.status === 'fulfilled' && Array.isArray(glossary.value?.terms)) {
     out.glossary = glossary.value.terms;
     out.termById = new Map(out.glossary.map((t) => [t.id, t]));

@@ -219,7 +219,7 @@ SVGを手描きせず、問題の `figure` に書いたデータから `js/rende
 
 共通：
 
-- `figure.type` は `tree`／`state`／`arrow`／`gantt`／`network`／`er`／`logic` のいずれか
+- `figure.type` は `tree`／`state`／`arrow`／`gantt`／`network`／`er`／`logic`／`layers`／`flow`／`venn`／`bar`／`seq` のいずれか（後ろの5種は「解説用の図種」）
 - `figure.caption`（任意）：図の下に出す短い説明（例：「図　受注処理の状態遷移」）
 - `tree` と `gantt` 以外は、要素の位置を**グリッド座標** `x`, `y`（右が x の正、下が y の正。小数可）で指定する。1単位はおよそ60px。中心どうしの間隔は横2以上、縦1.5以上を目安にする
 - 表は図ではなく `table` を使う。1問に `table` と `figure` を両方付けてよい
@@ -327,6 +327,47 @@ SVGを手描きせず、問題の `figure` に書いたデータから `js/rende
   ],
   "outputs": [ { "id": "X", "label": "X", "x": 6.5, "y": 1, "from": "g2" } ] }
 ```
+
+### 解説用の図種（layers／flow／venn／bar／seq）
+
+主に解説テキストで使う。問題の `figure` でも使える。
+
+- `layers`（階層図）：`levels[]` は上から順。`{label, note?, hl?}`（`hl` は強調、`note` は右の注記）。`arrow: ["上位", "下位"]` で左に縦矢印を付ける
+- `flow`（流れ図）：`steps[]` は `{id, label, kind?, col?, row?, next?}`。`kind` は `process`（既定）／`decision`（ひし形）／`terminal`（角丸）。`col`・`row` は省略すると同じ列で並び順に下へ置く。`next: [{to, label?}]` を省略すると次の要素につなぐ（`terminal` は終端）。分岐は `col` を -1・1 にずらす
+- `venn`（ベン図）：`sets[]`（1〜3個）は `{label, x, y, r}`（グリッド単位）。`shade: [0, 1]` は指定した集合の共通部分を塗る。`regions[]` は `{x, y, label}`
+- `bar`（棒グラフ）：`bars[]` は `{label, value, kind?}`。`max`・`ticks`・`unit` は任意。`line: {values, max?, label?}` で右軸の折れ線（パレート図の累積比など）を重ねる。`values` は `bars` と同じ長さ
+- `seq`（並びの図）：`rows[]` は `{title?, cells:[{text, kind?, note?}]}`。`kind` は `hl`（強調）／`dim`（薄く）／`empty`（破線の空き）。配列・スタック・キュー・パケットの構造などに使う
+
+```json
+{ "type": "layers", "arrow": ["上位", "下位"], "levels": [ { "label": "アプリケーション層", "note": "HTTP", "hl": true }, { "label": "トランスポート層", "note": "TCP" } ] }
+```
+
+## 解説テキスト（学ぶタブ）
+
+`data/text/<章id>.json`（例：`t01-kiso.json`）。章を足したら `data/meta.json` の `textFiles[]` に `"text/t01-kiso.json"` の形で足す（一覧の並びが目次の並びになる）。Service Worker は `textFiles[]` を自動でキャッシュする。
+
+```json
+{ "schemaVersion": 1, "id": "t01", "subject": "A", "field": "technology", "category": "基礎理論",
+  "title": "第1章 基礎理論", "summary": "この章で学ぶこと（2〜3文）",
+  "sections": [
+    { "id": "t01-01", "title": "1.1 2進数と基数変換", "points": ["要点1", "要点2"],
+      "blocks": [ { "type": "p", "text": "本文" } ],
+      "questionTags": ["基数変換"],
+      "verification": { "status": "unverified", "methods": [], "verifiedAt": null } }
+  ] }
+```
+
+- `id` は `t` + 2桁、節の `id` は `<章id>-<2桁連番>`。`category` は固定リストの名前。科目Bの章は `subject: "B"`
+- `blocks[].type`：
+  - `h`（小見出し）・`p`（段落）：`text`。`^{}` `_{}` 記法が使える。段落中の用語集の用語は、**その節で最初に出た1回だけ**自動でタップできるようになる（定義ポップアップ）
+  - `list`（箇条書き）・`steps`（番号付きの手順、`title` 任意）：`items[]`
+  - `figure`：`figure`（図データ）。`table`：`table`（`header`・`rows`）と任意の `title`
+  - `code`：`lines[]`（擬似言語。問題と同じ表示）
+  - `note`：`kind` は `point`（既定）／`pitfall`（取り違えに注意）／`tip`（コツ）、`text`、任意の `title`
+  - `example`：`text`（問い）・`answer`（折りたたみで表示）・任意の `title`・`figure`
+- `questionTags`：「この節の問題を解く」で優先する問題の `tags`。該当が3問未満なら章のカテゴリ全体から出す
+- `verification` は問題と同じ。文章は独立解答の対象外なので、検証済みにするには `methods` に `quality-review`（別エージェントによる事実関係の検査）が要る
+- 文章・図・例題はすべてオリジナル。HTMLは使わない（`tools/validate-core.js` の `checkText` が検査する）
 
 ## 用語集
 

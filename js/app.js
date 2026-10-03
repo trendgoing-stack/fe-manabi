@@ -13,11 +13,12 @@ import { reviewView } from './views/review.js';
 import { settingsView } from './views/settings.js';
 import { mockView, mockResultView } from './views/mock.js';
 import { glossaryView, termView } from './views/glossary.js';
+import { learnView } from './views/learn.js';
 import { cardsView } from './views/cards.js';
 import { helpView } from './views/help.js';
 
 // ルート名 → 下部タブ
-const TAB_OF = { home: 'home', drill: 'drill', run: 'drill', result: 'drill', mock: 'drill', 'mock-result': 'drill', review: 'review', terms: 'terms', term: 'terms', cards: 'terms', settings: 'settings', help: 'settings' };
+const TAB_OF = { home: 'home', drill: 'drill', run: 'drill', result: 'drill', mock: 'drill', 'mock-result': 'drill', review: 'review', learn: 'learn', terms: 'learn', term: 'learn', cards: 'learn', settings: 'settings', help: 'settings' };
 // 出題中・模擬試験中はタブバーを隠し、Service Worker の更新もかけない
 const BUSY_ROUTES = new Set(['run', 'mock']);
 
@@ -128,6 +129,7 @@ async function main() {
   route('settings', settingsView);
   route('mock', mockView);
   route('mock-result', mockResultView);
+  route('learn', learnView);
   route('terms', glossaryView);
   route('term', termView);
   route('cards', cardsView);

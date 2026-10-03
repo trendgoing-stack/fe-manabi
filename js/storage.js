@@ -172,6 +172,18 @@ export function recordCard(termId, ok) {
   return write('cards', cards);
 }
 
+// ---- 解説テキストの「読んだ」印（節 id → 読んだ時刻） ----
+
+/** @returns {Object<string, number>} */
+export const getRead = () => read('read', {});
+
+export function setRead(sectionId, done) {
+  const m = getRead();
+  if (done) m[sectionId] = Date.now();
+  else delete m[sectionId];
+  return write('read', m);
+}
+
 // ---- 模擬試験 ----
 
 export const MOCK_KEEP = 50;
@@ -211,6 +223,7 @@ export function exportRaw() {
     flags: getFlags(),
     foldedUntil: getMeta().foldedUntil ?? 0,
     cards: getCards(),
+    read: getRead(),
     mocks: listMocks(),
   };
 }
@@ -219,10 +232,11 @@ export function exportRaw() {
  * 検証済みのデータをまとめて書き込む。settings が無ければ現在の設定を保つ。
  * @returns {boolean} すべて書き込めたか
  */
-export function importRaw({ settings, stats, history, daily, flags, foldedUntil, cards = {}, mocks = [] }) {
+export function importRaw({ settings, stats, history, daily, flags, foldedUntil, cards = {}, read: readMap = {}, mocks = [] }) {
   history = history.slice().sort((a, b) => a.ts - b.ts);
   let ok = true;
   ok = write('cards', cards) && ok;
+  ok = write('read', readMap) && ok;
   for (const id of read('mockIndex', [])) remove(`mock:${id}`);
   write('mockIndex', []);
   for (const m of mocks.slice().sort((a, b) => a.startedAt - b.startedAt)) ok = saveMock(m) && ok;

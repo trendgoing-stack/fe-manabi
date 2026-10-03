@@ -9,7 +9,7 @@ const B_CATEGORY = { algo: 'アルゴリズムとプログラミング', sec: '�
 const catByName = new Map(CATEGORIES.map((c) => [c.name, c]));
 const isStr = (v) => typeof v === 'string' && v.trim() !== '';
 
-const FIG_TYPES = ['tree', 'state', 'arrow', 'gantt', 'network', 'er', 'logic'];
+const FIG_TYPES = ['tree', 'state', 'arrow', 'gantt', 'network', 'er', 'logic', 'layers', 'flow', 'venn', 'bar', 'seq'];
 const NET_KINDS = ['internet', 'router', 'switch', 'fw', 'server', 'pc', 'ap', 'cloud'];
 const GATES = ['AND', 'OR', 'NOT', 'NAND', 'NOR', 'XOR'];
 const isNum = (v) => typeof v === 'number' && Number.isFinite(v);
@@ -49,6 +49,72 @@ export function checkFigure(f) {
       for (const i of g.in ?? []) if (!s.has(i)) e.push(`figure(logic): ゲート ${g.id} の入力 ${i} がない`);
     }
     for (const o of f.outputs ?? []) if (!s.has(o.from)) e.push(`figure(logic): 出力 ${o.id} の接続元 ${o.from} がない`);
+  } else if (f.type === 'layers') {
+    if (!Array.isArray(f.levels) || !f.levels.length || !f.levels.every((l) => isStr(l.label))) e.push('figure(layers): levels の形が不正');
+  } else if (f.type === 'flow') {
+    const s = ids(f.steps);
+    if (!Array.isArray(f.steps) || !f.steps.every((x) => isStr(x.id) && isStr(x.label) && (x.kind == null || ['process', 'decision', 'terminal'].includes(x.kind)))) e.push('figure(flow): steps の形が不正');
+    for (const st of f.steps ?? []) for (const n of st.next ?? []) if (!s.has(n.to)) e.push(`figure(flow): ${st.id} の next「${n.to}」の参照先がない`);
+  } else if (f.type === 'venn') {
+    if (!Array.isArray(f.sets) || f.sets.length < 1 || f.sets.length > 3 || !f.sets.every((x) => isStr(x.label) && isNum(x.x) && isNum(x.y) && isNum(x.r))) e.push('figure(venn): sets の形が不正（1〜3個）');
+    else if (f.shade && !(Array.isArray(f.shade) && f.shade.every((i) => Number.isInteger(i) && i >= 0 && i < f.sets.length))) e.push('figure(venn): shade の index が不正');
+  } else if (f.type === 'bar') {
+    if (!Array.isArray(f.bars) || !f.bars.length || !f.bars.every((b) => isStr(String(b.label ?? '')) && isNum(b.value))) e.push('figure(bar): bars の形が不正');
+    else if (f.line && !(Array.isArray(f.line.values) && f.line.values.length === f.bars.length && f.line.values.every(isNum))) e.push('figure(bar): line.values は bars と同じ長さの数値');
+  } else if (f.type === 'seq') {
+    if (!Array.isArray(f.rows) || !f.rows.length || !f.rows.every((r) => Array.isArray(r.cells) && r.cells.length && r.cells.every((c) => typeof (c.text ?? '') === 'string'))) e.push('figure(seq): rows の形が不正');
+  }
+  return e;
+}
+
+const BLOCK_TYPES = ['h', 'p', 'list', 'steps', 'figure', 'table', 'code', 'note', 'example'];
+const NOTE_KINDS = ['point', 'pitfall', 'tip'];
+
+/** 解説テキスト（1章）の検査 */
+export function checkText(ch, file) {
+  const e = [];
+  const where = ch?.id ?? file;
+  const bad = (msg) => e.push({ where, msg });
+  if (!/^t\d{2}$/.test(ch?.id ?? '')) bad('章の id の形式が不正（t01 など）');
+  if (!['A', 'B'].includes(ch?.subject)) bad('subject は A か B');
+  if (!['technology', 'management', 'strategy'].includes(ch?.field)) bad('field が不正');
+  if (!catByName.has(ch?.category)) bad(`category「${ch?.category}」は固定リストにない`);
+  if (!isStr(ch?.title) || !isStr(ch?.summary)) bad('title / summary が空');
+  if (!Array.isArray(ch?.sections) || !ch.sections.length) return [...e, { where, msg: 'sections が空' }];
+  const seen = new Set();
+  for (const s of ch.sections) {
+    const sbad = (msg) => e.push({ where: s.id ?? where, msg });
+    if (!new RegExp(`^${ch.id}-\\d{2}$`).test(s.id ?? '')) sbad('節の id の形式が不正（章 id-連番）');
+    if (seen.has(s.id)) sbad('節の id が重複');
+    seen.add(s.id);
+    if (!isStr(s.title)) sbad('title が空');
+    if (!Array.isArray(s.points) || !s.points.length || !s.points.every(isStr)) sbad('points は1つ以上の文字列');
+    if (!Array.isArray(s.blocks) || !s.blocks.length) {
+      sbad('blocks が空');
+      continue;
+    }
+    if (/<\/?[a-z][^>]*>/i.test(JSON.stringify(s))) sbad('HTMLタグが含まれている');
+    s.blocks.forEach((b, i) => {
+      const bb = (msg) => sbad(`blocks[${i}](${b?.type}): ${msg}`);
+      if (!BLOCK_TYPES.includes(b?.type)) return bb('未対応の type');
+      if (['h', 'p'].includes(b.type) && !isStr(b.text)) bb('text が空');
+      if (['list', 'steps'].includes(b.type) && !(Array.isArray(b.items) && b.items.length && b.items.every(isStr))) bb('items が不正');
+      if (b.type === 'figure') for (const m of checkFigure(b.figure)) bb(m);
+      if (b.type === 'table' && !(Array.isArray(b.table?.header) && Array.isArray(b.table?.rows) && b.table.rows.every((r) => r.length === b.table.header.length))) bb('table の形（列数）が不正');
+      if (b.type === 'code' && !(Array.isArray(b.lines) && b.lines.length)) bb('lines が空');
+      if (b.type === 'note' && (!isStr(b.text) || (b.kind != null && !NOTE_KINDS.includes(b.kind)))) bb('text / kind が不正');
+      if (b.type === 'example') {
+        if (!isStr(b.text) || !isStr(b.answer)) bb('text / answer が空');
+        if (b.figure) for (const m of checkFigure(b.figure)) bb(m);
+      }
+    });
+    if (s.questionTags != null && !(Array.isArray(s.questionTags) && s.questionTags.every(isStr))) sbad('questionTags は文字列の配列');
+    const v = s.verification;
+    if (!v || !STATUSES.includes(v.status)) sbad('verification.status が不正');
+    else if (v.status !== 'unverified' && v.status !== 'disputed') {
+      if (!/^\d{4}-\d{2}-\d{2}$/.test(v.verifiedAt ?? '')) sbad('検証済みなのに verifiedAt がない');
+      if (!v.methods?.includes('quality-review')) sbad('検証済みなのに methods に quality-review がない');
+    }
   }
   return e;
 }
@@ -138,13 +204,25 @@ export function checkQuestion(q, glossaryIds) {
  * @param {string|null} swText  sw.js の中身
  * @param {object|null} glossary
  */
-export function validateAll(meta, files, swText, glossary) {
+export function validateAll(meta, files, swText, glossary, texts = []) {
   const errors = [];
   const questions = [];
   const seen = new Map();
   const glossaryIds = new Set((glossary?.terms ?? []).map((t) => t.id));
   errors.push(...checkGlossary(glossary));
   if ((meta.counts?.glossary ?? 0) !== (glossary?.terms?.length ?? 0)) errors.push({ where: 'meta.json', msg: `counts.glossary は ${meta.counts?.glossary} だが実際は ${glossary?.terms?.length ?? 0}` });
+
+  const textIds = new Set();
+  for (const { file, json } of texts) {
+    if (!json) {
+      errors.push({ where: file, msg: '読み込めない' });
+      continue;
+    }
+    if (json.schemaVersion !== meta.schemaVersion) errors.push({ where: file, msg: 'schemaVersion が meta.json と違う' });
+    errors.push(...checkText(json, file));
+    if (textIds.has(json.id)) errors.push({ where: file, msg: `章の id「${json.id}」が重複` });
+    textIds.add(json.id);
+  }
 
   for (const { file, json } of files) {
     if (!json || !Array.isArray(json.items)) {
@@ -205,6 +283,8 @@ export function validateAll(meta, files, swText, glossary) {
     byDifficulty: count((q) => q.difficulty, live),
     byAnswer: count((q) => q.answer, live),
     byFigure: count((q) => q.figure?.type ?? '(なし)', live),
+    textChapters: texts.length,
+    textSections: texts.reduce((n, x) => n + (x.json?.sections?.length ?? 0), 0),
     glossaryCount: glossary?.terms?.length ?? 0,
     linked: live.filter((q) => q.terms?.length).length,
     retired: questions.length - live.length,

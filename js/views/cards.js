@@ -7,7 +7,7 @@ import { FIELDS, CATEGORIES } from '../categories.js';
 import { richText } from '../render/text.js';
 import { shuffled } from '../selector.js';
 import { today } from '../date.js';
-import { termsNav } from './glossary.js';
+import { learnNav } from './glossary.js';
 
 const NEW_PER_SESSION = 20;
 const SWIPE = 80; // px
@@ -48,8 +48,8 @@ export function cardsView(root) {
     const total = due.length + fresh.length;
     fill(
       root,
-      h('h1', null, '用語'),
-      termsNav('cards'),
+      h('h1', null, '学ぶ'),
+      learnNav('cards'),
       h('section', { class: 'card' }, h('h2', null, '分野'), h('div', { class: 'chips' }, chip('', 'すべて'), FIELDS.map((f) => chip(f.id, f.short)))),
       h(
         'section',
@@ -88,8 +88,8 @@ export function cardsView(root) {
   const drawDone = () =>
     fill(
       root,
-      h('h1', null, '用語'),
-      termsNav('cards'),
+      h('h1', null, '学ぶ'),
+      learnNav('cards'),
       h('section', { class: 'card center' }, h('p', { class: 'score' }, `${state.ok} / ${state.ok + state.ng}`), h('p', null, '枚を「覚えた」にしました。')),
       h('div', { class: 'btn-col' }, h('button', { type: 'button', class: 'btn big', onClick: drawStart }, '戻る')),
     );

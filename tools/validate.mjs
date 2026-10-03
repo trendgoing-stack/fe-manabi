@@ -9,7 +9,8 @@ const meta = await readJson('data/meta.json');
 const files = await Promise.all(meta.files.map(async (file) => ({ file, json: await readJson(`data/${file}`).catch(() => null) })));
 const swText = await readFile(path.join(ROOT, 'sw.js'), 'utf8').catch(() => null);
 const glossary = await readJson('data/glossary.json').catch(() => null);
-const r = validateAll(meta, files, swText, glossary);
+const texts = await Promise.all((meta.textFiles ?? []).map(async (file) => ({ file, json: await readJson(`data/${file}`).catch(() => null) })));
+const r = validateAll(meta, files, swText, glossary, texts);
 
 const show = (title, map) => console.log(`${title}: ` + [...map].map(([k, v]) => `${k}=${v}`).join(', '));
 console.log(`問題数 ${r.questions.length}（retired ${r.retired}）／dataVersion ${meta.dataVersion}／sw.js ${r.swVersion}`);
@@ -20,6 +21,7 @@ show('中分類', r.bySyllabusRef);
 show('難易度', r.byDifficulty);
 show('正解位置', r.byAnswer);
 show('図', r.byFigure);
+console.log(`解説テキスト ${r.textChapters}章・${r.textSections}節`);
 console.log(`用語集 ${r.glossaryCount}語／用語リンクのある問題 ${r.linked}問`);
 console.log(`文章選択肢 ${r.bias.n}問：正解が最長 ${r.bias.longest}、最短 ${r.bias.shortest}、長さ比 ${r.bias.ratio.toFixed(2)}、外れ値 ${r.bias.outliers.join(' ') || 'なし'}`);
 console.log(`needsUserCheck: ${r.needsUserCheck.join(' ') || 'なし'}／disputed: ${r.disputed.join(' ') || 'なし'}`);

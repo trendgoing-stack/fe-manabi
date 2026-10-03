@@ -442,8 +442,153 @@ function drawLogic(c, fig) {
   }
 }
 
-const DRAW = { tree: drawTree, state: drawState, arrow: drawArrow, gantt: drawGantt, network: drawNetwork, er: drawEr, logic: drawLogic };
-const NAMES = { tree: '木構造', state: '状態遷移図', arrow: 'アローダイアグラム', gantt: 'ガントチャート', network: 'ネットワーク構成図', er: 'E-R図', logic: '論理回路' };
+// ---- 解説用の図種 ----
+
+/** layers：積み重ねた階層。levels[0] が最上段。{label, note?, hl?}。arrow: [上端の説明, 下端の説明] で縦矢印を付ける */
+function drawLayers(c, fig) {
+  const rowH = 40;
+  const step = rowH + 4;
+  const W = Math.max(200, Math.max(...fig.levels.map((l) => textWidth(l.label))) + 36);
+  fig.levels.forEach((l, i) => {
+    const y = i * step;
+    c.add(s('rect', { x: 0, y, width: W, height: rowH, rx: 6, class: l.hl ? 'fig-bar-actual' : 'fig-bar' }));
+    c.text(W / 2, y + rowH / 2, l.label, { cls: l.hl ? 'fig-on-accent fig-bold' : 'fig-text fig-bold' });
+    if (l.note) c.text(W + 12, y + rowH / 2, l.note, { anchor: 'start', size: 12, cls: 'fig-text-muted' });
+  });
+  c.extend(0, 0, W, fig.levels.length * step);
+  if (fig.arrow) {
+    const x = -24;
+    c.line(x, 6, x, fig.levels.length * step - 10, { arrow: true });
+    if (fig.arrow[0]) c.text(x, -8, fig.arrow[0], { size: 11, cls: 'fig-text-muted' });
+    if (fig.arrow[1]) c.text(x, fig.levels.length * step + 2, fig.arrow[1], { size: 11, cls: 'fig-text-muted' });
+  }
+}
+
+/**
+ * flow：流れ図。steps[]: {id, label, kind?: process|decision|terminal, col?, row?, next?: [{to, label?}]}
+ * col・row は省略すると「同じ列で並び順に下へ」。next を省略すると次の要素へつなぐ（terminal は終端）。
+ */
+function drawFlow(c, fig) {
+  const COL_W = 200;
+  const ROW_H = 76;
+  const nodes = new Map();
+  let autoRow = 0;
+  for (const st of fig.steps) {
+    const row = st.row ?? autoRow;
+    autoRow = row + 1;
+    const decision = st.kind === 'decision';
+    const tw = textWidth(st.label) + 28;
+    const w = decision ? Math.max(110, tw + 34) : Math.max(90, tw);
+    const hh = decision ? 54 : 38;
+    const x = (st.col ?? 0) * COL_W;
+    const y = row * ROW_H;
+    nodes.set(st.id, { x, y, w, hh, clip: (tx, ty) => clipRect(x, y, w, hh, tx, ty) });
+    if (decision) c.add(s('polygon', { points: `${x},${y - hh / 2} ${x + w / 2},${y} ${x},${y + hh / 2} ${x - w / 2},${y}`, class: 'fig-node' }));
+    else c.add(s('rect', { x: x - w / 2, y: y - hh / 2, width: w, height: hh, rx: st.kind === 'terminal' ? 19 : 4, class: 'fig-node' }));
+    c.text(x, y, st.label);
+    c.extend(x - w / 2, y - hh / 2, x + w / 2, y + hh / 2);
+  }
+  fig.steps.forEach((st, i) => {
+    const nexts = st.next ?? (st.kind !== 'terminal' && i < fig.steps.length - 1 ? [{ to: fig.steps[i + 1].id }] : []);
+    for (const n of nexts) {
+      const a = nodes.get(st.id);
+      const b = nodes.get(n.to);
+      if (a && b) connect(c, a, b, { label: n.label ?? null, others: [...nodes.values()] });
+    }
+  });
+}
+
+/**
+ * venn：円の集合。sets[]: {label, x, y, r}（単位はグリッド）。regions[]: {x, y, label}（領域内の注記）。
+ * shade: 塗る領域＝指定した集合 index の共通部分（例 [0,1] は A∩B）。
+ */
+function drawVenn(c, fig) {
+  const id = `venn-${++seq}`;
+  const sets = fig.sets.map((st) => ({ ...st, px: st.x * U, py: st.y * U, pr: st.r * U }));
+  if (fig.shade?.length) {
+    const defs = s('defs');
+    fig.shade.forEach((i, k) => {
+      const cp = s('clipPath', { id: `${id}-${k}` });
+      cp.append(s('circle', { cx: sets[i].px, cy: sets[i].py, r: sets[i].pr }));
+      defs.append(cp);
+    });
+    // 入れ子のグループで clipPath を重ね、共通部分だけを塗る
+    let inner = s('rect', { x: -3000, y: -3000, width: 6000, height: 6000, class: 'fig-venn-shade' });
+    for (let k = fig.shade.length - 1; k >= 0; k--) {
+      const g = s('g', { 'clip-path': `url(#${id}-${k})` });
+      g.append(inner);
+      inner = g;
+    }
+    c.add(defs, 'back');
+    c.add(inner, 'back');
+  }
+  for (const st of sets) {
+    c.add(s('circle', { cx: st.px, cy: st.py, r: st.pr, class: 'fig-venn' }));
+    c.extend(st.px - st.pr, st.py - st.pr, st.px + st.pr, st.py + st.pr);
+    c.text(st.px + (st.lx ?? 0) * U, st.py - st.pr - 14, st.label, { cls: 'fig-text fig-bold' });
+  }
+  for (const r of fig.regions ?? []) c.text(r.x * U, r.y * U, r.label, { size: 12 });
+}
+
+/** bar：棒グラフ。bars[]: {label, value, kind?}。line: {values[], max?, label?} を右軸の折れ線として重ねる（パレート図の累積比など） */
+function drawBar(c, fig) {
+  const H = 150;
+  const colW = Math.max(36, Math.min(64, 420 / fig.bars.length));
+  const left = 44;
+  const width = fig.bars.length * colW;
+  const max = fig.max ?? Math.max(...fig.bars.map((b) => b.value));
+  const y = (v) => H - (v / max) * H;
+  const ticks = fig.ticks ?? 4;
+  for (let i = 0; i <= ticks; i++) {
+    const v = (max / ticks) * i;
+    c.line(left, y(v), left + width, y(v), { cls: i ? 'fig-grid-minor' : 'fig-grid' });
+    c.text(left - 6, y(v), String(+v.toFixed(1)), { anchor: 'end', size: 11, cls: 'fig-text-muted' });
+  }
+  fig.bars.forEach((b, i) => {
+    const x = left + i * colW + colW * 0.18;
+    const w = colW * 0.64;
+    c.add(s('rect', { x, y: y(b.value), width: w, height: H - y(b.value), rx: 2, class: b.kind === 'actual' ? 'fig-bar-actual' : 'fig-bar' }));
+    c.text(x + w / 2, y(b.value) - 9, String(b.value), { size: 11 });
+    c.text(x + w / 2, H + 14, b.label, { size: 11 });
+  });
+  if (fig.line) {
+    const lmax = fig.line.max ?? 100;
+    const pts = fig.line.values.map((v, i) => [left + i * colW + colW / 2, H - (v / lmax) * H]);
+    const xs = pts.map((p) => p[0]);
+    const ys = pts.map((p) => p[1]);
+    c.path(`M${pts.map((p) => p.join(',')).join(' L')}`, [Math.min(...xs), Math.min(...ys), Math.max(...xs), Math.max(...ys)], { cls: 'fig-line fig-line-accent', layer: 'mid' });
+    for (const [px, py] of pts) c.add(s('circle', { cx: px, cy: py, r: 3, class: 'fig-dot' }), 'front');
+    for (let i = 0; i <= ticks; i++) c.text(left + width + 6, y((max / ticks) * i), String(+((lmax / ticks) * i).toFixed(1)), { anchor: 'start', size: 11, cls: 'fig-text-muted' });
+    c.text(left + width + 6, -14, `${fig.line.label ?? '折れ線'}（右軸）`, { anchor: 'start', size: 11, cls: 'fig-text-muted' });
+  }
+  if (fig.unit) c.text(left - 6, -14, fig.unit, { anchor: 'end', size: 11, cls: 'fig-text-muted' });
+  c.extend(0, -20, left + width + (fig.line ? 40 : 10), H + 28);
+}
+
+/** seq：箱の並び。rows[]: {title?, cells:[{text, kind?: hl|dim|empty, note?}]}。配列・スタック・キュー・パケットの構造など */
+function drawSeq(c, fig) {
+  const cellH = 34;
+  const titleW = Math.max(0, ...fig.rows.map((r) => (r.title ? textWidth(r.title) + 14 : 0)));
+  let y = 0;
+  for (const r of fig.rows) {
+    const hasNote = r.cells.some((x) => x.note);
+    if (r.title) c.text(titleW - 10, y + cellH / 2, r.title, { anchor: 'end' });
+    let x = titleW;
+    for (const cell of r.cells) {
+      const w = Math.max(fig.cellW ?? 44, textWidth(cell.text ?? '') + 16);
+      const cls = cell.kind === 'hl' ? 'fig-bar-actual' : cell.kind === 'dim' ? 'fig-cell-dim' : 'fig-node';
+      c.add(s('rect', { x, y, width: w, height: cellH, class: cls + (cell.kind === 'empty' ? ' fig-dashed' : '') }));
+      if (cell.text) c.text(x + w / 2, y + cellH / 2, cell.text, { cls: cell.kind === 'hl' ? 'fig-on-accent fig-bold' : 'fig-text' });
+      if (cell.note) c.text(x + w / 2, y + cellH + 12, cell.note, { size: 11, cls: 'fig-text-muted' });
+      x += w;
+    }
+    c.extend(0, y, x, y + cellH + (hasNote ? 24 : 0));
+    y += cellH + (hasNote ? 24 : 0) + 18;
+  }
+}
+
+const DRAW = { tree: drawTree, state: drawState, arrow: drawArrow, gantt: drawGantt, network: drawNetwork, er: drawEr, logic: drawLogic, layers: drawLayers, flow: drawFlow, venn: drawVenn, bar: drawBar, seq: drawSeq };
+const NAMES = { tree: '木構造', state: '状態遷移図', arrow: 'アローダイアグラム', gantt: 'ガントチャート', network: 'ネットワーク構成図', er: 'E-R図', logic: '論理回路', layers: '階層図', flow: '流れ図', venn: 'ベン図', bar: '棒グラフ', seq: '並びの図' };
 
 /**
  * @param {import('../types.js').FigureData & {caption?:string}} fig

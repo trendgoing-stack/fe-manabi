@@ -315,3 +315,35 @@ body.is-busy .sticky-action { bottom: var(--safe-b); }
   .field-strategy { --tag: #9a72d0; }
   .field-tag.field-technology, .field-tag.field-management, .field-tag.field-strategy { color: #0d1214; }
 }
+
+/* ---- 解説用の図 ---- */
+.fig-on-accent { fill: var(--accent-text); }
+.fig-line-accent { stroke: var(--accent); stroke-width: 2; }
+.fig-cell-dim { fill: var(--surface-2); stroke: var(--muted); stroke-width: 1.2; }
+.fig-venn { fill: none; stroke: var(--text); stroke-width: 1.6; }
+.fig-venn-shade { fill: var(--accent); opacity: 0.35; }
+
+/* ---- 学ぶタブ ---- */
+.lesson-chapters { list-style: none; margin: 0; padding: 0; }
+.lesson-chapters li + li { border-top: 1px solid var(--line); }
+.lesson-chapters a { display: flex; align-items: center; gap: 10px; min-height: 52px; padding: 8px 4px; color: var(--text); text-decoration: none; }
+.lesson-chapters .grow { flex: 1; min-width: 0; }
+.read-mark { flex: none; min-width: 3.4em; text-align: center; font-size: 0.8rem; padding: 2px 8px; border-radius: 999px; background: var(--surface-2); color: var(--muted); }
+.read-mark.is-done { background: var(--ok-soft); color: var(--ok); font-weight: 700; }
+.lesson-points { margin: 0 0 12px; padding: 10px 14px 10px 30px; background: var(--accent-soft); border-radius: var(--radius); }
+.lesson-body > * + * { margin-top: 12px; }
+.lesson-body p { margin: 0; line-height: 1.85; }
+.lesson-body h3 { margin: 20px 0 0; font-size: 1.05rem; }
+.lesson-steps { margin: 0; padding-left: 1.6em; line-height: 1.8; }
+.lesson-steps li + li { margin-top: 4px; }
+.lesson-note { padding: 10px 14px; border-radius: var(--radius); border-left: 4px solid var(--accent); background: var(--surface-2); }
+.lesson-note.is-pitfall { border-left-color: var(--ng); background: var(--ng-soft); }
+.lesson-note.is-tip { border-left-color: var(--ok); background: var(--ok-soft); }
+.lesson-note .note-title { display: block; font-weight: 700; margin-bottom: 2px; }
+.lesson-example { padding: 10px 14px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface); }
+.lesson-example summary { cursor: pointer; font-weight: 700; margin-top: 6px; min-height: 44px; display: flex; align-items: center; }
+.lesson-nav { display: flex; gap: 8px; margin: 16px 0; }
+.lesson-nav .btn { flex: 1; text-align: center; }
+.lesson-body .table-wrap { overflow-x: auto; }
+ul.lesson-steps, ul.lesson-points { list-style: disc; }
+ol.lesson-steps { list-style: decimal; }

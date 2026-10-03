@@ -17,7 +17,7 @@
     import { renderFigure } from '../js/render/figure.js';
     const root = document.getElementById('view');
     const md = await (await fetch('../CONTENT.md', { cache: 'no-store' })).text();
-    const examples = [...md.matchAll(/```json\n(\{ "type": "(?:tree|state|arrow|gantt|network|er|logic)"[\s\S]*?)\n```/g)].map((m) => JSON.parse(m[1]));
+    const examples = [...md.matchAll(/```json\n(\{ "type": "(?:tree|state|arrow|gantt|network|er|logic|layers|flow|venn|bar|seq)"[\s\S]*?)\n```/g)].map((m) => JSON.parse(m[1]));
     for (const fig of examples) root.append(h('section', null, h('h2', null, `記述例：${fig.type}`), renderFigure(fig)));
     const meta = await (await fetch('../data/meta.json', { cache: 'no-store' })).json();
     for (const f of meta.files) {

@@ -29,6 +29,7 @@ const APP_SHELL = [
   'js/render/chart.js',
   'js/render/code.js',
   'js/render/figure.js',
+  'js/render/lesson.js',
   'js/render/question.js',
   'js/render/text.js',
   'js/ui/dialog.js',
@@ -41,6 +42,7 @@ const APP_SHELL = [
   'js/views/glossary.js',
   'js/views/help.js',
   'js/views/home.js',
+  'js/views/learn.js',
   'js/views/mock.js',
   'js/views/question.js',
   'js/views/result.js',
@@ -63,7 +65,7 @@ self.addEventListener('install', (event) => {
       const metaRes = await fetch(fresh('data/meta.json'));
       const meta = await metaRes.clone().json();
       await cache.put('data/meta.json', metaRes);
-      await cache.addAll([...APP_SHELL, 'data/glossary.json', ...meta.files.map((f) => `data/${f}`)].map(fresh));
+      await cache.addAll([...APP_SHELL, 'data/glossary.json', ...meta.files.map((f) => `data/${f}`), ...(meta.textFiles ?? []).map((f) => `data/${f}`)].map(fresh));
       // skipWaiting はしない。画面のバナーをタップしたときだけ切り替える
     })(),
   );

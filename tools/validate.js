@@ -34,7 +34,8 @@ async function main() {
   const files = await Promise.all(meta.files.map(async (file) => ({ file, json: await tryGet(`../data/${file}`) })));
   const swText = await tryGet('../sw.js', 'text');
   const glossary = await tryGet('../data/glossary.json');
-  const r = validateAll(meta, files, swText, glossary);
+  const texts = await Promise.all((meta.textFiles ?? []).map(async (file) => ({ file, json: await tryGet(`../data/${file}`) })));
+  const r = validateAll(meta, files, swText, glossary, texts);
   const get0 = (m, k) => m.get(k) ?? 0;
 
   const sampleHost = h('div');

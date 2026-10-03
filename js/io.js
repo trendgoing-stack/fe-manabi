@@ -87,11 +87,13 @@ export function parseImport(text) {
   if (!isObj(cards) || !Object.values(cards).every((c) => isObj(c) && [1, 2, 3, 4, 5].includes(c.box) && DATE_RE.test(c.due) && typeof c.lastAt === 'number')) {
     throw new Error('暗記カードの記録が不正です');
   }
+  const readMap = d.read ?? {};
+  if (!isObj(readMap) || !Object.values(readMap).every((v) => typeof v === 'number')) throw new Error('「読んだ」の記録が不正です');
   const mocks = d.mocks ?? [];
   if (!Array.isArray(mocks) || !mocks.every((m) => isObj(m) && typeof m.id === 'string' && typeof m.startedAt === 'number' && Array.isArray(m.items))) {
     throw new Error('模擬試験の記録が不正です');
   }
-  return { settings: d.settings ?? null, stats: d.stats, history: d.history, daily: d.daily, flags: d.flags, foldedUntil: Number(d.foldedUntil) || 0, cards, mocks };
+  return { settings: d.settings ?? null, stats: d.stats, history: d.history, daily: d.daily, flags: d.flags, foldedUntil: Number(d.foldedUntil) || 0, cards, read: readMap, mocks };
 }
 
 /**
@@ -134,9 +136,11 @@ export function mergeData(local, incoming) {
   for (const [id, c] of Object.entries(incoming.cards)) {
     if (!cards[id] || c.lastAt > cards[id].lastAt) cards[id] = c;
   }
+  const read = { ...local.read };
+  for (const [id, ts] of Object.entries(incoming.read)) read[id] = Math.max(read[id] ?? 0, ts);
   const mocks = [...new Map([...incoming.mocks, ...local.mocks].map((m) => [m.id, m])).values()];
 
-  return { settings: null, stats, history, daily, flags, foldedUntil: Math.max(local.foldedUntil, incoming.foldedUntil), cards, mocks };
+  return { settings: null, stats, history, daily, flags, foldedUntil: Math.max(local.foldedUntil, incoming.foldedUntil), cards, read, mocks };
 }
 
 /**

@@ -1,4 +1,4 @@
-// 用語タブ：用語集（五十音順／カテゴリ別、分野の絞り込み、検索）と用語の詳細
+// 学ぶタブの用語集：用語集（五十音順／カテゴリ別、分野の絞り込み、検索）と用語の詳細
 import { h, fill } from '../dom.js';
 import * as storage from '../storage.js';
 import { app } from '../state.js';
@@ -25,11 +25,11 @@ const rowOf = (reading) => ROWS.find(([, chars]) => chars.includes(reading[0]))?
 const collator = new Intl.Collator('ja');
 const sorted = () => app.data.glossary.slice().sort((a, b) => collator.compare(a.reading, b.reading));
 
-/** 用語タブ共通の切り替え（用語集／暗記カード） */
-export function termsNav(current) {
+/** 「学ぶ」タブ共通の切り替え（テキスト／用語集／暗記カード） */
+export function learnNav(current) {
   const item = (id, label) =>
     h('a', { href: `#/${id}`, class: 'chip' + (current === id ? ' is-on' : ''), 'aria-current': current === id ? 'page' : null }, label);
-  return h('nav', { class: 'chips subnav', 'aria-label': '用語' }, item('terms', '用語集'), item('cards', '暗記カード'));
+  return h('nav', { class: 'chips subnav', 'aria-label': '学ぶ' }, item('learn', 'テキスト'), item('terms', '用語集'), item('cards', '暗記カード'));
 }
 
 /** 一覧の1行：用語名と、読み・分野・カテゴリ */
@@ -126,7 +126,7 @@ export function glossaryView(root) {
     );
   };
 
-  root.append(h('h1', null, '用語'), termsNav('terms'), input, controls, list);
+  root.append(h('h1', null, '学ぶ'), learnNav('terms'), input, controls, list);
   if (!all.length) list.append(h('p', { class: 'notice warn' }, '用語集を読み込めませんでした。'));
   else draw();
 }
