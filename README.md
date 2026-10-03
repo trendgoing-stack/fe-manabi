@@ -74,4 +74,4 @@ python tools/serve.py
 | `tools/serve.py` | キャッシュを無効にした開発用サーバ |
 | `tools/make-icons.mjs` | 仮アイコンの生成 |
 
-関連文書：[CONTENT.md](CONTENT.md)（問題の書き方）、[VERIFICATION.md](VERIFICATION.md)（検証ログ）、[TESTING.md](TESTING.md)（実機確認チェックリスト）
+関連文書：[HANDOFF.md](HANDOFF.md)（次の作業「学ぶ」タブの引き継ぎ）、[CONTENT.md](CONTENT.md)（問題の書き方）、[VERIFICATION.md](VERIFICATION.md)（検証ログ）、[TESTING.md](TESTING.md)（実機確認チェックリスト）
