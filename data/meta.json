@@ -1,5 +1,5 @@
 {
-  "dataVersion": "2026.10.02-2",
+  "dataVersion": "2026.10.03-1",
   "schemaVersion": 1,
   "syllabusVersion": "Ver.9.2",
   "syllabus": {
@@ -60,5 +60,8 @@
     "questions/b/algo-03.json",
     "questions/b/sec-02.json",
     "questions/b/algo-04.json"
+  ],
+  "textFiles": [
+    "text/t01-kiso.json"
   ]
 }
