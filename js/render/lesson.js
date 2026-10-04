@@ -64,7 +64,18 @@ function renderBlock(b, seen) {
 }
 
 /** 節の本文（ブロックの並び） */
-export function renderSectionBody(section) {
+// 要約表示で残すブロック：小見出し、メモ（ポイント・取り違え・コツ）、図、表
+const SUMMARY_TYPES = new Set(['h', 'note', 'figure', 'table']);
+
+/** 要約表示のブロック。中身が続かない小見出しは落とす */
+export function summaryBlocks(blocks) {
+  const kept = blocks.filter((b) => SUMMARY_TYPES.has(b.type));
+  return kept.filter((b, i) => b.type !== 'h' || (kept[i + 1] && kept[i + 1].type !== 'h'));
+}
+
+/** 節の本文（ブロックの並び）。summary が true なら要約表示 */
+export function renderSectionBody(section, summary = false) {
   const seen = new Set();
-  return h('div', { class: 'lesson-body' }, section.blocks.map((b) => renderBlock(b, seen)));
+  const blocks = summary ? summaryBlocks(section.blocks) : section.blocks;
+  return h('div', { class: 'lesson-body' }, blocks.map((b) => renderBlock(b, seen)));
 }

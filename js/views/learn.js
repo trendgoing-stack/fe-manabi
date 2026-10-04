@@ -1,5 +1,5 @@
 // 学ぶタブ：解説テキスト（章の目次 → 章の節一覧 → 節）。用語集・暗記カードは glossary.js / cards.js
-import { h } from '../dom.js';
+import { h, fill } from '../dom.js';
 import * as storage from '../storage.js';
 import { app, availableQuestions, startSession } from '../state.js';
 import { FIELDS } from '../categories.js';
@@ -131,12 +131,29 @@ function sectionView(root, chapter, section) {
   };
   drawMark();
 
+  // 要約／詳細の切り替え（選択は端末に保存する）
+  let summary = storage.getMeta().learnMode === 'summary';
+  const body = h('div');
+  const hint = h('p', { class: 'muted small' });
+  const modeBar = h('div', { class: 'chips subnav', role: 'group', 'aria-label': '表示の詳しさ' });
+  const drawBody = () => {
+    fill(body, renderSectionBody(section, summary));
+    hint.textContent = summary
+      ? '要約表示：要点・図・表・注意点だけを表示しています。説明や例題は「詳細」で読めます。'
+      : '下線の用語をタップすると定義を表示します。';
+    const chip = (label, on, value) =>
+      h('button', { type: 'button', class: 'chip' + (on ? ' is-on' : ''), 'aria-pressed': String(on), onClick: () => { summary = value; storage.saveMeta({ learnMode: value ? 'summary' : 'detail' }); drawBody(); } }, label);
+    fill(modeBar, chip('要約', summary, true), chip('詳細', !summary, false));
+  };
+  drawBody();
+
   root.append(
     h('header', { class: 'run-head' }, h('a', { class: 'btn small', href: `#/learn/${encodeURIComponent(chapter.id)}` }, '章'), h('span', { class: 'run-progress' }, chapter.category), h('span')),
     h('h1', null, richText(section.title)),
+    modeBar,
     section.points?.length ? h('ul', { class: 'lesson-points' }, section.points.map((p) => h('li', null, richText(p)))) : null,
-    renderSectionBody(section),
-    h('p', { class: 'muted small' }, '下線の用語をタップすると定義を表示します。'),
+    body,
+    hint,
     h('div', { class: 'btn-col' }, mark, practiceButton(chapter, section)),
     h('div', { class: 'lesson-nav' }, link(flat[i - 1], '← 前の節'), link(flat[i + 1], '次の節 →')),
   );
