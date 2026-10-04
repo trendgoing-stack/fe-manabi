@@ -6,6 +6,7 @@ import { renderStem, renderChoices, renderExplanation, renderMetaLine } from '..
 import { openFlagDialog } from '../ui/flag.js';
 import { FLAG_KINDS } from '../categories.js';
 import { renderTrace } from '../ui/trace.js';
+import { setAiContext } from '../ui/ask-ai.js';
 
 export function questionView(root, [id]) {
   const q = app.data.byId.get(id);
@@ -15,6 +16,7 @@ export function questionView(root, [id]) {
     return;
   }
 
+  setAiContext({ kind: 'question', q, revealed: true });
   const draw = () => {
     const flag = storage.getFlags()[q.id];
     const stat = storage.getStats()[q.id];

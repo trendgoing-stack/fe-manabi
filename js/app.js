@@ -16,6 +16,7 @@ import { glossaryView, termView } from './views/glossary.js';
 import { learnView } from './views/learn.js';
 import { cardsView } from './views/cards.js';
 import { helpView } from './views/help.js';
+import { initAskAi } from './ui/ask-ai.js';
 
 // ルート名 → 下部タブ
 const TAB_OF = { home: 'home', drill: 'drill', run: 'drill', result: 'drill', mock: 'drill', 'mock-result': 'drill', review: 'review', learn: 'learn', terms: 'learn', term: 'learn', cards: 'learn', settings: 'settings', help: 'settings' };
@@ -135,6 +136,7 @@ async function main() {
   route('cards', cardsView);
   route('help', helpView);
   start(onRouteChange);
+  initAskAi();
 
   registerServiceWorker();
 }

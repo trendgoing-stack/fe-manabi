@@ -7,6 +7,7 @@ import { renderStem, renderChoices, renderExplanation, renderMetaLine, LABELS } 
 import { navigate } from '../router.js';
 import { openFlagDialog } from '../ui/flag.js';
 import { renderTrace } from '../ui/trace.js';
+import { setAiContext } from '../ui/ask-ai.js';
 
 export function runView(root) {
   const session = storage.getSession();
@@ -33,6 +34,7 @@ export function runView(root) {
     const q = app.data.byId.get(item.id);
     const last = session.pos === session.items.length - 1;
     const flagged = !!storage.getFlags()[q.id];
+    setAiContext({ kind: 'question', q, revealed: !!item.done, order: item.order });
 
     const resultBanner = item.done
       ? h(

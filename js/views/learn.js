@@ -9,6 +9,7 @@ import { filterQuestions, shuffled, groupSets, takeWhole, DEFAULT_CRITERIA } fro
 import { today } from '../date.js';
 import { toast } from '../ui/toast.js';
 import { learnNav } from './glossary.js';
+import { setAiContext } from '../ui/ask-ai.js';
 
 const PRACTICE_COUNT = 10;
 
@@ -115,6 +116,7 @@ function chapterView(root, chapter) {
 }
 
 function sectionView(root, chapter, section) {
+  setAiContext({ kind: 'section', chapter, section });
   const flat = flatSections();
   const i = flat.findIndex((x) => x.section.id === section.id);
   const link = (x, label) =>

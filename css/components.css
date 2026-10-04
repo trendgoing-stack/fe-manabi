@@ -208,3 +208,55 @@ body.is-busy .toast-host { bottom: calc(var(--safe-b) + 84px); }
   text-underline-offset: 3px;
   cursor: pointer;
 }
+
+/* ---- 「AIに聞く」 ---- */
+.ask-ai-fab {
+  position: fixed;
+  right: calc(var(--safe-r) + 14px);
+  bottom: calc(var(--tabbar-h) + var(--safe-b) + 16px);
+  z-index: 25;
+  min-height: 44px;
+  padding: 8px 18px;
+  border: 0;
+  border-radius: 999px;
+  background: var(--accent);
+  color: var(--accent-text);
+  font: inherit;
+  font-weight: 700;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+  cursor: pointer;
+}
+.ask-ai-fab[hidden] { display: none; }
+body.is-busy .ask-ai-fab { bottom: calc(var(--safe-b) + 96px); }
+.ai-quote {
+  margin: 0 0 12px;
+  padding: 8px 12px;
+  border-left: 4px solid var(--accent);
+  background: var(--surface-2);
+  border-radius: 6px;
+  font-size: 0.92rem;
+}
+.ai-extra {
+  width: 100%;
+  min-height: 44px;
+  margin: 12px 0;
+  padding: 8px 12px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--surface);
+  color: var(--text);
+  font: inherit;
+}
+.ai-preview {
+  width: 100%;
+  margin: 4px 0 12px;
+  padding: 8px 10px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--surface-2);
+  color: var(--text);
+  font: inherit;
+  font-size: 0.82rem;
+  line-height: 1.5;
+  resize: vertical;
+}
