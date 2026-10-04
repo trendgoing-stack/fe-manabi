@@ -347,3 +347,9 @@ body.is-busy .sticky-action { bottom: var(--safe-b); }
 .lesson-body .table-wrap { overflow-x: auto; }
 ul.lesson-steps, ul.lesson-points { list-style: disc; }
 ol.lesson-steps { list-style: decimal; }
+
+/* 要約表示のまとめ（digest） */
+.lesson-digest { padding: 12px 14px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface); }
+.lesson-digest p { margin: 0; line-height: 1.85; }
+.lesson-keys { margin: 10px 0 0; padding-left: 1.4em; list-style: disc; line-height: 1.8; }
+.lesson-keys li + li { margin-top: 2px; }

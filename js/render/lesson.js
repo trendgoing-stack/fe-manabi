@@ -5,7 +5,7 @@ import { renderFigure } from './figure.js';
 import { renderTable } from './question.js';
 import { renderCode } from './code.js';
 import { app } from '../state.js';
-import { findTerms } from '../terms.js';
+import { findTerms, namesOf } from '../terms.js';
 import { openTermDialog } from '../ui/term.js';
 
 const NOTE_LABEL = { point: 'ポイント', pitfall: '取り違えに注意', tip: 'コツ' };
@@ -15,10 +15,20 @@ const NOTE_LABEL = { point: 'ポイント', pitfall: '取り違えに注意', ti
  * @param {string} text
  * @param {Set<string>} seen  この節でリンク済みの用語 id
  */
-function linked(text, seen) {
+/** 同じ表記の用語が複数あるときは、その章のカテゴリのものを優先する（例：プロセッサの CPI と EVM の CPI） */
+function linkable(category) {
+  const all = app.data.glossary;
+  if (!category) return all;
+  const own = new Set(all.filter((t) => t.category === category).flatMap(namesOf));
+  return all.filter((t) => t.category === category || !namesOf(t).some((n) => own.has(n)));
+}
+
+let currentCategory = ''; // いま描いている節の章のカテゴリ（用語リンクの同名の優先に使う）
+
+function linked(text, seen, category = currentCategory) {
   const frag = document.createDocumentFragment();
   let last = 0;
-  for (const f of findTerms(text, app.data.glossary)) {
+  for (const f of findTerms(text, linkable(category))) {
     if (seen.has(f.id)) continue;
     seen.add(f.id);
     if (f.start > last) frag.append(richText(text.slice(last, f.start)));
@@ -74,8 +84,22 @@ export function summaryBlocks(blocks) {
 }
 
 /** 節の本文（ブロックの並び）。summary が true なら要約表示 */
-export function renderSectionBody(section, summary = false) {
+export function renderSectionBody(section, summary = false, category = '') {
+  currentCategory = category;
   const seen = new Set();
   const blocks = summary ? summaryBlocks(section.blocks) : section.blocks;
-  return h('div', { class: 'lesson-body' }, blocks.map((b) => renderBlock(b, seen)));
+  const d = summary ? section.digest : null;
+  return h(
+    'div',
+    { class: 'lesson-body' },
+    d
+      ? h(
+          'div',
+          { class: 'lesson-digest' },
+          h('p', null, linked(d.text, seen)),
+          d.keys?.length ? h('ul', { class: 'lesson-keys' }, d.keys.map((k) => h('li', null, linked(k, seen)))) : null,
+        )
+      : null,
+    blocks.map((b) => renderBlock(b, seen)),
+  );
 }

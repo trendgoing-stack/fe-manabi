@@ -108,6 +108,7 @@ export function checkText(ch, file) {
         if (b.figure) for (const m of checkFigure(b.figure)) bb(m);
       }
     });
+    if (s.digest != null && !(isStr(s.digest.text) && (s.digest.keys == null || (Array.isArray(s.digest.keys) && s.digest.keys.every(isStr))))) sbad('digest は { text, keys? }（text は文字列、keys は文字列の配列）');
     if (s.questionTags != null && !(Array.isArray(s.questionTags) && s.questionTags.every(isStr))) sbad('questionTags は文字列の配列');
     const v = s.verification;
     if (!v || !STATUSES.includes(v.status)) sbad('verification.status が不正');

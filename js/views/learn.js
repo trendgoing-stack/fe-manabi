@@ -137,7 +137,7 @@ function sectionView(root, chapter, section) {
   const hint = h('p', { class: 'muted small' });
   const modeBar = h('div', { class: 'chips subnav', role: 'group', 'aria-label': '表示の詳しさ' });
   const drawBody = () => {
-    fill(body, renderSectionBody(section, summary));
+    fill(body, renderSectionBody(section, summary, chapter.category));
     hint.textContent = summary
       ? '要約表示：要点・図・表・注意点だけを表示しています。説明や例題は「詳細」で読めます。'
       : '下線の用語をタップすると定義を表示します。';

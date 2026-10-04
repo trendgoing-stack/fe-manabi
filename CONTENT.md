@@ -365,6 +365,7 @@ SVGを手描きせず、問題の `figure` に書いたデータから `js/rende
   - `code`：`lines[]`（擬似言語。問題と同じ表示）
   - `note`：`kind` は `point`（既定）／`pitfall`（取り違えに注意）／`tip`（コツ）、`text`、任意の `title`
   - `example`：`text`（問い）・`answer`（折りたたみで表示）・任意の `title`・`figure`
+- `digest`（任意）：要約表示で上部に出す書き下ろしのまとめ。`{ "text": "2〜4文（200〜400字）の要約", "keys": ["押さえる用語・公式・数値", …] }`。本文にない事実を足さない。`text` は用語リンク付きで表示される
 - `questionTags`：「この節の問題を解く」で優先する問題の `tags`。該当が3問未満なら章のカテゴリ全体から出す
 - `verification` は問題と同じ。文章は独立解答の対象外なので、検証済みにするには `methods` に `quality-review`（別エージェントによる事実関係の検査）が要る
 - 文章・図・例題はすべてオリジナル。HTMLは使わない（`tools/validate-core.js` の `checkText` が検査する）

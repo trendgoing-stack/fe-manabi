@@ -1,5 +1,5 @@
 {
-  "dataVersion": "2026.10.04-3",
+  "dataVersion": "2026.10.05-1",
   "schemaVersion": 1,
   "syllabusVersion": "Ver.9.2",
   "syllabus": {
@@ -33,7 +33,7 @@
   "counts": {
     "A": 360,
     "B": 120,
-    "glossary": 304
+    "glossary": 312
   },
   "files": [
     "questions/a/tech-kiso-01.json",
