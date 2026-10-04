@@ -333,9 +333,9 @@ SVGを手描きせず、問題の `figure` に書いたデータから `js/rende
 主に解説テキストで使う。問題の `figure` でも使える。
 
 - `layers`（階層図）：`levels[]` は上から順。`{label, note?, hl?}`（`hl` は強調、`note` は右の注記）。`arrow: ["上位", "下位"]` で左に縦矢印を付ける
-- `flow`（流れ図）：`steps[]` は `{id, label, kind?, col?, row?, next?}`。`kind` は `process`（既定）／`decision`（ひし形）／`terminal`（角丸）。`col`・`row` は省略すると同じ列で並び順に下へ置く。`next: [{to, label?}]` を省略すると次の要素につなぐ（`terminal` は終端）。分岐は `col` を -1・1 にずらす
+- `flow`（流れ図）：`steps[]` は `{id, label, kind?, col?, row?, next?}`。`kind` は `process`（既定）／`decision`（ひし形）／`terminal`（角丸）。`col`・`row` は省略すると同じ列で並び順に下へ置く。`next: [{to, label?}]` を省略すると次の要素につなぐ（`terminal` は、先頭の「開始」だけ次へつなぎ、途中や末尾の「終了」は終端）。分岐は `col` を -1・1 にずらす。A→B と B→A の往復は、重ならないよう少し曲げて描く
 - `venn`（ベン図）：`sets[]`（1〜3個）は `{label, x, y, r}`（グリッド単位）。`shade: [0, 1]` は指定した集合の共通部分を塗る。`regions[]` は `{x, y, label}`
-- `bar`（棒グラフ）：`bars[]` は `{label, value, kind?}`。`max`・`ticks`・`unit` は任意。`line: {values, max?, label?}` で右軸の折れ線（パレート図の累積比など）を重ねる。`values` は `bars` と同じ長さ
+- `bar`（棒グラフ）：`bars[]` は `{label, value, kind?}`（`kind: "hl"` で強調）。`max`・`ticks`・`unit`・`name`（棒の系列名。左上に「■ 名前」と出す）は任意。`line: {values, max?, label?}` で右軸の折れ線（パレート図の累積比など）を重ねる。`values` は `bars` と同じ長さ
 - `seq`（並びの図）：`rows[]` は `{title?, cells:[{text, kind?, note?}]}`。`kind` は `hl`（強調）／`dim`（薄く）／`empty`（破線の空き）。配列・スタック・キュー・パケットの構造などに使う
 
 ```json

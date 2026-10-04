@@ -1,5 +1,5 @@
 {
-  "dataVersion": "2026.10.03-1",
+  "dataVersion": "2026.10.04-1",
   "schemaVersion": 1,
   "syllabusVersion": "Ver.9.2",
   "syllabus": {
@@ -62,6 +62,24 @@
     "questions/b/algo-04.json"
   ],
   "textFiles": [
-    "text/t01-kiso.json"
+    "text/t01-kiso.json",
+    "text/t02-algo.json",
+    "text/t03-comp.json",
+    "text/t04-system.json",
+    "text/t05-software.json",
+    "text/t06-ui-media.json",
+    "text/t07-db.json",
+    "text/t08-network.json",
+    "text/t09-security.json",
+    "text/t10-dev.json",
+    "text/t11-devmgmt.json",
+    "text/t12-pm.json",
+    "text/t13-sm.json",
+    "text/t14-audit.json",
+    "text/t15-strategy.json",
+    "text/t16-business.json",
+    "text/t17-legal.json",
+    "text/t18-b-algo.json",
+    "text/t19-b-sec.json"
   ]
 }

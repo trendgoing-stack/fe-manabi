@@ -482,20 +482,31 @@ function drawFlow(c, fig) {
     const hh = decision ? 54 : 38;
     const x = (st.col ?? 0) * COL_W;
     const y = row * ROW_H;
-    nodes.set(st.id, { x, y, w, hh, clip: (tx, ty) => clipRect(x, y, w, hh, tx, ty) });
+    // ひし形は輪郭（|dx|/(w/2) + |dy|/(hh/2) = 1）まで線を引く。矩形で切ると線が宙に浮く
+    const clipDiamond = (tx, ty) => {
+      const dx = tx - x;
+      const dy = ty - y;
+      const k = Math.abs(dx) / (w / 2) + Math.abs(dy) / (hh / 2) || 1;
+      return [x + dx / k, y + dy / k];
+    };
+    nodes.set(st.id, { x, y, w, hh, clip: decision ? clipDiamond : (tx, ty) => clipRect(x, y, w, hh, tx, ty) });
     if (decision) c.add(s('polygon', { points: `${x},${y - hh / 2} ${x + w / 2},${y} ${x},${y + hh / 2} ${x - w / 2},${y}`, class: 'fig-node' }));
     else c.add(s('rect', { x: x - w / 2, y: y - hh / 2, width: w, height: hh, rx: st.kind === 'terminal' ? 19 : 4, class: 'fig-node' }));
     c.text(x, y, st.label);
     c.extend(x - w / 2, y - hh / 2, x + w / 2, y + hh / 2);
   }
+  const edges = [];
   fig.steps.forEach((st, i) => {
-    const nexts = st.next ?? (st.kind !== 'terminal' && i < fig.steps.length - 1 ? [{ to: fig.steps[i + 1].id }] : []);
-    for (const n of nexts) {
-      const a = nodes.get(st.id);
-      const b = nodes.get(n.to);
-      if (a && b) connect(c, a, b, { label: n.label ?? null, others: [...nodes.values()] });
-    }
+    const nexts = st.next ?? ((st.kind !== 'terminal' || i === 0) && i < fig.steps.length - 1 ? [{ to: fig.steps[i + 1].id }] : []);
+    for (const n of nexts) edges.push({ from: st.id, to: n.to, label: n.label ?? null });
   });
+  // 往復する2本は同じ直線に重ならないよう、少しずらす
+  const pairs = new Set(edges.map((e) => `${e.from}>${e.to}`));
+  for (const e of edges) {
+    const a = nodes.get(e.from);
+    const b = nodes.get(e.to);
+    if (a && b) connect(c, a, b, { label: e.label, offset: pairs.has(`${e.to}>${e.from}`) ? 9 : 0, others: [...nodes.values()] });
+  }
 }
 
 /**
@@ -547,7 +558,7 @@ function drawBar(c, fig) {
   fig.bars.forEach((b, i) => {
     const x = left + i * colW + colW * 0.18;
     const w = colW * 0.64;
-    c.add(s('rect', { x, y: y(b.value), width: w, height: H - y(b.value), rx: 2, class: b.kind === 'actual' ? 'fig-bar-actual' : 'fig-bar' }));
+    c.add(s('rect', { x, y: y(b.value), width: w, height: H - y(b.value), rx: 2, class: b.kind === 'actual' || b.kind === 'hl' ? 'fig-bar-actual' : 'fig-bar' }));
     c.text(x + w / 2, y(b.value) - 9, String(b.value), { size: 11 });
     c.text(x + w / 2, H + 14, b.label, { size: 11 });
   });
@@ -562,6 +573,7 @@ function drawBar(c, fig) {
     c.text(left + width + 6, -14, `${fig.line.label ?? '折れ線'}（右軸）`, { anchor: 'start', size: 11, cls: 'fig-text-muted' });
   }
   if (fig.unit) c.text(left - 6, -14, fig.unit, { anchor: 'end', size: 11, cls: 'fig-text-muted' });
+  if (fig.name) c.text(left + 4, -14, `■ ${fig.name}`, { anchor: 'start', size: 11, cls: 'fig-text-muted' });
   c.extend(0, -20, left + width + (fig.line ? 40 : 10), H + 28);
 }
 
