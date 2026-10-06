@@ -16,7 +16,7 @@ const NOTE_LABEL = { point: 'ポイント', pitfall: '取り違えに注意', ti
  * @param {Set<string>} seen  この節でリンク済みの用語 id
  */
 /** 同じ表記の用語が複数あるときは、その章のカテゴリのものを優先する（例：プロセッサの CPI と EVM の CPI） */
-function linkable(category) {
+export function linkable(category) {
   const all = app.data.glossary;
   if (!category) return all;
   const own = new Set(all.filter((t) => t.category === category).flatMap(namesOf));

@@ -5,11 +5,13 @@ import { app } from '../state.js';
 import { navigate } from '../router.js';
 import { richText } from '../render/text.js';
 import { findTerms } from '../terms.js';
+import { sectionsFor, sectionHref } from '../term-index.js';
 
 /** @param {string} id 用語の id */
 export function openTermDialog(id) {
   const t = app.data.termById.get(id);
   if (!t) return;
+  const lessons = sectionsFor(t.id).slice(0, 3);
   openDialog((close) => [
     h('p', { class: 'muted small' }, `${t.category}・${t.reading}`),
     h('h2', null, t.term),
@@ -36,6 +38,14 @@ export function openTermDialog(id) {
                 r.term,
               ),
             ),
+        )
+      : null,
+    lessons.length
+      ? h(
+          'div',
+          null,
+          h('p', { class: 'muted small' }, '解説テキストで読む'),
+          h('div', { class: 'chips' }, lessons.map((l) => h('a', { class: 'chip', href: sectionHref(l), onClick: () => close() }, richText(l.section.title)))),
         )
       : null,
     h(

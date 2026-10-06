@@ -1,5 +1,6 @@
 // 学ぶタブの用語集：用語集（五十音順／カテゴリ別、分野の絞り込み、検索）と用語の詳細
 import { h, fill } from '../dom.js';
+import { sectionsFor, sectionHref } from '../term-index.js';
 import * as storage from '../storage.js';
 import { app } from '../state.js';
 import { richText } from '../render/text.js';
@@ -140,6 +141,7 @@ export function termView(root, [id]) {
   }
   const qs = app.data.questions.filter((q) => !q.retired && q.terms?.includes(t.id));
   const card = storage.getCards()[t.id];
+  const lessons = sectionsFor(t.id);
   root.append(
     h('header', { class: 'run-head' }, back, h('span', { class: 'run-progress' }, '用語'), h('span')),
     h('p', { class: 'muted small' }, `${FIELDS.find((f) => f.id === fieldOf(t.category))?.label ?? ''}・${t.category}・${t.reading}`),
@@ -157,6 +159,19 @@ export function termView(root, [id]) {
             { class: 'chips' },
             t.related.map((rid) => app.data.termById.get(rid)).filter(Boolean).map((r) => h('a', { class: 'chip', href: `#/term/${encodeURIComponent(r.id)}` }, r.term)),
           ),
+        )
+      : null,
+    lessons.length
+      ? h(
+          'section',
+          { class: 'card' },
+          h('h2', null, `この用語を学べる解説（${lessons.length}節）`),
+          h(
+            'ul',
+            { class: 'link-list' },
+            lessons.slice(0, 10).map((l) => h('li', null, h('a', { href: sectionHref(l) }, h('span', { class: 'link-title' }, richText(l.section.title)), h('span', { class: 'muted small' }, l.chapter.title)))),
+          ),
+          lessons.length > 10 ? h('p', { class: 'muted small' }, `ほか${lessons.length - 10}節は省略しています。`) : null,
         )
       : null,
     qs.length
