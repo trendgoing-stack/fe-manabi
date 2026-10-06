@@ -6,6 +6,7 @@ import { app } from './state.js';
 import { toast } from './ui/toast.js';
 import { homeView } from './views/home.js';
 import { drillView } from './views/drill.js';
+import { findView } from './views/find.js';
 import { runView } from './views/run.js';
 import { resultView } from './views/result.js';
 import { questionView } from './views/question.js';
@@ -19,7 +20,7 @@ import { helpView } from './views/help.js';
 import { initAskAi } from './ui/ask-ai.js';
 
 // ルート名 → 下部タブ
-const TAB_OF = { home: 'home', drill: 'drill', run: 'drill', result: 'drill', mock: 'drill', 'mock-result': 'drill', review: 'review', learn: 'learn', terms: 'learn', term: 'learn', cards: 'learn', settings: 'settings', help: 'settings' };
+const TAB_OF = { home: 'home', drill: 'drill', find: 'drill', run: 'drill', result: 'drill', mock: 'drill', 'mock-result': 'drill', review: 'review', learn: 'learn', terms: 'learn', term: 'learn', cards: 'learn', settings: 'settings', help: 'settings' };
 // 出題中・模擬試験中はタブバーを隠し、Service Worker の更新もかけない
 const BUSY_ROUTES = new Set(['run', 'mock']);
 
@@ -123,6 +124,7 @@ async function main() {
 
   route('home', homeView);
   route('drill', drillView);
+  route('find', findView);
   route('run', runView);
   route('result', resultView);
   route('q', questionView);

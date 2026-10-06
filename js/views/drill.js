@@ -43,6 +43,7 @@ export function drillView(root) {
       root,
       h('h1', null, '演習'),
       mockSection(),
+      h('a', { href: '#/find', class: 'btn big' }, '問題を探す（問題ID・キーワード）'),
       h('h2', { class: 'section-title' }, '一問一答'),
       group('科目', [['A', '科目A'], ['B', '科目B']].map(([id, label]) => chip(label, c.subject === id, () => update(() => { c.subject = id; c.categories = []; c.fields = []; })))),
       isB ? null : group('分野', FIELDS.map((f) => chip(f.short, c.fields.includes(f.id), () => update(() => (c.fields = toggle(c.fields, f.id)))))),
