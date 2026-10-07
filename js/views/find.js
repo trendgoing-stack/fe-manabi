@@ -1,7 +1,7 @@
-// #/find：問題IDやキーワードで問題を探す（結果から #/q/<id> で正解・解説を開く）
+// #/find：問題IDやキーワードで問題を探す（結果を選ぶと、その1問を答えを伏せた状態で出題する）
 import { h, fill } from '../dom.js';
 import * as storage from '../storage.js';
-import { app } from '../state.js';
+import { app, startSession } from '../state.js';
 
 const LIMIT = 50;
 const norm = (s) => String(s).normalize('NFKC').toLowerCase().trim();
@@ -61,7 +61,14 @@ export function findView(root, [initial = '']) {
             null,
             h(
               'a',
-              { href: `#/q/${encodeURIComponent(q.id)}` },
+              {
+                href: `#/q/${encodeURIComponent(q.id)}`,
+                // 答えを伏せて解く。正誤と解説は答え合わせのあとに出る
+                onClick: (e) => {
+                  e.preventDefault();
+                  startSession('drill', '問題を探す', [q]);
+                },
+              },
               h('span', { class: 'link-title' }, (q.stem?.[0] ?? q.setTitle ?? '').replace(/\s+/g, ' ')),
               h(
                 'span',
