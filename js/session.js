@@ -66,6 +66,12 @@ export function advance(session) {
   storage.saveSession(session);
 }
 
+/** 前の問題へ戻る。回答済みの問題は答えと解説つきで見直せる（回答は変えられない） */
+export function back(session) {
+  if (session.pos > 0) session.pos--;
+  storage.saveSession(session);
+}
+
 export const isActive = (s) => !!s && !s.finished && s.items.length > 0;
 
 export function summary(session) {

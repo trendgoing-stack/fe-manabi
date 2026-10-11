@@ -125,17 +125,39 @@ function connect(c, a, b, { arrow = true, dashed = false, offset = 0, label = nu
   const len = Math.hypot(x2 - x1, y2 - y1) || 1;
   const nx = -(y2 - y1) / len;
   const ny = (x2 - x1) / len;
-  if (!offset && others.some((o) => o !== a && o !== b && segmentHitsRect(x1, y1, x2, y2, o.x, o.y, o.w + 8, o.hh + 8))) {
+  const blocked = (x1, y1, x2, y2) => others.some((o) => o !== a && o !== b && segmentHitsRect(x1, y1, x2, y2, o.x, o.y, o.w + 8, o.hh + 8));
+  const labelBox = (lx, ly) => {
+    const lw = textWidth(label, 12) + 6;
+    const away = Math.abs(nx) * (lw / 2 + 3) + Math.abs(ny) * 9 + 3;
+    return [lx + nx * away, ly + ny * away, lw, 18];
+  };
+  const labelHits = (lx, ly) => {
+    const [bx, by, bw, bh] = labelBox(lx, ly);
+    return others.some((o) => Math.abs(bx - o.x) < (o.w + bw) / 2 && Math.abs(by - o.y) < (o.hh + bh) / 2);
+  };
+  const ctrl = (off) => [(a.x + b.x) / 2 + nx * off * 2, (a.y + b.y) / 2 + ny * off * 2];
+  if (!offset && blocked(x1, y1, x2, y2)) {
     offset = Math.max(40, len * 0.22);
-    // 弧の側に寄せた端点で取り直す
-    [x1, y1] = a.clip(a.x + (b.x - a.x) / 2 + nx * offset * 2, a.y + (b.y - a.y) / 2 + ny * offset * 2);
-    [x2, y2] = b.clip(a.x + (b.x - a.x) / 2 + nx * offset * 2, a.y + (b.y - a.y) / 2 + ny * offset * 2);
+    // 弧が途中の要素にかからず、ラベルも要素に重ならなくなるまで外へ膨らませる
+    for (let k = 0; k < 10; k++, offset += 24) {
+      const [px, py] = ctrl(offset);
+      [x1, y1] = a.clip(px, py);
+      [x2, y2] = b.clip(px, py);
+      const q = (t) => [(1 - t) ** 2 * x1 + 2 * (1 - t) * t * px + t * t * x2, (1 - t) ** 2 * y1 + 2 * (1 - t) * t * py + t * t * y2];
+      let hit = false;
+      for (let t = 0; t < 0.99 && !hit; t += 0.05) {
+        const [sx, sy] = q(t);
+        const [ex, ey] = q(t + 0.05);
+        hit = blocked(sx, sy, ex, ey);
+      }
+      if (!hit && label) hit = labelHits(...q(0.5));
+      if (!hit) break;
+    }
   }
   let mx = (x1 + x2) / 2;
   let my = (y1 + y2) / 2;
   if (offset) {
-    const cx = (a.x + b.x) / 2 + nx * offset * 2;
-    const cy = (a.y + b.y) / 2 + ny * offset * 2;
+    const [cx, cy] = ctrl(offset);
     c.path(`M${x1},${y1} Q${cx},${cy} ${x2},${y2}`, [Math.min(x1, x2, cx), Math.min(y1, y2, cy), Math.max(x1, x2, cx), Math.max(y1, y2, cy)], { arrow, dashed });
     mx = (x1 + 2 * cx + x2) / 4;
     my = (y1 + 2 * cy + y2) / 4;
@@ -153,27 +175,104 @@ function connect(c, a, b, { arrow = true, dashed = false, offset = 0, label = nu
 
 // ---- 図の種類ごと ----
 
+/**
+ * 同じ深さのノード同士が重なっていれば、右側のノード以降をまとめて右へずらし、親を子の中央に戻す。
+ * 葉の間隔だけでは、ラベルの長い親ノードが隣の枝の親と重なることがあるため。
+ */
+function spread(root, radius, gap) {
+  const all = [];
+  const post = [];
+  const walk = (n) => {
+    all.push(n);
+    n.kids?.forEach(walk);
+    post.push(n);
+  };
+  walk(root);
+  const rad = (n) => (n.empty ? 17 : radius(n.label));
+  const recenter = () => {
+    for (const n of post) if (n.kids?.length) n.x = (n.kids[0].x + n.kids[n.kids.length - 1].x) / 2;
+  };
+  for (let guard = 0; guard < 500; guard++) {
+    let moved = false;
+    const byDepth = new Map();
+    for (const n of all) byDepth.set(n.depth, [...(byDepth.get(n.depth) ?? []), n]);
+    for (const row of byDepth.values()) {
+      row.sort((a, b) => a.x - b.x);
+      for (let i = 1; i < row.length; i++) {
+        const need = row[i - 1].x + rad(row[i - 1]) + gap + rad(row[i]) - row[i].x;
+        if (need > 0.01) {
+          const edge = row[i].x;
+          for (const n of all) if (n.x >= edge - 1e-9) n.x += need;
+          recenter();
+          moved = true;
+          break;
+        }
+      }
+      if (moved) break;
+    }
+    if (!moved) return;
+  }
+}
+
+/** 各段の y。段の間隔は LEVEL を下限に、隣り合う段の丸が重ならないよう必要なだけ広げる */
+function levelYs(root, radius, level, gap) {
+  const rows = [];
+  const walk = (n) => {
+    (rows[n.depth] ??= []).push(n);
+    n.kids?.forEach(walk);
+  };
+  walk(root);
+  const rad = (n) => (n.empty ? 17 : radius(n.label));
+  const ys = [0];
+  for (let d = 1; d < rows.length; d++) {
+    let step = level;
+    for (const a of rows[d - 1]) {
+      if (a.empty) continue;
+      for (const b of rows[d]) {
+        if (b.empty) continue;
+        const reach = rad(a) + rad(b) + gap;
+        const dx = Math.abs(a.x - b.x);
+        if (dx < reach) step = Math.max(step, Math.sqrt(reach * reach - dx * dx));
+      }
+    }
+    ys[d] = ys[d - 1] + Math.ceil(step);
+  }
+  return ys;
+}
+
 function drawTree(c, fig) {
   const LEVEL = 1.25 * U;
-  let slot = 0;
-  // 葉（と null の空き位置）に左から順に x を割り当て、親は子の中央に置く
+  const GAP = 10;
+  const radius = (label) => Math.max(17, textWidth(label) / 2 + 9);
+  let cursor = null; // 直前の葉の右端
+  let prevX = null; // 直前の葉の中心（小さいノードでも 0.9 単位は空ける）
+  // 葉（と null の空き位置）に、ノードの大きさに合わせた間隔で左から順に x を割り当て、親は子の中央に置く
+  const leaf = (label, depth, extra) => {
+    const r = label === undefined ? 17 : radius(label);
+    const x = cursor === null ? r : Math.max(cursor + GAP + r, prevX + 0.9 * U);
+    cursor = x + r;
+    prevX = x;
+    return { x, depth, ...extra };
+  };
   const layout = (node, depth) => {
-    if (node === null) return { x: slot++ * 0.9 * U, depth, empty: true };
+    if (node === null) return leaf(undefined, depth, { empty: true });
     const kids = (node.children ?? []).map((ch) => layout(ch, depth + 1));
-    const x = kids.length ? (kids[0].x + kids[kids.length - 1].x) / 2 : slot++ * 0.9 * U;
-    return { x, depth, label: node.label, kids };
+    if (!kids.length) return leaf(node.label, depth, { label: node.label, kids });
+    return { x: (kids[0].x + kids[kids.length - 1].x) / 2, depth, label: node.label, kids };
   };
   const root = layout(fig.root, 0);
+  spread(root, radius, GAP);
+  const ys = levelYs(root, radius, LEVEL, GAP);
   const draw = (n) => {
-    const y = n.depth * LEVEL;
-    const r = Math.max(17, textWidth(n.label) / 2 + 9);
+    const y = ys[n.depth];
+    const r = radius(n.label);
     c.add(s('circle', { cx: n.x, cy: y, r, class: 'fig-node' }));
     c.text(n.x, y, n.label);
     c.extend(n.x - r, y - r, n.x + r, y + r);
     for (const k of n.kids) {
       if (k.empty) continue;
-      const ky = k.depth * LEVEL;
-      const kr = Math.max(17, textWidth(k.label) / 2 + 9);
+      const ky = ys[k.depth];
+      const kr = radius(k.label);
       const [x1, y1] = clipCircle(n.x, y, r, k.x, ky);
       const [x2, y2] = clipCircle(k.x, ky, kr, n.x, y);
       c.line(x1, y1, x2, y2);
@@ -489,7 +588,7 @@ function drawFlow(c, fig) {
       const k = Math.abs(dx) / (w / 2) + Math.abs(dy) / (hh / 2) || 1;
       return [x + dx / k, y + dy / k];
     };
-    nodes.set(st.id, { x, y, w, hh, clip: decision ? clipDiamond : (tx, ty) => clipRect(x, y, w, hh, tx, ty) });
+    nodes.set(st.id, { x, y, w, hh, decision, clip: decision ? clipDiamond : (tx, ty) => clipRect(x, y, w, hh, tx, ty) });
     if (decision) c.add(s('polygon', { points: `${x},${y - hh / 2} ${x + w / 2},${y} ${x},${y + hh / 2} ${x - w / 2},${y}`, class: 'fig-node' }));
     else c.add(s('rect', { x: x - w / 2, y: y - hh / 2, width: w, height: hh, rx: st.kind === 'terminal' ? 19 : 4, class: 'fig-node' }));
     c.text(x, y, st.label);
@@ -505,6 +604,14 @@ function drawFlow(c, fig) {
   for (const e of edges) {
     const a = nodes.get(e.from);
     const b = nodes.get(e.to);
+    if (a && a === b) {
+      // 自分自身へ戻る線：左側に張り出す輪にする（ひし形は辺の中ほど、矩形は左辺から出入りする）
+      const ex = a.x - (a.decision ? a.w / 4 : a.w / 2);
+      const ey = a.hh / 4;
+      c.path(`M${ex},${a.y + ey} C${ex - 62},${a.y + ey + 22} ${ex - 62},${a.y - ey - 22} ${ex},${a.y - ey}`, [ex - 48, a.y - ey - 12, ex, a.y + ey + 12], { arrow: true });
+      if (e.label) c.text(ex - 46, a.y, e.label, { bg: true, size: 12 });
+      continue;
+    }
     if (a && b) connect(c, a, b, { label: e.label, offset: pairs.has(`${e.to}>${e.from}`) ? 9 : 0, others: [...nodes.values()] });
   }
 }
@@ -542,6 +649,23 @@ function drawVenn(c, fig) {
 }
 
 /** bar：棒グラフ。bars[]: {label, value, kind?}。line: {values[], max?, label?} を右軸の折れ線として重ねる（パレート図の累積比など） */
+/** 棒グラフの目盛りの文字を、幅に収まるよう字数で折り返す（最大3行） */
+function wrapLabel(label, maxWidth, size) {
+  const chars = [...String(label)];
+  const lineCount = Math.min(3, Math.max(1, Math.ceil(textWidth(label, size) / maxWidth)));
+  const per = Math.ceil(chars.length / lineCount); // 行ごとの字数をそろえ、1字だけの行を作らない
+  const lines = [];
+  for (let i = 0; i < chars.length; i += per) lines.push(chars.slice(i, i + per).join(''));
+  // 長音「ー」で行が始まらないよう、前の行の末尾へ寄せる
+  for (let i = 1; i < lines.length; i++) {
+    if (lines[i].startsWith('ー')) {
+      lines[i - 1] += 'ー';
+      lines[i] = lines[i].slice(1);
+    }
+  }
+  return lines.filter(Boolean);
+}
+
 function drawBar(c, fig) {
   const H = 150;
   const colW = Math.max(36, Math.min(64, 420 / fig.bars.length));
@@ -560,7 +684,7 @@ function drawBar(c, fig) {
     const w = colW * 0.64;
     c.add(s('rect', { x, y: y(b.value), width: w, height: H - y(b.value), rx: 2, class: b.kind === 'actual' || b.kind === 'hl' ? 'fig-bar-actual' : 'fig-bar' }));
     c.text(x + w / 2, y(b.value) - 9, String(b.value), { size: 11 });
-    c.text(x + w / 2, H + 14, b.label, { size: 11 });
+    wrapLabel(b.label, colW - 6, 11).forEach((line, k) => c.text(x + w / 2, H + 14 + k * 13, line, { size: 11 }));
   });
   if (fig.line) {
     const lmax = fig.line.max ?? 100;
@@ -570,11 +694,11 @@ function drawBar(c, fig) {
     c.path(`M${pts.map((p) => p.join(',')).join(' L')}`, [Math.min(...xs), Math.min(...ys), Math.max(...xs), Math.max(...ys)], { cls: 'fig-line fig-line-accent', layer: 'mid' });
     for (const [px, py] of pts) c.add(s('circle', { cx: px, cy: py, r: 3, class: 'fig-dot' }), 'front');
     for (let i = 0; i <= ticks; i++) c.text(left + width + 6, y((max / ticks) * i), String(+((lmax / ticks) * i).toFixed(1)), { anchor: 'start', size: 11, cls: 'fig-text-muted' });
-    c.text(left + width + 6, -14, `${fig.line.label ?? '折れ線'}（右軸）`, { anchor: 'start', size: 11, cls: 'fig-text-muted' });
+    c.text(left + width + 6, -22, `${fig.line.label ?? '折れ線'}（右軸）`, { anchor: 'start', size: 11, cls: 'fig-text-muted' });
   }
-  if (fig.unit) c.text(left - 6, -14, fig.unit, { anchor: 'end', size: 11, cls: 'fig-text-muted' });
-  if (fig.name) c.text(left + 4, -14, `■ ${fig.name}`, { anchor: 'start', size: 11, cls: 'fig-text-muted' });
-  c.extend(0, -20, left + width + (fig.line ? 40 : 10), H + 28);
+  if (fig.unit) c.text(left - 6, -22, fig.unit, { anchor: 'end', size: 11, cls: 'fig-text-muted' });
+  if (fig.name) c.text(left + 4, -22, `■ ${fig.name}`, { anchor: 'start', size: 11, cls: 'fig-text-muted' });
+  c.extend(0, -30, left + width + (fig.line ? 40 : 10), H + 28 + (Math.max(...fig.bars.map((b) => wrapLabel(b.label, colW - 6, 11).length)) - 1) * 13);
 }
 
 /** seq：箱の並び。rows[]: {title?, cells:[{text, kind?: hl|dim|empty, note?}]}。配列・スタック・キュー・パケットの構造など */

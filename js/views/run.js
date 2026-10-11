@@ -2,7 +2,7 @@
 import { h, fill } from '../dom.js';
 import * as storage from '../storage.js';
 import { app } from '../state.js';
-import { isActive, select, commit, advance } from '../session.js';
+import { isActive, select, commit, advance, back } from '../session.js';
 import { renderStem, renderChoices, renderExplanation, renderMetaLine, LABELS } from '../render/question.js';
 import { navigate } from '../router.js';
 import { openFlagDialog } from '../ui/flag.js';
@@ -34,6 +34,21 @@ export function runView(root) {
     const q = app.data.byId.get(item.id);
     const last = session.pos === session.items.length - 1;
     const flagged = !!storage.getFlags()[q.id];
+    const prevButton = session.pos > 0
+      ? h(
+          'button',
+          {
+            type: 'button',
+            class: 'btn',
+            onClick: () => {
+              back(session);
+              draw();
+              window.scrollTo(0, 0);
+            },
+          },
+          '前へ',
+        )
+      : null;
     setAiContext({ kind: 'question', q, revealed: !!item.done, order: item.order });
 
     const resultBanner = item.done
@@ -84,24 +99,30 @@ export function runView(root) {
         { class: 'sticky-action' },
         item.done
           ? h(
-              'button',
-              {
-                type: 'button',
-                class: 'btn primary big',
-                onClick: () => {
-                  advance(session);
-                  if (session.finished) navigate('result', { replace: true });
-                  else {
-                    draw();
-                    window.scrollTo(0, 0);
-                  }
+              'div',
+              { class: 'btn-row' },
+              prevButton,
+              h(
+                'button',
+                {
+                  type: 'button',
+                  class: 'btn primary big grow',
+                  onClick: () => {
+                    advance(session);
+                    if (session.finished) navigate('result', { replace: true });
+                    else {
+                      draw();
+                      window.scrollTo(0, 0);
+                    }
+                  },
                 },
-              },
-              last ? '結果を見る' : '次へ',
+                last ? '結果を見る' : '次へ',
+              ),
             )
           : h(
               'div',
               { class: 'btn-row' },
+              prevButton,
               h(
                 'button',
                 {
