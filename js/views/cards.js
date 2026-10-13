@@ -15,10 +15,10 @@ const SWIPE = 80; // px
 const fieldOf = (cat) => CATEGORIES.find((c) => c.name === cat)?.field;
 
 /** 期限の来たカード（古い順）と、まだ見ていないカード */
-function buildQueue(field) {
+function buildQueue(field, category) {
   const cards = storage.getCards();
   const t = today();
-  const pool = app.data.glossary.filter((g) => !field || fieldOf(g.category) === field);
+  const pool = app.data.glossary.filter((g) => (!field || fieldOf(g.category) === field) && (!category || g.category === category));
   const due = pool.filter((g) => cards[g.id] && cards[g.id].due <= t).sort((a, b) => cards[a.id].due.localeCompare(cards[b.id].due));
   const fresh = shuffled(pool.filter((g) => !cards[g.id])).slice(0, NEW_PER_SESSION);
   return { due, fresh, queue: [...due, ...fresh] };
@@ -26,31 +26,35 @@ function buildQueue(field) {
 
 export function cardsView(root) {
   let field = storage.getMeta().cardField ?? '';
+  let category = storage.getMeta().cardCategory ?? ''; // '' はすべて。分野の絞り込みと合わせて使う
   let state = null; // { queue, i, flipped, ok, ng }
 
   const drawStart = () => {
-    const { due, fresh } = buildQueue(field);
+    // 分野を変えたら、その分野に属さないカテゴリの選択は外す
+    const cats = CATEGORIES.filter((c) => !field || c.field === field);
+    if (category && !cats.some((c) => c.name === category)) category = '';
+    const { due, fresh } = buildQueue(field, category);
+    const chipOf = (on, label, onClick) => h('button', { type: 'button', class: 'chip' + (on ? ' is-on' : ''), 'aria-pressed': String(on), onClick }, label);
     const chip = (id, label) =>
-      h(
-        'button',
-        {
-          type: 'button',
-          class: 'chip' + (field === id ? ' is-on' : ''),
-          'aria-pressed': String(field === id),
-          onClick: () => {
-            field = id;
-            storage.saveMeta({ cardField: id });
-            drawStart();
-          },
-        },
-        label,
-      );
+      chipOf(field === id, label, () => {
+        field = id;
+        if (category && !CATEGORIES.some((c) => c.name === category && (!id || c.field === id))) category = '';
+        storage.saveMeta({ cardField: id, cardCategory: category });
+        drawStart();
+      });
+    const catChip = (name, label) =>
+      chipOf(category === name, label, () => {
+        category = name;
+        storage.saveMeta({ cardCategory: name });
+        drawStart();
+      });
     const total = due.length + fresh.length;
     fill(
       root,
       h('h1', null, '学ぶ'),
       learnNav('cards'),
       h('section', { class: 'card' }, h('h2', null, '分野'), h('div', { class: 'chips' }, chip('', 'すべて'), FIELDS.map((f) => chip(f.id, f.short)))),
+      h('section', { class: 'card' }, h('h2', null, 'カテゴリ'), h('div', { class: 'chips' }, catChip('', 'すべて'), cats.map((c) => catChip(c.name, c.name)))),
       h(
         'section',
         { class: 'card' },
@@ -64,7 +68,7 @@ export function cardsView(root) {
             class: 'btn primary big',
             disabled: total === 0,
             onClick: () => {
-              state = { queue: buildQueue(field).queue, i: 0, flipped: false, ok: 0, ng: 0 };
+              state = { queue: buildQueue(field, category).queue, i: 0, flipped: false, ok: 0, ng: 0 };
               drawCard();
             },
           },
