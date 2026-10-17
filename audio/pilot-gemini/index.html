@@ -1,0 +1,12 @@
+<!doctype html>
+<html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>音声の聞き比べ（試作）</title>
+<style>body{font-family:sans-serif;margin:16px;line-height:1.6;color:#222;background:#fff}h2{font-size:1.05rem;margin:22px 0 4px}p.t{font-size:.85rem;color:#555;margin:0 0 6px}audio{display:block;width:100%;margin:4px 0 10px}small{color:#555}</style></head><body>
+<h1 style="font-size:1.2rem">音声の聞き比べ（Gemini・試作）</h1>
+<p><small>モデル：gemini-2.5-flash-preview-tts</small></p>
+<h2>2の補数</h2><p class="t">2の補数。負の整数を2進数で表す代表的な方法。正の値の全ビットを反転して1を加えると、その負の値になる。nビットでは マイナス2のnマイナス1乗 から 2のnマイナス1乗マイナス1 までを表せ、負の側が一つ多い。</p><small>Charon</small><audio controls preload="none" src="g-0001-charon.wav"></audio><small>Sadaltager</small><audio controls preload="none" src="g-0001-sadaltager.wav"></audio>
+<h2>DRAM</h2><p class="t">でぃーらむ。コンデンサにたまった電荷の有無で1ビットを記憶する揮発性メモリ。電荷が自然に抜けるので定期的なリフレッシュが必要。構造が単純で安く大容量にでき、主記憶に使われる。</p><small>Charon</small><audio controls preload="none" src="g-0038-charon.wav"></audio><small>Sadaltager</small><audio controls preload="none" src="g-0038-sadaltager.wav"></audio>
+<h2>RAID</h2><p class="t">れいど。複数の磁気ディスクを一つの装置のように扱い、速度や信頼性を高める技術。RAID0は分散書込み、RAID1は二重化、RAID5はパリティを分散して1台の故障に、RAID6は2種のパリティで2台の故障に耐える。</p><small>Charon</small><audio controls preload="none" src="g-0055-charon.wav"></audio><small>Sadaltager</small><audio controls preload="none" src="g-0055-sadaltager.wav"></audio>
+<h2>クイックソート</h2><p class="t">クイックソート。基準値を選び、それより小さい値の列と大きい値の列に分ける操作を、分けた列ごとにさいきてきに繰り返す整列方法。平均の計算量は O(n log n) だが、基準値の選び方が悪いと最悪 O(nの2乗) になる。安定ではない。</p><small>Charon</small><audio controls preload="none" src="g-0026-charon.wav"></audio><small>Sadaltager</small><audio controls preload="none" src="g-0026-sadaltager.wav"></audio>
+<h2>SQLインジェクション</h2><p class="t">SQLインジェクション。入力欄にSQL文の断片を紛れ込ませ、アプリケーションが組み立てるSQL文を変えてデータベースを不正に操作する攻撃。プレースホルダを使ってSQL文を組み立てることが有効な対策。</p><small>Charon</small><audio controls preload="none" src="g-0153-charon.wav"></audio><small>Sadaltager</small><audio controls preload="none" src="g-0153-sadaltager.wav"></audio>
+</body></html>
