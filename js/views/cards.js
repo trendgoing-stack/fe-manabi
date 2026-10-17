@@ -9,7 +9,7 @@ import { shuffled } from '../selector.js';
 import { today } from '../date.js';
 import { learnNav } from './glossary.js';
 import { speakButton } from '../ui/speak.js';
-import { speak, speechSupported, toSpeech, termSpeech } from '../speech.js';
+import { speak, speechSupported, termSpeech, termFull } from '../speech.js';
 
 const NEW_PER_SESSION = 20;
 const SWIPE = 80; // px
@@ -101,7 +101,7 @@ export function cardsView(root) {
     );
 
   // 表は用語名、裏は用語名と定義を読む
-  const say = (t) => (state.flipped ? `${termSpeech(t)}。${toSpeech(t.definition)}` : termSpeech(t));
+  const say = (t) => (state.flipped ? termFull(t) : termSpeech(t));
 
   const drawCard = () => {
     const t = state.queue[state.i];

@@ -1,8 +1,8 @@
 // 学ぶタブの用語集：用語集（五十音順／カテゴリ別、分野の絞り込み、検索）と用語の詳細
 import { h, fill } from '../dom.js';
 import { sectionsFor, sectionHref } from '../term-index.js';
-import { speakButton } from '../ui/speak.js';
-import { toSpeech, termSpeech } from '../speech.js';
+import { speakButton, addPilotButtons } from '../ui/speak.js';
+import { termFull } from '../speech.js';
 import * as storage from '../storage.js';
 import { app } from '../state.js';
 import { richText } from '../render/text.js';
@@ -134,6 +134,13 @@ export function glossaryView(root) {
   else draw();
 }
 
+/** 事前に作った高品質の音声（試作）がある用語だけ、再生ボタンを足す */
+function pilotBox(id) {
+  const box = h('div', { class: 'btn-row' });
+  addPilotButtons(box, id);
+  return box;
+}
+
 export function termView(root, [id]) {
   const t = app.data.termById.get(id);
   const back = h('button', { type: 'button', class: 'btn small', onClick: () => history.back() }, '戻る');
@@ -153,7 +160,8 @@ export function termView(root, [id]) {
       'section',
       { class: 'card' },
       h('p', { class: 'term-def' }, richText(t.definition)),
-      h('div', { class: 'btn-row' }, speakButton(`term-${t.id}`, () => `${termSpeech(t)}。${toSpeech(t.definition)}`)),
+      h('div', { class: 'btn-row' }, speakButton(`term-${t.id}`, () => termFull(t))),
+      pilotBox(t.id),
     ),
     card ? h('p', { class: 'muted small' }, `暗記カード：${card.correct}/${card.attempts}回「覚えた」・次の復習日 ${card.due}`) : null,
     t.related?.length

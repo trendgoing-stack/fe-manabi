@@ -2,6 +2,7 @@
 // iPhone では、ボタンをタップした操作から始める必要がある。長い文章は文ごとに分けて読ませる。
 import * as storage from './storage.js';
 import { app } from './state.js';
+import { buildReadings, toSpeechText, termSpeechText, termFullText } from './speech-text.js';
 
 export const speechSupported = () => typeof window !== 'undefined' && 'speechSynthesis' in window && 'SpeechSynthesisUtterance' in window;
 
@@ -17,40 +18,22 @@ export function onSpeechChange(fn) {
 
 export const isPlaying = (id) => playing === id;
 
-const ASCII_TERM = /^[A-Za-z0-9][A-Za-z0-9 .\-/+]*$/;
 let readings = null;
 
-/** 英字だけの用語（DRAM・RAID など）を、用語集の「読み」に置き換えるための表 */
+/** 英字だけの用語を「読み」に置き換えるための表（用語集が読み込まれたら一度だけ作る） */
 function readingTable() {
-  if (readings?.src !== app.data.glossary) {
-    const list = (app.data.glossary ?? []).filter((t) => ASCII_TERM.test(t.term) && t.reading).map((t) => [t.term, t.reading]);
-    list.sort((a, b) => b[0].length - a[0].length);
-    readings = { src: app.data.glossary, list };
-  }
+  if (readings?.src !== app.data.glossary) readings = { src: app.data.glossary, list: buildReadings(app.data.glossary) };
   return readings.list;
 }
 
 /** 画面用の文章記法や記号を、読み上げに向く文字列に直す */
-export function toSpeech(text) {
-  let t = String(text)
-    .replace(/\^\{([^{}]*)\}/g, 'の$1乗')
-    .replace(/\^\(([^()]*)\)/g, 'の$1乗') // 2^(n−1) → 2のn−1乗
-    .replace(/\^([A-Za-z0-9]+)/g, 'の$1乗') // 2^n → 2のn乗
-    .replace(/_\{([^{}]*)\}/g, '$1')
-    .replace(/÷/g, 'わる')
-    .replace(/×/g, 'かける')
-    .replace(/[＝=]/g, 'イコール')
-    .replace(/−/g, 'マイナス');
-  for (const [term, reading] of readingTable()) {
-    if (!t.includes(term)) continue;
-    const esc = term.replace(/[.*+?^${}()|[\]\/]/g, '\$&');
-    t = t.replace(new RegExp(`(?<![A-Za-z0-9])${esc}(?![A-Za-z0-9])`, 'g'), reading);
-  }
-  return t;
-}
+export const toSpeech = (text) => toSpeechText(text, readingTable());
 
 /** 用語名そのものを読ませるときの文字列（英字だけの用語は「読み」を使う） */
-export const termSpeech = (t) => (ASCII_TERM.test(t.term) && t.reading ? t.reading : toSpeech(t.term));
+export const termSpeech = (t) => termSpeechText(t, readingTable());
+
+/** 用語の読み上げ全文（用語名＋定義） */
+export const termFull = (t) => termFullText(t, readingTable());
 
 const QUALITY_NAME = /premium|enhanced|プレミアム|拡張|高品質|siri/i;
 
@@ -92,7 +75,13 @@ export function onVoicesChanged(fn) {
   return () => window.speechSynthesis.removeEventListener('voiceschanged', fn);
 }
 
+let clip = null; // 再生中の音声ファイル
+
 export function stop() {
+  if (clip) {
+    clip.pause();
+    clip = null;
+  }
   if (!speechSupported()) return;
   window.speechSynthesis.cancel();
   if (playing !== null) {
@@ -145,4 +134,34 @@ export function speak(id, text) {
 export function toggle(id, text) {
   if (playing === id) stop();
   else speak(id, text);
+}
+
+/**
+ * 事前に作った音声ファイル（mp3）を再生する。端末の読み上げ（speechSynthesis）とは同時に鳴らさない。
+ * @param {string} id  再生中の表示に使う識別子
+ * @param {string} url
+ */
+export function playClip(id, url) {
+  stop();
+  const audio = new Audio(url);
+  audio.playbackRate = storage.getSettings().speechRate;
+  clip = audio;
+  playing = id;
+  notify();
+  const finish = () => {
+    if (clip === audio) {
+      clip = null;
+      playing = null;
+      notify();
+    }
+  };
+  audio.addEventListener('ended', finish);
+  audio.addEventListener('error', finish);
+  audio.play().catch(finish);
+}
+
+/** 同じ識別子を再生中なら止め、そうでなければ音声ファイルを再生する */
+export function toggleClip(id, url) {
+  if (playing === id) stop();
+  else playClip(id, url);
 }
