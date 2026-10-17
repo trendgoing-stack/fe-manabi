@@ -10,6 +10,8 @@ import { today } from '../date.js';
 import { toast } from '../ui/toast.js';
 import { learnNav } from './glossary.js';
 import { setAiContext } from '../ui/ask-ai.js';
+import { speakButton } from '../ui/speak.js';
+import { sectionFull, stop as stopSpeech } from '../speech.js';
 
 const PRACTICE_COUNT = 10;
 
@@ -144,7 +146,7 @@ function sectionView(root, chapter, section) {
       ? '要約表示：要点・図・表・注意点だけを表示しています。説明や例題は「詳細」で読めます。'
       : '下線の用語をタップすると定義を表示します。';
     const chip = (label, on, value) =>
-      h('button', { type: 'button', class: 'chip' + (on ? ' is-on' : ''), 'aria-pressed': String(on), onClick: () => { summary = value; storage.saveMeta({ learnMode: value ? 'summary' : 'detail' }); drawBody(); } }, label);
+      h('button', { type: 'button', class: 'chip' + (on ? ' is-on' : ''), 'aria-pressed': String(on), onClick: () => { stopSpeech(); summary = value; storage.saveMeta({ learnMode: value ? 'summary' : 'detail' }); drawBody(); } }, label);
     fill(modeBar, chip('要約', summary, true), chip('詳細', !summary, false));
   };
   drawBody();
@@ -153,6 +155,7 @@ function sectionView(root, chapter, section) {
     h('header', { class: 'run-head' }, h('a', { class: 'btn small', href: `#/learn/${encodeURIComponent(chapter.id)}` }, '章'), h('span', { class: 'run-progress' }, chapter.category), h('span')),
     h('h1', null, richText(section.title)),
     modeBar,
+    h('div', { class: 'btn-row lesson-speak' }, speakButton(`section-${section.id}`, () => sectionFull(section, summary), { label: 'この節を読み上げ', small: false, grow: true })),
     section.points?.length ? h('ul', { class: 'lesson-points' }, section.points.map((p) => h('li', null, richText(p)))) : null,
     body,
     hint,

@@ -6,7 +6,7 @@ import { navigate } from '../router.js';
 import { richText } from '../render/text.js';
 import { findTerms } from '../terms.js';
 import { sectionsFor, sectionHref } from '../term-index.js';
-import { speakButton, addPilotButtons } from './speak.js';
+import { speakButton } from './speak.js';
 import { termFull, stop } from '../speech.js';
 
 /** @param {string} id 用語の id */
@@ -14,8 +14,6 @@ export function openTermDialog(id) {
   const t = app.data.termById.get(id);
   if (!t) return;
   const lessons = sectionsFor(t.id).slice(0, 3);
-  const pilot = h('div', { class: 'btn-row' });
-  addPilotButtons(pilot, t.id, { small: false });
   const opened = openDialog((close) => [
     h('p', { class: 'muted small' }, `${t.category}・${t.reading}`),
     h('h2', null, t.term),
@@ -44,7 +42,6 @@ export function openTermDialog(id) {
             ),
         )
       : null,
-    pilot,
     lessons.length
       ? h(
           'div',
