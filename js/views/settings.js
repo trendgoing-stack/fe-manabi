@@ -224,6 +224,7 @@ export function settingsView(root) {
                 [[0.8, 'ゆっくり'], [1, '標準'], [1.25, 'はやい']].map(([v, label]) => h('option', { value: String(v), selected: s.speechRate === v }, label)),
               ),
             ),
+            h('p', { class: 'muted small' }, 'Siri の声で聞きたいときは、iPhone 標準の「選択項目の読み上げ」「画面の読み上げ」が使えます。', h('a', { href: '#/help' }, '使い方はヘルプ'), 'へ。'),
             sw('暗記カードを自動で読み上げる', 'speechAuto', '表の用語と、めくったときの定義を読みます。端末の音量・消音スイッチに従います'),
           )
         : null,
