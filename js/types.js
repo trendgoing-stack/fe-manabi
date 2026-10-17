@@ -158,6 +158,7 @@
  * @property {boolean} excludeFlagged
  * @property {boolean} includeUnverified
  * @property {number} speechRate         読み上げの速さ（0.8・1・1.25）
+ * @property {string} speechVoice        読み上げの声の voiceURI（'' は自動）
  * @property {boolean} speechAuto        暗記カードの自動読み上げ
  */
 

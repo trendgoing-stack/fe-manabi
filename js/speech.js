@@ -52,9 +52,34 @@ export function toSpeech(text) {
 /** 用語名そのものを読ませるときの文字列（英字だけの用語は「読み」を使う） */
 export const termSpeech = (t) => (ASCII_TERM.test(t.term) && t.reading ? t.reading : toSpeech(t.term));
 
-function japaneseVoice() {
-  const voices = window.speechSynthesis.getVoices();
-  return voices.find((v) => v.lang === 'ja-JP') ?? voices.find((v) => v.lang?.startsWith('ja')) ?? null;
+const QUALITY_NAME = /premium|enhanced|プレミアム|拡張|高品質|siri/i;
+
+/** 声の品質の目安（大きいほど自然）。名前に「拡張」「プレミアム」などが付く声は、端末に追加ダウンロードした高品質版 */
+const quality = (v) => (QUALITY_NAME.test(v.name) ? 2 : /compact/i.test(v.name) ? 0 : 1);
+
+/** 端末の日本語の声を、品質の高い順に返す */
+export function japaneseVoices() {
+  if (!speechSupported()) return [];
+  return window.speechSynthesis
+    .getVoices()
+    .filter((v) => v.lang === 'ja-JP' || v.lang?.replace('_', '-').startsWith('ja'))
+    .sort((a, b) => quality(b) - quality(a) || a.name.localeCompare(b.name));
+}
+
+export const voiceLabel = (v) => `${v.name}${quality(v) === 2 ? '（高品質）' : ''}`;
+
+/** 設定で選ばれた声。未選択、または端末から無くなっていれば、品質の高い順の先頭 */
+export function currentVoice() {
+  const list = japaneseVoices();
+  const chosen = storage.getSettings().speechVoice;
+  return list.find((v) => v.voiceURI === chosen) ?? list[0] ?? null;
+}
+
+/** 声の一覧が読み込まれた（または変わった）ときに呼ぶ。戻り値で解除 */
+export function onVoicesChanged(fn) {
+  if (!speechSupported()) return () => {};
+  window.speechSynthesis.addEventListener('voiceschanged', fn);
+  return () => window.speechSynthesis.removeEventListener('voiceschanged', fn);
 }
 
 export function stop() {
@@ -86,7 +111,7 @@ export function speak(id, text) {
   const parts = chunks(text);
   if (!parts.length) return;
   const rate = storage.getSettings().speechRate;
-  const voice = japaneseVoice();
+  const voice = currentVoice();
   playing = id;
   notify();
   parts.forEach((part, i) => {

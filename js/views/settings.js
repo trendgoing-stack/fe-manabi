@@ -1,6 +1,6 @@
 // 設定・データ管理
 import { h, fill } from '../dom.js';
-import { speechSupported } from '../speech.js';
+import { speechSupported, japaneseVoices, voiceLabel, onVoicesChanged, speak } from '../speech.js';
 import * as storage from '../storage.js';
 import * as io from '../io.js';
 import { app, availableQuestions } from '../state.js';
@@ -143,6 +143,26 @@ export function settingsView(root) {
     const row = (label, note, control) =>
       h('label', { class: 'setting-row' }, h('span', null, label, note ? h('span', { class: 'muted small block' }, note) : null), control);
 
+    const voiceRow = (st) => {
+      const voices = japaneseVoices();
+      const auto = voices[0];
+      const select = h(
+        'select',
+        { 'aria-label': '読み上げの声', onChange: (e) => save({ speechVoice: e.target.value }) },
+        h('option', { value: '', selected: !st.speechVoice || !voices.some((v) => v.voiceURI === st.speechVoice) }, auto ? `自動（高品質を優先）：${voiceLabel(auto)}` : '自動'),
+        voices.map((v) => h('option', { value: v.voiceURI, selected: st.speechVoice === v.voiceURI }, voiceLabel(v))),
+      );
+      const note = voices.length
+        ? '「高品質」の声は、端末に追加した「拡張」「プレミアム」の声です'
+        : '日本語の声が見つかりません（読み込み中の場合は少し待ってください）';
+      return h(
+        'div',
+        { class: 'setting-row' },
+        h('span', null, '声', h('span', { class: 'muted small block' }, note), h('span', { class: 'muted small block' }, '声の追加：iPhone の「設定」→「アクセシビリティ」→「読み上げコンテンツ」→「声」→「日本語」')),
+        h('div', { class: 'voice-pick' }, select, h('button', { type: 'button', class: 'btn small', disabled: !voices.length, onClick: () => speak('voice-sample', 'これは基本情報技術者試験の用語を読み上げる声の試し聞きです。') }, '試し聞き')),
+      );
+    };
+
     const sw = (label, key, note) =>
       row(label, note, h('input', { type: 'checkbox', class: 'switch', role: 'switch', checked: s[key], onChange: (e) => save({ [key]: e.target.checked }) }));
 
@@ -183,6 +203,7 @@ export function settingsView(root) {
             'section',
             { class: 'card' },
             h('h2', null, '読み上げ'),
+            voiceRow(s),
             row(
               '読み上げの速さ',
               '用語・暗記カードの「読み上げ」ボタンに使います',
@@ -264,4 +285,6 @@ export function settingsView(root) {
     );
   };
   draw();
+  // 声の一覧は端末が遅れて読み込むことがあるので、届いたら描き直す
+  return onVoicesChanged(draw);
 }

@@ -18,6 +18,7 @@ export const DEFAULT_SETTINGS = {
   excludeFlagged: true,
   includeUnverified: false,
   speechRate: 1, // 読み上げの速さ
+  speechVoice: '', // 読み上げの声（voiceURI）。'' は自動（高品質を優先）
   speechAuto: false, // 暗記カードを自動で読み上げる
 };
 
