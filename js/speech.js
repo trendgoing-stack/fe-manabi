@@ -68,11 +68,21 @@ export function japaneseVoices() {
 
 export const voiceLabel = (v) => `${v.name}${quality(v) === 2 ? '（高品質）' : ''}`;
 
-/** 設定で選ばれた声。未選択、または端末から無くなっていれば、品質の高い順の先頭 */
+/** 「声を指定しない」を表す設定値。端末の既定の声（設定アプリで選んだ声）に任せる */
+export const SYSTEM_VOICE = '__system__';
+
+/**
+ * 読み上げに使う声。null は「声を指定しない」で、端末が既定の声を選ぶ。
+ * 未選択のときは、高品質な声が公開されていればそれを、無ければ端末の既定に任せる
+ * （iPhone の Safari は「拡張」「Siri」の声を公開しないことがあるため）。
+ */
 export function currentVoice() {
   const list = japaneseVoices();
   const chosen = storage.getSettings().speechVoice;
-  return list.find((v) => v.voiceURI === chosen) ?? list[0] ?? null;
+  if (chosen === SYSTEM_VOICE) return null;
+  const picked = list.find((v) => v.voiceURI === chosen);
+  if (picked) return picked;
+  return list[0] && quality(list[0]) === 2 ? list[0] : null;
 }
 
 /** 声の一覧が読み込まれた（または変わった）ときに呼ぶ。戻り値で解除 */

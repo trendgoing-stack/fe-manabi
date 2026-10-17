@@ -1,6 +1,6 @@
 // 設定・データ管理
 import { h, fill } from '../dom.js';
-import { speechSupported, japaneseVoices, voiceLabel, onVoicesChanged, speak } from '../speech.js';
+import { speechSupported, japaneseVoices, voiceLabel, onVoicesChanged, speak, SYSTEM_VOICE } from '../speech.js';
 import * as storage from '../storage.js';
 import * as io from '../io.js';
 import { app, availableQuestions } from '../state.js';
@@ -143,23 +143,34 @@ export function settingsView(root) {
     const row = (label, note, control) =>
       h('label', { class: 'setting-row' }, h('span', null, label, note ? h('span', { class: 'muted small block' }, note) : null), control);
 
+    const speechSupportedNow = speechSupported();
     const voiceRow = (st) => {
       const voices = japaneseVoices();
-      const auto = voices[0];
+      const known = (v) => st.speechVoice === SYSTEM_VOICE || voices.some((x) => x.voiceURI === v);
+      const highQuality = voices.some((v) => /（高品質）/.test(voiceLabel(v)));
       const select = h(
         'select',
         { 'aria-label': '読み上げの声', onChange: (e) => save({ speechVoice: e.target.value }) },
-        h('option', { value: '', selected: !st.speechVoice || !voices.some((v) => v.voiceURI === st.speechVoice) }, auto ? `自動（高品質を優先）：${voiceLabel(auto)}` : '自動'),
+        h('option', { value: '', selected: !st.speechVoice || !known(st.speechVoice) }, '自動（高品質を優先）'),
+        h('option', { value: SYSTEM_VOICE, selected: st.speechVoice === SYSTEM_VOICE }, '端末の既定の声'),
         voices.map((v) => h('option', { value: v.voiceURI, selected: st.speechVoice === v.voiceURI }, voiceLabel(v))),
       );
-      const note = voices.length
-        ? '「高品質」の声は、端末に追加した「拡張」「プレミアム」の声です'
-        : '日本語の声が見つかりません（読み込み中の場合は少し待ってください）';
+      const note = !voices.length
+        ? '日本語の声が見つかりません（読み込み中の場合は少し待ってください）'
+        : highQuality
+          ? '「高品質」の声は、端末に追加した「拡張」「プレミアム」などの声です'
+          : `この画面で選べる声は${voices.length}つです。iPhone の Safari は、追加した「拡張」や Siri の声をアプリに公開しないことがあります。その場合は「端末の既定の声」を試してください`;
       return h(
         'div',
         { class: 'setting-row' },
-        h('span', null, '声', h('span', { class: 'muted small block' }, note), h('span', { class: 'muted small block' }, '声の追加：iPhone の「設定」→「アクセシビリティ」→「読み上げコンテンツ」→「声」→「日本語」')),
-        h('div', { class: 'voice-pick' }, select, h('button', { type: 'button', class: 'btn small', disabled: !voices.length, onClick: () => speak('voice-sample', 'これは基本情報技術者試験の用語を読み上げる声の試し聞きです。') }, '試し聞き')),
+        h(
+          'span',
+          null,
+          '声',
+          h('span', { class: 'muted small block' }, note),
+          h('span', { class: 'muted small block' }, '「端末の既定の声」は、iPhone の「設定」→「アクセシビリティ」→「読み上げコンテンツ」→「声」→「日本語」で選んだ声に任せます'),
+        ),
+        h('div', { class: 'voice-pick' }, select, h('button', { type: 'button', class: 'btn small', disabled: !speechSupportedNow, onClick: () => speak('voice-sample', 'これは基本情報技術者試験の用語を読み上げる声の試し聞きです。') }, '試し聞き')),
       );
     };
 
