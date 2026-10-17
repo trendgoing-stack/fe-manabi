@@ -6,13 +6,15 @@ import { navigate } from '../router.js';
 import { richText } from '../render/text.js';
 import { findTerms } from '../terms.js';
 import { sectionsFor, sectionHref } from '../term-index.js';
+import { speakButton } from './speak.js';
+import { toSpeech, termSpeech, stop } from '../speech.js';
 
 /** @param {string} id 用語の id */
 export function openTermDialog(id) {
   const t = app.data.termById.get(id);
   if (!t) return;
   const lessons = sectionsFor(t.id).slice(0, 3);
-  openDialog((close) => [
+  const opened = openDialog((close) => [
     h('p', { class: 'muted small' }, `${t.category}・${t.reading}`),
     h('h2', null, t.term),
     t.aliases?.length ? h('p', { class: 'muted small' }, `別名：${t.aliases.join('、')}`) : null,
@@ -51,6 +53,7 @@ export function openTermDialog(id) {
     h(
       'div',
       { class: 'btn-row' },
+      speakButton(`term-${t.id}`, () => `${termSpeech(t)}。${toSpeech(t.definition)}`, { small: false }),
       h(
         'button',
         {
@@ -66,6 +69,7 @@ export function openTermDialog(id) {
       h('button', { type: 'button', class: 'btn primary', onClick: () => close() }, '閉じる'),
     ),
   ]);
+  opened.then(stop); // 閉じたら読み上げも止める
 }
 
 /**

@@ -1,5 +1,6 @@
 // 起動処理
 import * as storage from './storage.js';
+import { stop as stopSpeech } from './speech.js';
 import { loadData } from './loader.js';
 import { route, start, parseHash } from './router.js';
 import { app } from './state.js';
@@ -31,6 +32,7 @@ function applySettings() {
 }
 
 function onRouteChange(name) {
+  stopSpeech(); // 画面を移ったら読み上げを止める
   const tab = TAB_OF[name];
   for (const a of document.querySelectorAll('#tabbar a')) {
     if (a.dataset.tab === tab) a.setAttribute('aria-current', 'page');

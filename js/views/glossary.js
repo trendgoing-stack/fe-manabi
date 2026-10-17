@@ -1,6 +1,8 @@
 // 学ぶタブの用語集：用語集（五十音順／カテゴリ別、分野の絞り込み、検索）と用語の詳細
 import { h, fill } from '../dom.js';
 import { sectionsFor, sectionHref } from '../term-index.js';
+import { speakButton } from '../ui/speak.js';
+import { toSpeech, termSpeech } from '../speech.js';
 import * as storage from '../storage.js';
 import { app } from '../state.js';
 import { richText } from '../render/text.js';
@@ -147,7 +149,12 @@ export function termView(root, [id]) {
     h('p', { class: 'muted small' }, `${FIELDS.find((f) => f.id === fieldOf(t.category))?.label ?? ''}・${t.category}・${t.reading}`),
     h('h1', null, t.term),
     t.aliases?.length ? h('p', { class: 'muted small' }, `別名：${t.aliases.join('、')}`) : null,
-    h('section', { class: 'card' }, h('p', { class: 'term-def' }, richText(t.definition))),
+    h(
+      'section',
+      { class: 'card' },
+      h('p', { class: 'term-def' }, richText(t.definition)),
+      h('div', { class: 'btn-row' }, speakButton(`term-${t.id}`, () => `${termSpeech(t)}。${toSpeech(t.definition)}`)),
+    ),
     card ? h('p', { class: 'muted small' }, `暗記カード：${card.correct}/${card.attempts}回「覚えた」・次の復習日 ${card.due}`) : null,
     t.related?.length
       ? h(

@@ -1,5 +1,6 @@
 // 設定・データ管理
 import { h, fill } from '../dom.js';
+import { speechSupported } from '../speech.js';
 import * as storage from '../storage.js';
 import * as io from '../io.js';
 import { app, availableQuestions } from '../state.js';
@@ -177,6 +178,23 @@ export function settingsView(root) {
           ),
         ),
       ),
+      speechSupported()
+        ? h(
+            'section',
+            { class: 'card' },
+            h('h2', null, '読み上げ'),
+            row(
+              '読み上げの速さ',
+              '用語・暗記カードの「読み上げ」ボタンに使います',
+              h(
+                'select',
+                { onChange: (e) => save({ speechRate: Number(e.target.value) }) },
+                [[0.8, 'ゆっくり'], [1, '標準'], [1.25, 'はやい']].map(([v, label]) => h('option', { value: String(v), selected: s.speechRate === v }, label)),
+              ),
+            ),
+            sw('暗記カードを自動で読み上げる', 'speechAuto', '表の用語と、めくったときの定義を読みます。端末の音量・消音スイッチに従います'),
+          )
+        : null,
       h(
         'section',
         { class: 'card' },

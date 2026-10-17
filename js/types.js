@@ -157,6 +157,8 @@
  * @property {number} reviewLimit
  * @property {boolean} excludeFlagged
  * @property {boolean} includeUnverified
+ * @property {number} speechRate         読み上げの速さ（0.8・1・1.25）
+ * @property {boolean} speechAuto        暗記カードの自動読み上げ
  */
 
 /**

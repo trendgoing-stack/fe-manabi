@@ -8,6 +8,8 @@ import { richText } from '../render/text.js';
 import { shuffled } from '../selector.js';
 import { today } from '../date.js';
 import { learnNav } from './glossary.js';
+import { speakButton } from '../ui/speak.js';
+import { speak, speechSupported, toSpeech, termSpeech } from '../speech.js';
 
 const NEW_PER_SESSION = 20;
 const SWIPE = 80; // px
@@ -98,6 +100,9 @@ export function cardsView(root) {
       h('div', { class: 'btn-col' }, h('button', { type: 'button', class: 'btn big', onClick: drawStart }, '戻る')),
     );
 
+  // 表は用語名、裏は用語名と定義を読む
+  const say = (t) => (state.flipped ? `${termSpeech(t)}。${toSpeech(t.definition)}` : termSpeech(t));
+
   const drawCard = () => {
     const t = state.queue[state.i];
     const card = h(
@@ -167,6 +172,7 @@ export function cardsView(root) {
       ),
       h('div', { class: 'progress' }, h('span', { style: `width:${(state.i / state.queue.length) * 100}%` })),
       card,
+      speechSupported() ? h('div', { class: 'btn-row flash-speak' }, speakButton(`card-${t.id}-${state.flipped ? 'back' : 'front'}`, () => say(t), { label: state.flipped ? '定義を読む' : '用語を読む', small: false, grow: true })) : null,
       h(
         'div',
         { class: 'btn-row flash-buttons' },
@@ -174,6 +180,7 @@ export function cardsView(root) {
         h('button', { type: 'button', class: 'btn primary grow', onClick: () => judge(true) }, '覚えた →'),
       ),
     );
+    if (storage.getSettings().speechAuto) speak(`card-${t.id}-${state.flipped ? 'back' : 'front'}`, say(t));
   };
 
   drawStart();

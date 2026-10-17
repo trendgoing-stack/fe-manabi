@@ -17,6 +17,8 @@ export const DEFAULT_SETTINGS = {
   reviewLimit: 30,
   excludeFlagged: true,
   includeUnverified: false,
+  speechRate: 1, // 読み上げの速さ
+  speechAuto: false, // 暗記カードを自動で読み上げる
 };
 
 const cache = new Map();
