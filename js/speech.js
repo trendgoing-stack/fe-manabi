@@ -4,6 +4,17 @@ import * as storage from './storage.js';
 import { app } from './state.js';
 import { buildReadings, toSpeechText, termSpeechText, termFullText, sectionSpeechText } from './speech-text.js';
 
+/** 読み上げの速さの選択肢（値は SpeechSynthesisUtterance.rate。iPhone は 1 より上の変化が小さいので、2 まで用意する） */
+export const SPEECH_RATES = [
+  [0.6, 'とてもゆっくり'],
+  [0.8, 'ゆっくり'],
+  [1, '標準'],
+  [1.25, 'はやい'],
+  [1.5, 'かなりはやい'],
+  [1.75, 'とてもはやい'],
+  [2, '最速'],
+];
+
 export const speechSupported = () => typeof window !== 'undefined' && 'speechSynthesis' in window && 'SpeechSynthesisUtterance' in window;
 
 let playing = null; // いま読んでいるものの識別子（ボタンの表示切り替えに使う）
