@@ -648,7 +648,8 @@
         }
       ],
       "questionTags": [
-        "システム監査"
+        "システム監査",
+        "リスクアプローチ"
       ],
       "verification": {
         "status": "ai-verified",
@@ -892,7 +893,8 @@
       ],
       "questionTags": [
         "CAAT",
-        "監査手続"
+        "監査手続",
+        "テストデータ法"
       ],
       "verification": {
         "status": "ai-verified",
@@ -1158,7 +1160,8 @@
       ],
       "questionTags": [
         "助言型監査",
-        "システム監査"
+        "システム監査",
+        "フォローアップ"
       ],
       "verification": {
         "status": "ai-verified",
