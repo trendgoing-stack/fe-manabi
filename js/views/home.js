@@ -24,13 +24,68 @@ export function accuracyBar(label, { n, ok }) {
   );
 }
 
+/** 進み具合の横棒（済んだ数／全体） */
+function progressBar(label, done, total) {
+  const p = pct(done, total);
+  return h(
+    'div',
+    { class: 'bar-row' },
+    h('span', { class: 'bar-label' }, label),
+    h('span', { class: 'bar-track', role: 'img', 'aria-label': `${label} ${total}のうち${done}（${p}%）` }, h('span', { class: 'bar-fill', style: `width:${p}%` })),
+    h('span', { class: 'bar-value' }, `${p}%`),
+    h('span', { class: 'bar-count muted small' }, `${done}/${total}`),
+  );
+}
+
+const MASTERED_BOX = 4; // 復習間隔が14日以上になった問題を「定着」とみなす
+
+/** 全体の進み具合：問題・テキスト・暗記カードと、試験日までのペース */
+function progressSection(pool, stats, t, examDate) {
+  const answered = pool.filter((q) => stats[q.id]).length;
+  const mastered = pool.filter((q) => (stats[q.id]?.box ?? 0) >= MASTERED_BOX).length;
+  const sections = (app.data.texts ?? []).flatMap((c) => c.sections);
+  const read = storage.getRead();
+  const readCount = sections.filter((s) => read[s.id]).length;
+  const cards = storage.getCards();
+  const glossary = app.data.glossary ?? [];
+  const seen = glossary.filter((g) => cards[g.id]).length;
+  const cardsDue = glossary.filter((g) => cards[g.id] && cards[g.id].due <= t).length;
+
+  const daysLeft = examDate ? diffDays(t, examDate) : -1;
+  const per = (n) => Math.ceil(n / daysLeft);
+  const pace = [];
+  if (daysLeft > 0) {
+    if (pool.length - answered > 0) pace.push(`未回答の問題 ${pool.length - answered}問：1日あたり約${per(pool.length - answered)}問`);
+    if (sections.length - readCount > 0) pace.push(`未読の節 ${sections.length - readCount}節：1日あたり約${per(sections.length - readCount)}節`);
+    if (glossary.length - seen > 0) pace.push(`まだ見ていない用語 ${glossary.length - seen}語：1日あたり約${per(glossary.length - seen)}語`);
+  }
+
+  return h(
+    'section',
+    { class: 'card' },
+    h('h2', null, '全体の進み具合'),
+    progressBar('問題（回答済み）', answered, pool.length),
+    progressBar('問題（定着）', mastered, pool.length),
+    sections.length ? progressBar('テキスト（読了）', readCount, sections.length) : null,
+    glossary.length ? progressBar('暗記カード', seen, glossary.length) : null,
+    h('p', { class: 'muted small' }, '「定着」は、正解が続いて復習の間隔が14日以上になった問題です。'),
+    cardsDue ? h('p', null, h('a', { href: '#/cards' }, `復習期限の暗記カードが ${cardsDue}枚あります`)) : null,
+    pace.length
+      ? [h('h3', null, `試験日までに終えるペース（残り${daysLeft}日）`), h('ul', { class: 'pace-list' }, pace.map((x) => h('li', null, x)))]
+      : !examDate
+        ? h('p', { class: 'muted small' }, h('a', { href: '#/settings' }, '設定'), 'で受験予定日を入れると、1日あたりのペースを表示します。')
+        : null,
+  );
+}
+
 export function homeView(root) {
   const settings = storage.getSettings();
   const t = today();
   const days = analytics.byDay();
   const todayCount = analytics.countOn(days, t);
   const streak = analytics.streak(days, t);
-  const due = dueQuestions(availableQuestions(), storage.getStats(), t);
+  const pool = availableQuestions();
+  const due = dueQuestions(pool, storage.getStats(), t);
   const dueCount = Math.min(due.length, settings.reviewLimit);
   const session = storage.getSession();
 
@@ -168,6 +223,8 @@ export function homeView(root) {
       h('button', { type: 'button', class: 'btn big' + (dueCount ? '' : ' primary'), onClick: () => navigate('drill') }, '演習を始める'),
     ),
   );
+
+  root.append(progressSection(pool, storage.getStats(), t, settings.examDate));
 
   const fields = analytics.byField(days);
   root.append(

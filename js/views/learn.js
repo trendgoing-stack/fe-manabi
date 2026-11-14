@@ -14,6 +14,7 @@ import { speakButton } from '../ui/speak.js';
 import { sectionFull, stop as stopSpeech } from '../speech.js';
 
 const PRACTICE_COUNT = 10;
+const MIN_OWN = 3; // 節の論点に合う問題がこの数以上あれば、節の問題として出す
 
 const chapterOf = (id) => app.data.texts.find((c) => c.id === id);
 const readMark = (done, total) =>
@@ -22,27 +23,45 @@ const readMark = (done, total) =>
 /** 章の節 id → 「次に読む節」を章をまたいで探すための一列の並び */
 const flatSections = () => app.data.texts.flatMap((c) => c.sections.map((s) => ({ chapter: c, section: s })));
 
-/** 節に対応する問題。questionTags に当たる問題を優先し、足りなければ章のカテゴリ全体で補う */
-export function practiceQuestions(chapter, section) {
+/** 章のカテゴリの問題（pool）と、そのうち節の questionTags に当たる問題（tagged） */
+function candidates(chapter, section) {
   const criteria = { ...DEFAULT_CRITERIA, subject: chapter.subject, categories: [chapter.category] };
   const pool = filterQuestions(availableQuestions(), criteria, storage.getStats(), today());
   const tags = new Set(section?.questionTags ?? []);
   const tagged = tags.size ? pool.filter((q) => q.tags?.some((t) => tags.has(t))) : [];
-  return tagged.length >= 3 ? tagged : pool;
+  return { pool, tagged };
+}
+
+/** 節に対応する問題。questionTags に当たる問題を優先し、足りなければ章のカテゴリ全体で補う */
+export function practiceQuestions(chapter, section) {
+  const { pool, tagged } = candidates(chapter, section);
+  return tagged.length >= MIN_OWN ? tagged : pool;
 }
 
 function practiceButton(chapter, section) {
-  const qs = practiceQuestions(chapter, section);
-  return h(
+  const { pool, tagged } = candidates(chapter, section);
+  // 節に絞った問題が足りないときは章全体から出すので、ボタンの文言を変えて区別できるようにする
+  const own = !section || tagged.length >= MIN_OWN;
+  const qs = own && section ? tagged : pool;
+  const n = Math.min(PRACTICE_COUNT, qs.length);
+  const count = qs.length > n ? `${qs.length}問から${n}問` : `${n}問`;
+  // 章全体から出すときも、節に合う問題（1〜2問）があれば先に出す
+  const pick = () => (own ? shuffled(qs) : [...shuffled(tagged), ...shuffled(pool.filter((q) => !tagged.includes(q)))]);
+  const button = h(
     'button',
     {
       type: 'button',
       class: 'btn big',
       disabled: !qs.length,
-      onClick: () => startSession('drill', section ? section.title : chapter.title, takeWhole(groupSets(shuffled(qs)), PRACTICE_COUNT)),
+      onClick: () => startSession('drill', own && section ? section.title : chapter.title, takeWhole(groupSets(pick()), PRACTICE_COUNT)),
     },
-    qs.length ? `この${section ? '節' : '章'}の問題を解く（${Math.min(PRACTICE_COUNT, qs.length)}問）` : '対応する問題がありません',
+    !qs.length ? '対応する問題がありません' : own ? `この${section ? '節' : '章'}の問題を解く（${count}）` : `章全体の問題を解く（${count}）`,
   );
+  if (own || !qs.length) return button;
+  const note = tagged.length
+    ? `この節に合う問題は${tagged.length}問だけなので、その${tagged.length}問を先に出し、残りは章「${chapter.category}」全体から出題します。`
+    : `この節に絞った問題はまだないため、章「${chapter.category}」全体から出題します。`;
+  return [button, h('p', { class: 'muted small center' }, note)];
 }
 
 export function learnView(root, [chapterId, sectionId]) {

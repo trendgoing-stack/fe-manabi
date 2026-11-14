@@ -1,13 +1,17 @@
 // 模擬試験（科目A）：出題画面と結果画面
 import { h, fill, pct } from '../dom.js';
 import * as storage from '../storage.js';
-import { app, availableQuestions } from '../state.js';
+import { app, availableQuestions, startSession } from '../state.js';
+import { mockChart } from '../render/chart.js';
 import { remainingMs, pause, resume, pickQuestions, createMock, finishMock, GROUPS } from '../mock.js';
 import { renderStem, renderChoices } from '../render/question.js';
 import { navigate } from '../router.js';
 import { openDialog, confirmDialog } from '../ui/dialog.js';
 import { accuracyBar } from './home.js';
 import { localDate } from '../date.js';
+
+const PASS_LINE = 60; // 素点での目安（%）
+const TREND_MAX = 10;
 
 const fmt = (ms) => {
   const sec = Math.ceil(ms / 1000);
@@ -218,6 +222,18 @@ export function mockResultView(root, [id]) {
   if (!m?.result) return navigate('drill', { replace: true });
   const { ok, total, byField } = m.result;
   const wrong = m.items.map((it, i) => ({ it, i, q: app.data.byId.get(it.id) })).filter(({ it, q }) => q && it.selected !== q.answer);
+  // 同じ科目の直近の回（古い順）。この回を強調する
+  const md = (ts) => {
+    const d = localDate(ts);
+    return `${Number(d.slice(5, 7))}/${Number(d.slice(8, 10))}`;
+  };
+  const trend = storage
+    .listMocks()
+    .filter((x) => x.result && (x.subject ?? 'A') === (m.subject ?? 'A'))
+    .slice(0, TREND_MAX)
+    .reverse()
+    .map((x) => ({ label: md(x.startedAt), ok: x.result.ok, total: x.result.total, current: x.id === m.id }));
+  const retryable = wrong.filter(({ q }) => !q.retired).map(({ q }) => q);
 
   root.append(
     h('h1', null, '模擬試験の結果'),
@@ -254,7 +270,23 @@ export function mockResultView(root, [id]) {
           ),
         )
       : h('p', { class: 'center' }, '全問正解です。'),
-    h('div', { class: 'btn-col' }, h('button', { type: 'button', class: 'btn big', onClick: () => navigate('drill') }, '演習へ戻る')),
+    trend.length >= 2
+      ? h(
+          'section',
+          { class: 'card' },
+          h('h2', null, `これまでの推移（科目${m.subject ?? 'A'}・直近${trend.length}回）`),
+          h('div', { class: 'scroll-x' }, mockChart(trend, PASS_LINE)),
+          h('p', { class: 'muted small' }, `濃い棒がこの回、点線が${PASS_LINE}%です。${PASS_LINE}%は素点での目安で、本試験の合否（評価点）とは一致しません。`),
+        )
+      : null,
+    h(
+      'div',
+      { class: 'btn-col' },
+      retryable.length
+        ? h('button', { type: 'button', class: 'btn primary big', onClick: () => startSession('retry', '模擬試験の解き直し', retryable) }, `間違えた問題だけ解き直す（${retryable.length}問）`)
+        : null,
+      h('button', { type: 'button', class: 'btn big', onClick: () => navigate('drill') }, '演習へ戻る'),
+    ),
   );
 }
 

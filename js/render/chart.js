@@ -66,3 +66,44 @@ export function weeklyChart(weeks) {
   });
   return svg;
 }
+
+/**
+ * 模擬試験の正答率の推移（棒グラフ）。目安の線（60%）を引く。
+ * @param {{label:string, ok:number, total:number, current?:boolean}[]} mocks  古い順
+ */
+export function mockChart(mocks, passLine = 60) {
+  const W = 340;
+  const H = 170;
+  const m = { l: 34, r: 10, t: 16, b: 26 };
+  const pw = W - m.l - m.r;
+  const ph = H - m.t - m.b;
+  const step = pw / mocks.length;
+  const bw = Math.min(28, step * 0.6);
+  const y = (p) => m.t + ph * (1 - p / 100);
+
+  const svg = s('svg', {
+    viewBox: `0 0 ${W} ${H}`,
+    class: 'chart',
+    role: 'img',
+    'aria-label': `模擬試験の正答率の推移。目安は${passLine}%。` + mocks.map((x) => `${x.label} ${pct(x.ok, x.total)}%`).join('、'),
+  });
+  for (const p of [0, 50, 100]) {
+    svg.append(
+      s('line', { x1: m.l, x2: W - m.r, y1: y(p), y2: y(p), class: 'chart-grid' }),
+      s('text', { x: m.l - 6, y: y(p) + 4, 'text-anchor': 'end', class: 'chart-text' }, `${p}%`),
+    );
+  }
+  const every = Math.ceil(mocks.length / 6); // 日付のラベルが重ならないよう間引く
+  const values = []; // 数値は目安の線より後に描く
+  mocks.forEach((x, i) => {
+    const p = pct(x.ok, x.total);
+    const cx = m.l + step * (i + 0.5);
+    const bar = s('rect', { x: cx - bw / 2, y: y(p), width: bw, height: Math.max(1, y(0) - y(p)), rx: 3, class: 'chart-bar' + (p >= passLine ? ' is-pass' : '') + (x.current ? ' is-current' : '') });
+    bar.append(s('title', null, `${x.label}：${p}%（${x.ok}/${x.total}）`));
+    svg.append(bar);
+    values.push(s('text', { x: cx, y: y(p) - 4, 'text-anchor': 'middle', class: 'chart-text chart-value' }, String(p)));
+    if (i % every === 0 || i === mocks.length - 1) svg.append(s('text', { x: cx, y: H - 8, 'text-anchor': 'middle', class: 'chart-text' }, x.label));
+  });
+  svg.append(s('line', { x1: m.l, x2: W - m.r, y1: y(passLine), y2: y(passLine), class: 'chart-pass' }), ...values);
+  return svg;
+}

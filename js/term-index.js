@@ -54,3 +54,55 @@ export function sectionsFor(termId) {
 }
 
 export const sectionHref = ({ chapter, section }) => `#/learn/${encodeURIComponent(chapter.id)}/${encodeURIComponent(section.id)}`;
+
+// ---- 問題 → 関連する節（問題の tags と節の questionTags の重なりで探す） ----
+
+/** @type {Map<string, Map<string, {chapter:object, section:object}[]>>|null} 「科目:カテゴリ」→ タグ → 節 */
+let tagIndex = null;
+let tagIndexedFor = null;
+
+const chapterKey = (subject, category) => `${subject}:${category}`;
+
+function buildTagIndex() {
+  const map = new Map();
+  for (const chapter of app.data.texts) {
+    const key = chapterKey(chapter.subject, chapter.category);
+    if (!map.has(key)) map.set(key, new Map());
+    const byTag = map.get(key);
+    for (const section of chapter.sections) {
+      for (const tag of new Set(section.questionTags ?? [])) {
+        if (!byTag.has(tag)) byTag.set(tag, []);
+        byTag.get(tag).push({ chapter, section });
+      }
+    }
+  }
+  return map;
+}
+
+/**
+ * 問題に関連する節を、関連の強い順に返す。多くの節に付いているタグ（「計算」など）は軽く数える。
+ * 合う節が無ければ空の配列。
+ * @param {import('./types.js').Question} q
+ * @param {number} [limit]
+ */
+export function sectionsForQuestion(q, limit = 3) {
+  if (!tagIndex || tagIndexedFor !== app.data.texts) {
+    tagIndex = buildTagIndex();
+    tagIndexedFor = app.data.texts;
+  }
+  const byTag = tagIndex.get(chapterKey(q.subject, q.category));
+  if (!byTag) return [];
+  const score = new Map();
+  for (const tag of new Set(q.tags ?? [])) {
+    const hits = byTag.get(tag) ?? [];
+    for (const hit of hits) {
+      const cur = score.get(hit.section.id) ?? { ...hit, score: 0 };
+      cur.score += 1 / hits.length;
+      score.set(hit.section.id, cur);
+    }
+  }
+  return [...score.values()].sort((a, b) => b.score - a.score).slice(0, limit);
+}
+
+/** 問題と同じ科目・カテゴリの章（関連する節が見つからないときの行き先） */
+export const chapterForQuestion = (q) => app.data.texts.find((c) => c.subject === q.subject && c.category === q.category) ?? null;

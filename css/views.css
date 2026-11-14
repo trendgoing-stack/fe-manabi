@@ -357,3 +357,14 @@ ol.lesson-steps { list-style: decimal; }
 /* 設定：読み上げの声の選択と試し聞き */
 .voice-pick { display: flex; flex-direction: column; gap: 8px; align-items: stretch; min-width: 0; max-width: 55%; }
 .setting-row .voice-pick select { width: 100%; max-width: none; }
+
+/* ---- 進み具合・関連する節・模擬試験の推移 ---- */
+.pace-list { margin: 4px 0 0; padding-left: 1.3em; font-size: 0.9rem; }
+.pace-list li + li { margin-top: 2px; }
+.related { margin: 0 0 16px; padding: 10px 14px 4px; border-radius: var(--radius); background: var(--surface); }
+.related h3 { margin: 0 0 2px; }
+.chart-bar { fill: var(--muted); opacity: 0.45; }
+.chart-bar.is-pass { fill: var(--accent); }
+.chart-bar.is-current { opacity: 1; }
+.chart-pass { stroke: var(--text); stroke-width: 1; stroke-dasharray: 4 3; }
+.chart-value { font-weight: 700; fill: var(--text); paint-order: stroke; stroke: var(--surface); stroke-width: 3px; stroke-linejoin: round; }

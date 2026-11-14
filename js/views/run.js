@@ -3,7 +3,7 @@ import { h, fill } from '../dom.js';
 import * as storage from '../storage.js';
 import { app } from '../state.js';
 import { isActive, select, commit, advance, back } from '../session.js';
-import { renderStem, renderChoices, renderExplanation, renderMetaLine, LABELS } from '../render/question.js';
+import { renderStem, renderChoices, renderExplanation, renderRelated, renderMetaLine, LABELS } from '../render/question.js';
 import { navigate } from '../router.js';
 import { openFlagDialog } from '../ui/flag.js';
 import { renderTrace } from '../ui/trace.js';
@@ -94,6 +94,7 @@ export function runView(root) {
       }),
       item.done ? renderExplanation(q) : null,
       renderTrace(q),
+      item.done ? renderRelated(q) : null,
       h(
         'div',
         { class: 'sticky-action' },

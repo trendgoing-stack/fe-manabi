@@ -4,6 +4,7 @@ import { richText } from './text.js';
 import { renderFigure } from './figure.js';
 import { linkedText } from '../ui/term.js';
 import { renderCode, highlightLine } from './code.js';
+import { sectionsForQuestion, chapterForQuestion, sectionHref } from '../term-index.js';
 
 export const LABELS = ['ア', 'イ', 'ウ', 'エ'];
 
@@ -129,5 +130,29 @@ export function renderMetaLine(q) {
     { class: 'muted small q-meta' },
     `${q.subject === 'B' ? '科目B・' : ''}${q.category}・難易度 ${'★'.repeat(q.difficulty)}${'☆'.repeat(3 - q.difficulty)}・${q.id}`,
     q.verification?.status === 'unverified' ? h('span', { class: 'badge warn' }, '未検証') : null,
+  );
+}
+
+/**
+ * 解説テキストへの導線：問題の論点に合う節（無ければ章）へのリンク。テキストが無ければ null
+ * @param {import('../types.js').Question} q
+ */
+export function renderRelated(q) {
+  const sections = sectionsForQuestion(q);
+  const chapter = chapterForQuestion(q);
+  if (!sections.length && !chapter) return null;
+  const item = (href, title, sub) =>
+    h('li', null, h('a', { href }, h('span', { class: 'link-title' }, richText(title)), h('span', { class: 'muted small' }, sub)));
+  return h(
+    'section',
+    { class: 'related' },
+    h('h3', null, 'テキストで確認する'),
+    h(
+      'ul',
+      { class: 'link-list' },
+      sections.length
+        ? sections.map((x) => item(sectionHref(x), x.section.title, x.chapter.title))
+        : item(`#/learn/${encodeURIComponent(chapter.id)}`, chapter.title, '章の目次を開く'),
+    ),
   );
 }
