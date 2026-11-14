@@ -4,7 +4,7 @@
 
 - 問題・解説・用語定義はすべてオリジナルで、IPAの過去問ではありません
 - 学習記録は端末の localStorage にだけ保存し、外部には送信しません
-- 収録：科目A 360問、科目B 120問（設問単位）、用語集 304語。全問 ai-verified（検証の記録は [VERIFICATION.md](VERIFICATION.md)）
+- 収録：科目A 360問、科目B 120問（設問単位）、用語集 312語。全問 ai-verified（検証の記録は [VERIFICATION.md](VERIFICATION.md)）
 - 基準：シラバス Ver.9.2／試験要綱 Ver.5.6（2026-10-01 確認）。正確な出題範囲・仕様は [IPAの公式情報](https://www.ipa.go.jp/shiken/syllabus/gaiyou.html) を参照してください
 
 ## 現在の状態

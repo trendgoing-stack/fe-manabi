@@ -9,7 +9,7 @@ import { shuffled } from '../selector.js';
 import { today } from '../date.js';
 import { learnNav } from './glossary.js';
 import { speakButton } from '../ui/speak.js';
-import { speak, speechSupported, termSpeech, termFull } from '../speech.js';
+import { speak, speechSupported, termSpeech, termFull, toSpeech } from '../speech.js';
 
 const NEW_PER_SESSION = 20;
 const SWIPE = 80; // px
@@ -29,7 +29,11 @@ function buildQueue(field, category) {
 export function cardsView(root) {
   let field = storage.getMeta().cardField ?? '';
   let category = storage.getMeta().cardCategory ?? ''; // '' はすべて。分野の絞り込みと合わせて使う
+  let reverse = storage.getMeta().cardDir === 'def'; // true：定義を見て用語を答える
   let state = null; // { queue, i, flipped, ok, ng }
+
+  /** 逆向きの表に出す定義。定義の中に用語そのものが出てくる場合は伏せる */
+  const hiddenDef = (t) => t.definition.split(t.term).join('〇〇');
 
   const drawStart = () => {
     // 分野を変えたら、その分野に属さないカテゴリの選択は外す
@@ -50,6 +54,12 @@ export function cardsView(root) {
         storage.saveMeta({ cardCategory: name });
         drawStart();
       });
+    const dirChip = (value, label) =>
+      chipOf(reverse === value, label, () => {
+        reverse = value;
+        storage.saveMeta({ cardDir: value ? 'def' : 'term' });
+        drawStart();
+      });
     const total = due.length + fresh.length;
     fill(
       root,
@@ -57,6 +67,7 @@ export function cardsView(root) {
       learnNav('cards'),
       h('section', { class: 'card' }, h('h2', null, '分野'), h('div', { class: 'chips' }, chip('', 'すべて'), FIELDS.map((f) => chip(f.id, f.short)))),
       h('section', { class: 'card' }, h('h2', null, 'カテゴリ'), h('div', { class: 'chips' }, catChip('', 'すべて'), cats.map((c) => catChip(c.name, c.name)))),
+      h('section', { class: 'card' }, h('h2', null, '出し方'), h('div', { class: 'chips' }, dirChip(false, '用語 → 定義'), dirChip(true, '定義 → 用語'))),
       h(
         'section',
         { class: 'card' },
@@ -101,16 +112,20 @@ export function cardsView(root) {
     );
 
   // 表は用語名、裏は用語名と定義を読む
-  const say = (t) => (state.flipped ? termFull(t) : termSpeech(t));
+  const say = (t) => (state.flipped ? termFull(t) : reverse ? toSpeech(hiddenDef(t).split('〇〇').join('この用語')) : termSpeech(t));
 
   const drawCard = () => {
     const t = state.queue[state.i];
     const card = h(
       'div',
-      { class: 'flashcard' + (state.flipped ? ' is-flipped' : ''), role: 'button', tabindex: '0', 'aria-label': state.flipped ? `${t.term}の定義` : `${t.term}。タップで定義を表示` },
+      { class: 'flashcard' + (state.flipped ? ' is-flipped' : ''), role: 'button', tabindex: '0', 'aria-label': state.flipped ? `${t.term}の定義` : reverse ? '定義。タップで用語を表示' : `${t.term}。タップで定義を表示` },
       state.flipped
-        ? [h('p', { class: 'flash-term small' }, t.term), h('p', { class: 'flash-def' }, richText(t.definition))]
-        : [h('p', { class: 'muted small' }, t.category), h('p', { class: 'flash-front' }, t.term), h('p', { class: 'muted small' }, 'タップで定義を表示')],
+        ? reverse
+          ? [h('p', { class: 'flash-front' }, t.term), h('p', { class: 'flash-def' }, richText(t.definition))]
+          : [h('p', { class: 'flash-term small' }, t.term), h('p', { class: 'flash-def' }, richText(t.definition))]
+        : reverse
+          ? [h('p', { class: 'muted small' }, t.category), h('p', { class: 'flash-def' }, richText(hiddenDef(t))), h('p', { class: 'muted small' }, 'タップで用語を表示')]
+          : [h('p', { class: 'muted small' }, t.category), h('p', { class: 'flash-front' }, t.term), h('p', { class: 'muted small' }, 'タップで定義を表示')],
       h('span', { class: 'flash-hint flash-hint-ok', 'aria-hidden': 'true' }, '覚えた'),
       h('span', { class: 'flash-hint flash-hint-ng', 'aria-hidden': 'true' }, 'まだ'),
     );
@@ -172,7 +187,7 @@ export function cardsView(root) {
       ),
       h('div', { class: 'progress' }, h('span', { style: `width:${(state.i / state.queue.length) * 100}%` })),
       card,
-      speechSupported() ? h('div', { class: 'btn-row flash-speak' }, speakButton(`card-${t.id}-${state.flipped ? 'back' : 'front'}`, () => say(t), { label: state.flipped ? '定義を読む' : '用語を読む', small: false, grow: true })) : null,
+      speechSupported() ? h('div', { class: 'btn-row flash-speak' }, speakButton(`card-${t.id}-${state.flipped ? 'back' : 'front'}`, () => say(t), { label: state.flipped ? (reverse ? '用語と定義を読む' : '定義を読む') : reverse ? '定義を読む' : '用語を読む', small: false, grow: true })) : null,
       h(
         'div',
         { class: 'btn-row flash-buttons' },

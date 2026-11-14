@@ -5,7 +5,7 @@ import { app } from '../state.js';
 import { isActive, select, commit, advance, back } from '../session.js';
 import { renderStem, renderChoices, renderExplanation, renderRelated, renderMetaLine, LABELS } from '../render/question.js';
 import { navigate } from '../router.js';
-import { openFlagDialog } from '../ui/flag.js';
+import { openFlagDialog, markButton } from '../ui/flag.js';
 import { renderTrace } from '../ui/trace.js';
 import { setAiContext } from '../ui/ask-ai.js';
 
@@ -81,6 +81,7 @@ export function runView(root) {
       ),
       h('div', { class: 'progress' }, h('span', { style: `width:${((session.pos + (item.done ? 1 : 0)) / session.items.length) * 100}%` })),
       renderMetaLine(q),
+      h('div', { class: 'q-tools' }, markButton(q.id)),
       renderStem(q),
       resultBanner,
       renderChoices(q, {

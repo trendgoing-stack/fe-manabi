@@ -368,3 +368,11 @@ ol.lesson-steps { list-style: decimal; }
 .chart-bar.is-current { opacity: 1; }
 .chart-pass { stroke: var(--text); stroke-width: 1; stroke-dasharray: 4 3; }
 .chart-value { font-weight: 700; fill: var(--text); paint-order: stroke; stroke: var(--surface); stroke-width: 3px; stroke-linejoin: round; }
+
+/* ---- 見直す印・論点・テキスト検索・続きから読む ---- */
+.q-tools { display: flex; justify-content: flex-end; margin: -2px 0 8px; }
+.mark-btn { min-height: 36px; font-size: 0.85rem; }
+.chip-more { border-style: dashed; color: var(--muted); }
+.resume-btn { display: block; margin: 0 0 14px; text-align: left; text-decoration: none; }
+.search-snippet { color: var(--muted); line-height: 1.5; overflow-wrap: anywhere; }
+.search-read { margin-left: 8px; }

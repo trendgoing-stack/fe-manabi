@@ -2,7 +2,7 @@
 import { h, fill } from '../dom.js';
 import * as storage from '../storage.js';
 import { app, availableQuestions, startSession } from '../state.js';
-import { dueQuestions } from '../selector.js';
+import { dueQuestions, groupSets } from '../selector.js';
 import { FLAG_KINDS, B_PREFIX } from '../categories.js';
 import { today, addDays } from '../date.js';
 import * as analytics from '../analytics.js';
@@ -128,7 +128,7 @@ function weaknessSection() {
                   const names = rows.filter(([name]) => name.startsWith(B_PREFIX) === isB).slice(0, 3).map(([name]) => name.replace(B_PREFIX, ''));
                   const saved = storage.getMeta().drill ?? {};
                   storage.saveMeta({
-                    drill: { ...saved, criteria: { ...saved.criteria, subject: isB ? 'B' : 'A', fields: [], difficulties: [], state: 'all', categories: names } },
+                    drill: { ...saved, criteria: { ...saved.criteria, subject: isB ? 'B' : 'A', fields: [], difficulties: [], tags: [], state: 'all', categories: names } },
                   });
                   navigate('drill');
                 },
@@ -143,6 +143,40 @@ function weaknessSection() {
   };
   draw();
   return box;
+}
+
+const MARK_LIST_MAX = 30;
+
+/** あとで見直す印を付けた問題（新しい順） */
+function markedSection() {
+  const marks = storage.getMarks();
+  const available = new Set(availableQuestions().map((q) => q.id));
+  const items = Object.entries(marks)
+    .sort((a, b) => b[1] - a[1])
+    .map(([id]) => app.data.byId.get(id))
+    .filter(Boolean);
+  const playable = items.filter((q) => available.has(q.id));
+  return h(
+    'section',
+    { class: 'card' },
+    h('h2', null, `あとで見直す（${items.length}件）`),
+    items.length
+      ? [
+          playable.length
+            ? h('button', { type: 'button', class: 'btn primary big', onClick: () => startSession('drill', 'あとで見直す', groupSets(playable)) }, `${playable.length}問を解く`)
+            : null,
+          h(
+            'ul',
+            { class: 'link-list' },
+            items.slice(0, MARK_LIST_MAX).map((q) =>
+              h('li', null, h('a', { href: `#/q/${encodeURIComponent(q.id)}` }, h('span', { class: 'link-title' }, q.stem[q.stem.length - 1]), h('span', { class: 'muted small' }, `${q.id}・${q.category}`))),
+            ),
+          ),
+          items.length > MARK_LIST_MAX ? h('p', { class: 'muted small' }, `新しい${MARK_LIST_MAX}件を表示しています。`) : null,
+          h('p', { class: 'muted small' }, '印は問題画面の「☆ あとで見直す」で付け外しできます。'),
+        ]
+      : h('p', { class: 'muted' }, '問題画面の「☆ あとで見直す」で印を付けた問題がここに並びます。出題からは外れません。'),
+  );
 }
 
 export function reviewView(root) {
@@ -163,6 +197,7 @@ export function reviewView(root) {
         : null,
     ),
     weaknessSection(),
+    markedSection(),
     h(
       'section',
       { class: 'card' },

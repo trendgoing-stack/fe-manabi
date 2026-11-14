@@ -149,6 +149,18 @@ export function removeFlag(id) {
   return write('flags', flags);
 }
 
+// ---- あとで見直す印（問題 id → 付けた時刻）。誤りフラグと違い、出題からは外さない ----
+
+/** @returns {Object<string, number>} */
+export const getMarks = () => read('marks', {});
+
+export function setMark(id, on) {
+  const m = getMarks();
+  if (on) m[id] = Date.now();
+  else delete m[id];
+  return write('marks', m);
+}
+
 // ---- 中断中のセッション ----
 
 /** @returns {import('./types.js').Session|null} */
@@ -227,6 +239,7 @@ export function exportRaw() {
     foldedUntil: getMeta().foldedUntil ?? 0,
     cards: getCards(),
     read: getRead(),
+    marks: getMarks(),
     mocks: listMocks(),
   };
 }
@@ -235,11 +248,12 @@ export function exportRaw() {
  * 検証済みのデータをまとめて書き込む。settings が無ければ現在の設定を保つ。
  * @returns {boolean} すべて書き込めたか
  */
-export function importRaw({ settings, stats, history, daily, flags, foldedUntil, cards = {}, read: readMap = {}, mocks = [] }) {
+export function importRaw({ settings, stats, history, daily, flags, foldedUntil, cards = {}, read: readMap = {}, marks = {}, mocks = [] }) {
   history = history.slice().sort((a, b) => a.ts - b.ts);
   let ok = true;
   ok = write('cards', cards) && ok;
   ok = write('read', readMap) && ok;
+  ok = write('marks', marks) && ok;
   for (const id of read('mockIndex', [])) remove(`mock:${id}`);
   write('mockIndex', []);
   for (const m of mocks.slice().sort((a, b) => a.startedAt - b.startedAt)) ok = saveMock(m) && ok;

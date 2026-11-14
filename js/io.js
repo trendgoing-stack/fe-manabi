@@ -89,11 +89,13 @@ export function parseImport(text) {
   }
   const readMap = d.read ?? {};
   if (!isObj(readMap) || !Object.values(readMap).every((v) => typeof v === 'number')) throw new Error('「読んだ」の記録が不正です');
+  const marks = d.marks ?? {};
+  if (!isObj(marks) || !Object.values(marks).every((v) => typeof v === 'number')) throw new Error('「あとで見直す」の記録が不正です');
   const mocks = d.mocks ?? [];
   if (!Array.isArray(mocks) || !mocks.every((m) => isObj(m) && typeof m.id === 'string' && typeof m.startedAt === 'number' && Array.isArray(m.items))) {
     throw new Error('模擬試験の記録が不正です');
   }
-  return { settings: d.settings ?? null, stats: d.stats, history: d.history, daily: d.daily, flags: d.flags, foldedUntil: Number(d.foldedUntil) || 0, cards, read: readMap, mocks };
+  return { settings: d.settings ?? null, stats: d.stats, history: d.history, daily: d.daily, flags: d.flags, foldedUntil: Number(d.foldedUntil) || 0, cards, read: readMap, marks, mocks };
 }
 
 /**
@@ -138,9 +140,12 @@ export function mergeData(local, incoming) {
   }
   const read = { ...local.read };
   for (const [id, ts] of Object.entries(incoming.read)) read[id] = Math.max(read[id] ?? 0, ts);
+  // 見直す印は両方の端末の分を合わせる（片方で外した印は、統合すると戻る）
+  const marks = { ...(local.marks ?? {}) };
+  for (const [id, ts] of Object.entries(incoming.marks ?? {})) marks[id] = Math.max(marks[id] ?? 0, ts);
   const mocks = [...new Map([...incoming.mocks, ...local.mocks].map((m) => [m.id, m])).values()];
 
-  return { settings: null, stats, history, daily, flags, foldedUntil: Math.max(local.foldedUntil, incoming.foldedUntil), cards, read, mocks };
+  return { settings: null, stats, history, daily, flags, foldedUntil: Math.max(local.foldedUntil, incoming.foldedUntil), cards, read, marks, mocks };
 }
 
 /**

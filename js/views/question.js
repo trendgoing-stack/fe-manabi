@@ -3,7 +3,7 @@ import { h, pct, fill } from '../dom.js';
 import * as storage from '../storage.js';
 import { app } from '../state.js';
 import { renderStem, renderChoices, renderExplanation, renderRelated, renderMetaLine } from '../render/question.js';
-import { openFlagDialog } from '../ui/flag.js';
+import { openFlagDialog, markButton } from '../ui/flag.js';
 import { FLAG_KINDS } from '../categories.js';
 import { renderTrace } from '../ui/trace.js';
 import { setAiContext } from '../ui/ask-ai.js';
@@ -40,6 +40,7 @@ export function questionView(root, [id]) {
         ),
       ),
       renderMetaLine(q),
+      h('div', { class: 'q-tools' }, markButton(q.id)),
       q.retired ? h('div', { class: 'notice warn' }, 'この問題は出題を停止しています。') : null,
       flag
         ? h('div', { class: 'notice' }, `誤りフラグ：${FLAG_KINDS.find((k) => k.id === flag.kind)?.label ?? flag.kind}${flag.memo ? `（${flag.memo}）` : ''}`)

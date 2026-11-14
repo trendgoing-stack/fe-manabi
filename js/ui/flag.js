@@ -51,3 +51,21 @@ export async function openFlagDialog(id) {
   }
   return false;
 }
+
+/** 「あとで見直す」印の付け外しボタン（押すとその場で表示が変わる） */
+export function markButton(id) {
+  const btn = h('button', { type: 'button', class: 'chip mark-btn' });
+  const draw = () => {
+    const on = !!storage.getMarks()[id];
+    btn.classList.toggle('is-on', on);
+    btn.setAttribute('aria-pressed', String(on));
+    btn.textContent = on ? '★ 見直す印あり' : '☆ あとで見直す';
+  };
+  btn.addEventListener('click', () => {
+    const on = !storage.getMarks()[id];
+    if (storage.setMark(id, on)) toast(on ? '見直す印を付けました（復習タブに並びます）' : '見直す印を外しました');
+    draw();
+  });
+  draw();
+  return btn;
+}

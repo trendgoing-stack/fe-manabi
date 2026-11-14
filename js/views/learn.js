@@ -64,6 +64,57 @@ function practiceButton(chapter, section) {
   return [button, h('p', { class: 'muted small center' }, note)];
 }
 
+// ---- テキストの全文検索 ----
+
+const SEARCH_LIMIT = 50;
+const SKIP_KEYS = new Set(['type', 'kind', 'id', 'verification', 'questionTags', 'figure']);
+const plainCache = new WeakMap();
+let lastQuery = ''; // 節を開いて戻ったときに検索語を保つ
+
+/** 節の文章（題名・要点・要約・本文・表・例題）を1本の文字列にする。^{ } _{ } の記法は外す */
+function sectionPlain(section) {
+  let p = plainCache.get(section);
+  if (p) return p;
+  const parts = [];
+  const walk = (v) => {
+    if (typeof v === 'string') parts.push(v);
+    else if (Array.isArray(v)) v.forEach(walk);
+    else if (v && typeof v === 'object') for (const [k, x] of Object.entries(v)) if (!SKIP_KEYS.has(k)) walk(x);
+  };
+  walk(section);
+  const raw = parts.join(' ').replace(/[\^_]\{([^}]*)\}/g, '$1').replace(/\s+/g, ' ').normalize('NFKC');
+  p = { raw, low: raw.toLowerCase(), title: section.title.normalize('NFKC').toLowerCase() };
+  plainCache.set(section, p);
+  return p;
+}
+
+/** 空白区切りの語をすべて含む節を返す（題名に含むものを先に） */
+function searchSections(query) {
+  const words = query.normalize('NFKC').toLowerCase().split(/\s+/).filter(Boolean);
+  if (!words.length) return [];
+  const hits = [];
+  for (const x of flatSections()) {
+    const p = sectionPlain(x.section);
+    if (!words.every((w) => p.low.includes(w))) continue;
+    const inTitle = words.every((w) => p.title.includes(w));
+    const at = p.low.indexOf(words[0], p.title.length); // 題名より後ろの最初の出現を抜き出す
+    const i = at < 0 ? 0 : at;
+    const snippet = (i > 20 ? '…' : '') + p.raw.slice(Math.max(0, i - 20), i + 60) + (i + 60 < p.raw.length ? '…' : '');
+    hits.push({ ...x, inTitle, snippet });
+  }
+  return hits.sort((a, b) => Number(b.inTitle) - Number(a.inTitle));
+}
+
+/** 続きから読む節：最後に開いた節。読了済みなら、その後ろで最初の未読の節 */
+function resumeTarget(read) {
+  const flat = flatSections();
+  const i = flat.findIndex((x) => x.section.id === storage.getMeta().lastSection);
+  if (i < 0) return null;
+  if (!read[flat[i].section.id]) return { ...flat[i], next: false };
+  const next = flat.slice(i + 1).find((x) => !read[x.section.id]);
+  return next ? { ...next, next: true } : null;
+}
+
 export function learnView(root, [chapterId, sectionId]) {
   const chapter = chapterId ? chapterOf(chapterId) : null;
   if (!chapter) return indexView(root);
@@ -79,13 +130,72 @@ function indexView(root) {
     return;
   }
   const all = app.data.texts.flatMap((c) => c.sections);
-  root.append(h('p', { class: 'muted small' }, `読了 ${all.filter((s) => read[s.id]).length}/${all.length}節。章を選んでください。`));
-  for (const f of FIELDS) {
-    const chapters = app.data.texts.filter((c) => c.field === f.id && c.subject === 'A');
-    if (chapters.length) root.append(h('h2', { class: `field-heading field-${f.id}` }, f.label), chapterList(chapters, read));
-  }
-  const b = app.data.texts.filter((c) => c.subject === 'B');
-  if (b.length) root.append(h('h2', { class: 'field-heading' }, '科目B'), chapterList(b, read));
+  const href = (x) => `#/learn/${encodeURIComponent(x.chapter.id)}/${encodeURIComponent(x.section.id)}`;
+  const body = h('div');
+  const input = h('input', {
+    type: 'search',
+    class: 'input',
+    placeholder: 'テキストを検索（語句。空白で区切ると絞り込み）',
+    value: lastQuery,
+    enterkeyhint: 'search',
+    autocomplete: 'off',
+    'aria-label': 'テキストを検索',
+    onInput: () => draw(),
+  });
+
+  const drawContents = () => {
+    const resume = resumeTarget(read);
+    fill(
+      body,
+      h('p', { class: 'muted small' }, `読了 ${all.filter((s) => read[s.id]).length}/${all.length}節。章を選んでください。`),
+      resume
+        ? h('a', { class: 'btn big resume-btn', href: href(resume) }, h('span', { class: 'muted small block' }, resume.next ? '続きから読む（次の未読の節）' : '続きから読む'), h('span', null, richText(resume.section.title)))
+        : null,
+      FIELDS.map((f) => {
+        const chapters = app.data.texts.filter((c) => c.field === f.id && c.subject === 'A');
+        return chapters.length ? [h('h2', { class: `field-heading field-${f.id}` }, f.label), chapterList(chapters, read)] : null;
+      }),
+      (() => {
+        const b = app.data.texts.filter((c) => c.subject === 'B');
+        return b.length ? [h('h2', { class: 'field-heading' }, '科目B'), chapterList(b, read)] : null;
+      })(),
+    );
+  };
+
+  const draw = () => {
+    lastQuery = input.value;
+    if (!input.value.trim()) return drawContents();
+    const hits = searchSections(input.value);
+    if (!hits.length) return fill(body, h('p', { class: 'muted' }, '該当する節がありません。用語の定義は「用語集」でも検索できます。'));
+    fill(
+      body,
+      h('p', { class: 'muted small' }, hits.length > SEARCH_LIMIT ? `${hits.length}節が該当（先頭${SEARCH_LIMIT}節を表示）` : `${hits.length}節が該当`),
+      h(
+        'section',
+        { class: 'card' },
+        h(
+          'ul',
+          { class: 'link-list' },
+          hits.slice(0, SEARCH_LIMIT).map((x) =>
+            h(
+              'li',
+              null,
+              h(
+                'a',
+                { href: href(x) },
+                h('span', { class: 'link-title' }, richText(x.section.title), read[x.section.id] ? h('span', { class: 'read-mark is-done search-read' }, '読了') : null),
+                h('span', { class: 'muted small' }, x.chapter.title),
+                h('span', { class: 'small search-snippet' }, x.snippet),
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  };
+
+  root.append(input, body);
+  draw();
 }
 
 function chapterList(chapters, read) {
@@ -138,6 +248,7 @@ function chapterView(root, chapter) {
 
 function sectionView(root, chapter, section) {
   setAiContext({ kind: 'section', chapter, section });
+  if (storage.getMeta().lastSection !== section.id) storage.saveMeta({ lastSection: section.id }); // 「続きから読む」用
   const flat = flatSections();
   const i = flat.findIndex((x) => x.section.id === section.id);
   const link = (x, label) =>

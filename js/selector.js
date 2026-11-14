@@ -24,27 +24,36 @@ export function isAvailable(q, settings, flags) {
  * @property {string[]} fields        空なら全分野
  * @property {string[]} categories    空なら全カテゴリ
  * @property {number[]} difficulties  空なら全難易度
- * @property {'all'|'unanswered'|'recentWrong'|'due'} state
+ * @property {'all'|'unanswered'|'recentWrong'|'everWrong'|'lowRate'|'due'|'marked'} state
+ * @property {string[]} [tags]        空なら全論点（いずれかのタグを持つ問題）
  */
 
+/** 「正答率が低い」とみなす境界（これ未満） */
+export const LOW_RATE = 0.6;
+
 /** @type {Criteria} */
-export const DEFAULT_CRITERIA = { subject: 'A', fields: [], categories: [], difficulties: [], state: 'all' };
+export const DEFAULT_CRITERIA = { subject: 'A', fields: [], categories: [], difficulties: [], state: 'all', tags: [] };
 
 /**
  * @param {import('./types.js').Question[]} questions  出題可能なもの
  * @param {Criteria} c
  * @param {Object<string, import('./types.js').Stat>} stats
  * @param {string} today
+ * @param {Object<string, number>} [marks]  あとで見直す印
  */
-export function filterQuestions(questions, c, stats, today) {
+export function filterQuestions(questions, c, stats, today, marks = {}) {
   return questions.filter((q) => {
     if (c.subject && q.subject !== c.subject) return false;
     if (c.fields.length && !c.fields.includes(q.field)) return false;
     if (c.categories.length && !c.categories.includes(q.category)) return false;
     if (c.difficulties.length && !c.difficulties.includes(q.difficulty)) return false;
+    if (c.tags?.length && !q.tags?.some((t) => c.tags.includes(t))) return false;
     const s = stats[q.id];
     if (c.state === 'unanswered') return !s;
     if (c.state === 'recentWrong') return !!s && s.lastOk === false;
+    if (c.state === 'everWrong') return !!s && s.correct < s.attempts;
+    if (c.state === 'lowRate') return !!s && s.correct / s.attempts < LOW_RATE;
+    if (c.state === 'marked') return !!marks[q.id];
     if (c.state === 'due') return !!s && s.due <= today;
     return true;
   });
