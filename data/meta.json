@@ -1,5 +1,5 @@
 {
-  "dataVersion": "2026.11.15-2",
+  "dataVersion": "2026.11.15-3",
   "schemaVersion": 1,
   "syllabusVersion": "Ver.9.2",
   "syllabus": {
@@ -32,7 +32,7 @@
   },
   "counts": {
     "A": 474,
-    "B": 120,
+    "B": 140,
     "glossary": 312
   },
   "files": [
@@ -60,6 +60,8 @@
     "questions/b/algo-03.json",
     "questions/b/sec-02.json",
     "questions/b/algo-04.json",
+    "questions/b/algo-05.json",
+    "questions/b/sec-03.json",
     "questions/a/tech-system-04.json",
     "questions/a/tech-system-05.json",
     "questions/a/tech-dev-04.json",

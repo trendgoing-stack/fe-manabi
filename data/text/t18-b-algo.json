@@ -381,7 +381,8 @@
       ],
       "questionTags": [
         "選択処理",
-        "論理演算"
+        "論理演算",
+        "ビット演算"
       ],
       "verification": {
         "status": "ai-verified",
