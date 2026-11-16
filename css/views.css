@@ -376,3 +376,33 @@ ol.lesson-steps { list-style: decimal; }
 .resume-btn { display: block; margin: 0 0 14px; text-align: left; text-decoration: none; }
 .search-snippet { color: var(--muted); line-height: 1.5; overflow-wrap: anywhere; }
 .search-read { margin-left: 8px; }
+
+/* ---- 模擬試験の結果 ---- */
+.mr-counts { display: flex; flex-wrap: wrap; justify-content: center; gap: 4px 14px; margin: 6px 0; font-weight: 700; font-variant-numeric: tabular-nums; }
+.mr-counts .is-ok { color: var(--ok); }
+.mr-counts .is-ng { color: var(--ng); }
+.mr-counts .is-blank { color: var(--muted); }
+.mr-grid { max-height: none; }
+.mock-cell.is-ok { background: var(--ok-soft); border-color: var(--ok); color: var(--ok); font-weight: 700; }
+.mock-cell.is-ng { background: var(--ng-soft); border-color: var(--ng); color: var(--ng); font-weight: 700; }
+.mock-cell.is-blank { border-style: dashed; color: var(--muted); }
+.mr-legend { display: flex; flex-wrap: wrap; align-items: center; margin: 0 0 12px; }
+.mr-key { display: inline-block; width: 14px; height: 14px; margin-right: 4px; border: 1px solid var(--line); border-radius: 4px; }
+.mr-key.is-ok { background: var(--ok-soft); border-color: var(--ok); }
+.mr-key.is-ng { background: var(--ng-soft); border-color: var(--ng); }
+.mr-key.is-blank { border-style: dashed; }
+.mr-list { margin-top: 8px; }
+.mr-item { border-top: 1px solid var(--line); scroll-margin-top: calc(var(--safe-t) + 8px); }
+.mr-item summary { display: flex; align-items: center; gap: 10px; min-height: 44px; padding: 10px 0; cursor: pointer; list-style: none; }
+.mr-item summary::-webkit-details-marker { display: none; }
+.mr-item summary::after { content: '＋'; margin-left: auto; color: var(--muted); }
+.mr-item[open] summary::after { content: '－'; }
+.mr-sum { display: flex; flex-direction: column; min-width: 0; }
+.mr-mark { flex: none; display: grid; place-items: center; width: 30px; height: 30px; border-radius: 50%; font-weight: 700; }
+.mr-item.is-ok .mr-mark { background: var(--ok-soft); color: var(--ok); }
+.mr-item.is-ng .mr-mark { background: var(--ng-soft); color: var(--ng); }
+.mr-item.is-blank .mr-mark { background: var(--surface-2); color: var(--muted); }
+.mr-body { padding: 0 0 12px; }
+.mr-answer { margin: 0 0 8px; padding: 8px 12px; border-radius: 8px; font-weight: 700; background: var(--surface-2); }
+.mr-answer.is-ok { background: var(--ok-soft); color: var(--ok); }
+.mr-answer.is-ng { background: var(--ng-soft); color: var(--ng); }
